@@ -18,7 +18,7 @@ That started our interest in this area though, both as we continued to test esca
  
 I noticed when watching the outstanding videos by John Hammond, via NotNordgaren; not only were these videos very helpful in elevating my understanding, they also let me know why some things do not work that I tried previously on Win11 Single App Kiosk, or Attended Access as it is called. It was a very clear example of how doing analysis like this improves security - Hammond found flaws, shared information, and the product got a lot better, IMHO. He also mentioned that it would be cool to compile a set of kiosk hacking resources, which is something we have wanted to do for some time. We will start putting things out in the coming months, but also totally game to combine forces or just roll this into a bigger project if there is something out there already.  
 
-It was also pointed out to me by Mspices8 that we need to think more broadly about what constitutes a kiosk or even a presented app. They are everywhere and we are probably missing a lot of flaws that it would be beneficial to identify and remediate. This project hopes to build momentum as a community, raising awareness, improving how we test for these types of flaws, ultimately leading to remediation and detection engineering to reduce risk.  
+It was also pointed out to me by Mspisces8 that we need to think more broadly about what constitutes a kiosk or even a presented app. They are everywhere and we are probably missing a lot of flaws that it would be beneficial to identify and remediate. This project hopes to build momentum as a community, raising awareness, improving how we test for these types of flaws, ultimately leading to remediation and detection engineering to reduce risk.  
 
 ## Ethical Standards / Code of Conduct
 
@@ -44,11 +44,11 @@ Key contributors to our understanding of this topic, and also direct mentors and
 - [John Hammond](https://github.com/JohnHammond)
 - [NotNordGaren](https://x.com/NotNordgaren)
 - [TechSpence](https://github.com/techspence)
-- [Mspices8](https://x.com/mspisces8)
+- [Mspisces8](https://x.com/mspisces8)
 - [BiniamGebrehiwot1](https://github.com/BiniamGebrehiwot1)
 - Jordan Mastel
 - [christian-taillon](https://github.com/christian-taillon)
 - [Duncan4264](https://github.com/Duncan4264)
 
-The direct work on this started with Kitsune-Sec and FlawdC0de, and later included Shammahwoods, Mspices8, and others. Many others contributed advice, mentoring, and/or were part of our background research. 
+The direct work on this started with Kitsune-Sec and FlawdC0de, and later included Shammahwoods, Mspisces8, and others. Many others contributed advice, mentoring, and/or were part of our background research. 
 

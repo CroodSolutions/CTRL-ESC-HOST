@@ -4,7 +4,7 @@ This repo is intended to be a collection of our thoughts and ideas related to es
 
 ## Incremental Rollout
 
-Note that we are going to release a teaser of a fun recent finding here shortly, but it will take a few additional months to take this out of beta and build out a more robust testing framework.
+Note that we are going to release a teaser of a fun recent finding here shortly, but it will take a few additional months to take this out of beta and build out a more robust testing framework. Pardon our dust as we begin construction of this framework.
 
 ## Why are we creating this?
 

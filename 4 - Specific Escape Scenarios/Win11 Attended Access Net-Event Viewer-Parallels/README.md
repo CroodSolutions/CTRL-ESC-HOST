@@ -1,6 +1,3 @@
-## Video Overview
-[![Watch the video](https://img.youtube.com/vi/bjJIAT_XeIM/maxresdefault.jpg)](https://youtu.be/bjJIAT_XeIM)
-
 ## Introduction / Background
 A few years back, a few friends and I became interested in escape to host flaws, at first exploring Citrix ADC issues (Kitusune-Sec and Fawdc0de). Later, Shammahwoods joined the quest and Mspisces8 helped me to expand my view of what should be considered when exploring escape to host flaws (it’s raining kiosks).  Together, we have found many escape to host flaws; admittedly most of them were found by other people also/usually before us, but we had a ton of fun along the way, all the same.
 
@@ -11,6 +8,9 @@ When I first met Win11 Single App Kiosk Mode / Attended Access running Edge a fe
 Messing with Win11 Attended Access, became something I would tinker with, when bored in a long meeting or traveling.  Recently identified a path that allows for complete escape and compromise in the very narrow edge case of running Win11/kiosk on Parallels MacOS (real world == never).  While less cool, it can also work for Win11/kiosk on x64 bare metal, although there it has the caveat of needing an admin password.  This could open up pathways for further research though, including what else can be done with the way Parallels handles VMs, as well as other pathways I may have missed for native Win11.
 
 Happy Hacking – use these ideas responsibly and ethically.  
+
+## Video Overview
+[![Watch the video](https://img.youtube.com/vi/bjJIAT_XeIM/maxresdefault.jpg)](https://youtu.be/bjJIAT_XeIM)
 
 ## Overview of Findings
 For a very unique edge-case:  If running Win11 on MacOS via Parallels, you may get full kiosk escape to System privileges, via Magnifier, Advanced network settings, Edit (under more adapter options), click “yes” (without a password), configure the network adapter, click events, view all events, action/open saved log, type in direct file path to LotL binary, and it will run with full kiosk escape (including cmd/ps/taskmgr/beacon payload). 

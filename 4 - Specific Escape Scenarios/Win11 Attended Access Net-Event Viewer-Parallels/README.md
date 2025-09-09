@@ -1,5 +1,5 @@
 ## Video Overview
-(insert link)
+[(insert link)](https://youtu.be/bjJIAT_XeIM)
 
 ## Introduction / Background
 A few years back, a few friends and I became interested in escape to host flaws, at first exploring Citrix ADC issues (Kitusune-Sec and Fawdc0de). Later, Shammahwoods joined the quest and Mspisces8 helped me to expand my view of what should be considered when exploring escape to host flaws (it’s raining kiosks).  Together, we have found many escape to host flaws; admittedly most of them were found by other people also/usually before us, but we had a ton of fun along the way, all the same.

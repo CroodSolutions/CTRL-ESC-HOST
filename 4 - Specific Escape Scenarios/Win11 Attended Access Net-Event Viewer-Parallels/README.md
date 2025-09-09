@@ -27,9 +27,11 @@ Click the Gear icon on the right to open next dialog box.
  <img width="206" height="113" alt="image" src="https://github.com/user-attachments/assets/b8dd03e8-d08d-4a3b-8756-ae0c1cbdbd2c" />
 
 Click “Go to Settings”
+
 <img width="468" height="209" alt="image" src="https://github.com/user-attachments/assets/bb099b25-bb64-442c-afe9-21ef5d0610f4" />
 
 You will land in the Magnifier Win11 Settings menu.  Close Magnifier and click “Network and internet”
+
 <img width="468" height="34" alt="image" src="https://github.com/user-attachments/assets/dd801769-9cf9-4fa0-a2b9-5a7a82cf6a58" />
 
  

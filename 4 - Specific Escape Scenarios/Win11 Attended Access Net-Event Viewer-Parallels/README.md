@@ -44,30 +44,56 @@ Click to expand one of the Network adapters, and click “Edit” to launch.
 <img width="221" height="287" alt="image" src="https://github.com/user-attachments/assets/f6e03b89-303e-414e-a438-f6a582254953" />
 
 For both Win11 running on Parallels/MacOS and Windows running natively on X64 hardware, this dialog box pops up.  What is unique about the Parallels path is that you can click “Yes” without entering a password and still launches “Ethernet Properties” as System. For a bare metal install of Win11, this required an admin password.  As John Hammond has pointed out previously, this still can be useful there is a weak/guessable admin password or if combined with Social Engineering.  However, I found the behavior on MacOS/Parallels to be the most interesting.  Working with Shammahwoods to do further debugging to see what is actually happening here, because it seems like there may be more to this story.  
+
+<img width="176" height="227" alt="image" src="https://github.com/user-attachments/assets/6bb52f69-ca94-4080-b82b-fe357059dd67" />
  
 While it looks like maybe we could do some interesting things here with the Install button, for this test we click “Configure” to launch the Adapter Properties screen.
+
+<img width="190" height="216" alt="image" src="https://github.com/user-attachments/assets/40c2e4fa-dc06-4817-9a48-7d31261ea58e" />
  
 While we are going to quickly move to the Events tab, it is worth pointing out that the Driver tab seems like it could also present some testing potential.
+
+<img width="192" height="218" alt="image" src="https://github.com/user-attachments/assets/41713ced-c3d5-48cf-80f7-7f5977e194a2" />
  
 Let’s move on to click Events though.
+
+<img width="191" height="218" alt="image" src="https://github.com/user-attachments/assets/2d3f28e8-b5e3-4047-9e66-efbaf949f53c" />
  
 Click “View All Events” and wait for it to load. If there are issues with later steps, do it at least one additional time, since later stages of this seemed more reliable when I had multiple instances of Event Viewer running. 
+
+<img width="156" height="186" alt="image" src="https://github.com/user-attachments/assets/51918e59-27a6-43c9-8e9e-5631a8486fcf" />
  
 Now Navigate to Action and select “Open Saved Log…” 
+
+<img width="326" height="227" alt="image" src="https://github.com/user-attachments/assets/0b832a44-f783-4be5-889b-48a9d6f69707" />
  
-Now type in the file path to a LotL binary you would like to launch. It constrains what it will display to Event Log Files, but if you type an absolute file path, it will launch many (not all) LotL binaries.  WDAC does seem to whack some things, but most everything you could want will run, including typing an absolute file path to a mapped beacon payload.  
- 
+Now type in the file path to a LotL binary you would like to launch. It constrains what it will display to Event Log Files, but if you type an absolute file path, it will launch many (not all) LotL binaries.  WDAC does seem to whack some things, but most everything you could want will run, including typing an absolute file path to a mapped beacon payload.
+
+<img width="468" height="302" alt="image" src="https://github.com/user-attachments/assets/6628260c-c6ce-4382-a694-fd27d1836208" />
+
 And, we have a very large CMD prompt.  Now, on the native Apple keyboard I am able to use Option+Shift+Esc to tab through windows, and on Win11 ability use Alt+Tab varied. But with some experimentation usually you can get an escaped kiosk to swap windows, although across different kiosk scenarios how I accomplish this varies, and it tends to be temperamental.  
+
+<img width="323" height="228" alt="image" src="https://github.com/user-attachments/assets/15c5ac56-840d-45ed-b95c-1e149fd1503b" />
  
 Try other LotL binaries, such as PowerShell.
+
+<img width="411" height="139" alt="image" src="https://github.com/user-attachments/assets/8eac470f-f102-4461-a29d-bfc27b995c50" />
  
 Try Task Manager, since it has some interesting capabilities.
+
+<img width="323" height="226" alt="image" src="https://github.com/user-attachments/assets/2a87370d-64be-4efb-bc94-5b2004a4fa10" />
  
 Tip: At least one EDR flagged on some of these escape tricks (but it did not block them). It is my suspicion that these are very specific rules to detect Event Viewer launching specific LotL binaries, so navigating directly to an evasive beacon payload or RMM install is probably less likely to be detected. 
+
+<img width="197" height="108" alt="image" src="https://github.com/user-attachments/assets/4c060917-9547-4501-80c8-dcb0fe06b75d" />
  
 Also, I am really fond of this “Create this task with administrative privileges” checkbox.  
+
+<img width="155" height="20" alt="image" src="https://github.com/user-attachments/assets/6ffeb373-1218-4f60-8ee0-074e2939f3e4" />
  
 Some command “shell:…” commands work here as well, although not all of them.
+
+<img width="319" height="87" alt="image" src="https://github.com/user-attachments/assets/6bc3241f-e842-4001-8a79-1d0a1a08a9a4" />
  
 Happy Hacking!!  
 

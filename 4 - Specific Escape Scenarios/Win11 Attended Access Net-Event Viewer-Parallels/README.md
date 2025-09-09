@@ -1,5 +1,7 @@
 ## Introduction / Background
-A few years back, some friends and I became interested in escape to host flaws, at first exploring Citrix ADC issues (Kitusune-Sec and Fawdc0de). Later, Shammahwoods joined the quest and Mspisces8 helped me to expand my view of what should be considered when exploring escape to host flaws (it’s raining kiosks).  Together, we have found many escape to host flaws; admittedly most of them were found by other people also/usually before us, but we had a ton of fun along the way, all the same.
+A few years back, some friends and I became interested in escape to host flaws, at first exploring Citrix ADC issues (Kitusune-Sec and Fawdc0de). Later, Shammahwoods joined the quest and Mspisces8 helped me to expand my view of what should be considered when exploring escape to host flaws (it’s raining kiosks).  
+
+Together, we have found many escape to host flaws; admittedly most of them were found by other people also/usually before us, but we had a ton of fun along the way, all the same.
 
 Hacking kiosks for cyber, is sort of like Quidditch in Harry Potter.  It usually is not that essential to the plot line, but it adds a lot of the fun and spice that makes things exciting, helping the story to come alive.  It usually is not at the top of a risk matrix, but that is precisely what makes kiosk hacking fun.  
 

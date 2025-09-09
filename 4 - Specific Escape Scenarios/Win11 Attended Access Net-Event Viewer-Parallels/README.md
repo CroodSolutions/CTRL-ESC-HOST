@@ -1,7 +1,8 @@
 ## Video Overview
 https://youtu.be/bjJIAT_XeIM
 
-[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)]([https://www.youtube.com/watch?v=VIDEO_ID](https://youtu.be/bjJIAT_XeIM))
+[![Demo](demo.gif)](https://www.youtube.com/watch?v=bjJIAT_XeIM)
+
 
 
 ## Introduction / Background

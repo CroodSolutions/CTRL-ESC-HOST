@@ -1,3 +1,6 @@
+## Video Overview
+(insert link)
+
 ## Introduction / Background
 A few years back, a few friends and I became interested in escape to host flaws, at first exploring Citrix ADC issues (Kitusune-Sec and Fawdc0de). Later, Shammahwoods joined the quest and Mspisces8 helped me to expand my view of what should be considered when exploring escape to host flaws (it’s raining kiosks).  Together, we have found many escape to host flaws; admittedly most of them were found by other people also/usually before us, but we had a ton of fun along the way, all the same.
 
@@ -16,9 +19,11 @@ Findings for Win11, Kiosk Mode, Attended Access on traditional host, running AMD
 ## Detailed Walkthrough on MacOS w/ Parallels
 Start in Win11 Single App Kiosk Mode for MS Edge (Attended Access).
 Press “Command” and “+” to launch Magnifier.
- 
+ <img width="246" height="39" alt="image" src="https://github.com/user-attachments/assets/5a7f32f2-060e-4b16-b9a8-5ef85f2749aa" />
+
 Click the Gear icon on the right to open next dialog box.
- 
+ <img width="206" height="113" alt="image" src="https://github.com/user-attachments/assets/b8dd03e8-d08d-4a3b-8756-ae0c1cbdbd2c" />
+
 Click “Go to Settings”
  
 You will land in the Magnifier Win11 Settings menu.  Close Magnifier and click “Network and internet”

@@ -47,6 +47,7 @@ Key contributors to our understanding of this topic, and also direct mentors and
 - [Mspisces8](https://x.com/mspisces8)
 - [BiniamGebrehiwot1](https://github.com/BiniamGebrehiwot1)
 - Jordan Mastel
+- David Doyle
 - [christian-taillon](https://github.com/christian-taillon)
 - [Duncan4264](https://github.com/Duncan4264)
 

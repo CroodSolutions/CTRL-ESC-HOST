@@ -12,6 +12,7 @@ Messing with Win11 Attended Access, became something I would tinker with, when b
 Happy Hacking – use these ideas responsibly and ethically.  
 
 ## Video Overview
+https://youtu.be/bjJIAT_XeIM?si=7RzyXvf_Ye6Zedz7 
 [![Watch the video](https://img.youtube.com/vi/bjJIAT_XeIM/maxresdefault.jpg)](https://youtu.be/bjJIAT_XeIM)
 
 ## Overview of Findings

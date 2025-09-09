@@ -102,7 +102,7 @@ Some command “shell:…” commands work here as well, although not all of the
 Happy Hacking!!  
 
 ## Testing on Win11, Attended Access / Kiosk Mode, bare metal
-All of this was the same on Win11 Single App Kiosk Mode (attended Access), when running natively on X64 with no Parallels/VM, with the one exception that you had to enter a password to escalate to adapter settings.  Social engineering or guessing weak passwords could come into play; although, let’s face it – this scenario is more fun and interesting than practical anyway.  That said, we fully intend to dive into what makes a MacOS version, running Parallels, different from a bare metal install.  More to follow, at least, if we find anything interesting.  
+All of this was the same on Win11 Single App Kiosk Mode (attended Access), when running natively on x64 with no Parallels/VM, with the one exception that you had to enter a password to escalate to adapter settings.  Social engineering or guessing weak passwords could come into play; although, let’s face it – this scenario is more fun and interesting than practical anyway.  That said, we fully intend to dive into what makes a MacOS version, running Parallels, different from a bare metal install.  More to follow, at least, if we find anything interesting.  
 
 ## Ethical Notice
 This project is to test scenarios related to Escape-to-Host flaws.  We can only be successful at properly defending against adversary tactics, if we have the tools and resources to replicate the approaches being used by threat actors in an effective manner. Participation in this project and/or use of this information implies good intent to use these techniques ethically to help better protect/defend, as well as an intent to follow all applicable laws and ethical principles. The views expressed as part of this project are the views of the individual contributors, and do not reflect the views of our employer(s) or any affiliated organization(s).  
@@ -110,7 +110,7 @@ This project is to test scenarios related to Escape-to-Host flaws.  We can only 
 ## Changes Since Last Testing Performed 
 The first observation is that John Hammond found many flaws, in his excellent videos on escaping Unattended Access, three years ago.  I have tried many of those tricks today, and quite a bit has been fixed.  Moreover, even since my most recent testing before hacker summer camp, many things have improved:
 
-•	File system access via downloads not as useful (although you can still reach files via file:///C:/ syntax).  
+•	File system access via downloads not as useful (although you can still reach files via file:///C:/ syntax in an unlocked browser). Browsers can be unlocked by clicking a web link from Settings.    
 •	The ability to enter app settings and “Modify” an MSI has been removed (only uninstall option).
 
 ## Resources 

@@ -43,7 +43,7 @@ Click to expand one of the Network adapters, and click “Edit” to launch.
 
 <img width="221" height="287" alt="image" src="https://github.com/user-attachments/assets/f6e03b89-303e-414e-a438-f6a582254953" />
 
-For both Win11 running on Parallels/MacOS and Windows running natively on X64 hardware, this dialog box pops up.  What is unique about the Parallels path is that you can click “Yes” without entering a password and still launches “Ethernet Properties” as System. For a bare metal install of Win11, this required an admin password.  As John Hammond has pointed out previously, this still can be useful there is a weak/guessable admin password or if combined with Social Engineering.  However, I found the behavior on MacOS/Parallels to be the most interesting.  Working with Shammahwoods to do further debugging to see what is actually happening here, because it seems like there may be more to this story.  
+For both Win11 running on Parallels/MacOS and Windows running natively on x64 hardware, this dialog box pops up.  What is unique about the Parallels path is that you can click “Yes” without entering a password and still launches “Ethernet Properties” as System. For a bare metal install of Win11, this required an admin password.  As John Hammond has pointed out previously, this still can be useful there is a weak/guessable admin password or if combined with Social Engineering.  However, I found the behavior on MacOS/Parallels to be the most interesting.  Working with Shammahwoods to do further debugging to see what is actually happening here, because it seems like there may be more to this story.  
 
 <img width="176" height="227" alt="image" src="https://github.com/user-attachments/assets/6bb52f69-ca94-4080-b82b-fe357059dd67" />
  

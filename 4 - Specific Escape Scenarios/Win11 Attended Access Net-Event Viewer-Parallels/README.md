@@ -123,7 +123,7 @@ TechSpence:
 
  - https://www.youtube.com/watch?v=JWopwNVP_to  
 
-## Credit
+## Credits
 - [shammahwoods](https://github.com/shammahwoods)
 - [flawdC0de](https://github.com/flawdC0de)
 - [Kitsune-Sec](https://github.com/Kitsune-Sec)

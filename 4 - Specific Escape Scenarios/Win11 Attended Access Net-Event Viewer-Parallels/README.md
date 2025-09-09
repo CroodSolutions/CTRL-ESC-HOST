@@ -19,14 +19,19 @@ Findings for Win11, Kiosk Mode, Attended Access on traditional host, running AMD
 ## Detailed Walkthrough on MacOS w/ Parallels
 Start in Win11 Single App Kiosk Mode for MS Edge (Attended Access).
 Press “Command” and “+” to launch Magnifier.
+
  <img width="246" height="39" alt="image" src="https://github.com/user-attachments/assets/5a7f32f2-060e-4b16-b9a8-5ef85f2749aa" />
 
 Click the Gear icon on the right to open next dialog box.
+
  <img width="206" height="113" alt="image" src="https://github.com/user-attachments/assets/b8dd03e8-d08d-4a3b-8756-ae0c1cbdbd2c" />
 
 Click “Go to Settings”
- 
+<img width="468" height="209" alt="image" src="https://github.com/user-attachments/assets/bb099b25-bb64-442c-afe9-21ef5d0610f4" />
+
 You will land in the Magnifier Win11 Settings menu.  Close Magnifier and click “Network and internet”
+<img width="468" height="34" alt="image" src="https://github.com/user-attachments/assets/dd801769-9cf9-4fa0-a2b9-5a7a82cf6a58" />
+
  
 Click “Advanced network settings” at the bottom of the options listed.
  

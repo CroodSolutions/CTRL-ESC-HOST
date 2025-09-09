@@ -68,9 +68,10 @@ The first observation is that John Hammond found many flaws, in his excellent vi
 
 ## Resources 
 John Hammond videos on Kiosk escapes (5/5 recommend):
-https://www.youtube.com/watch?v=R7srpHUshuI
-https://www.youtube.com/watch?v=aBMvFmoMFMI
-https://www.youtube.com/watch?v=iL_WzZZ72_s
+ - https://www.youtube.com/watch?v=R7srpHUshuI
+ - https://www.youtube.com/watch?v=aBMvFmoMFMI
+ - https://www.youtube.com/watch?v=iL_WzZZ72_s
+
 (Thanks also to NotNordgaren for discussions and pointing me to these resources)
 
 ## Credit

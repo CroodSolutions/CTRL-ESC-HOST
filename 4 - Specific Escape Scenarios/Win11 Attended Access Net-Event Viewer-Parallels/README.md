@@ -107,6 +107,7 @@ This project is to test scenarios related to Escape-to-Host flaws.  We can only 
 
 ## Changes Since Last Testing Performed 
 The first observation is that John Hammond found many flaws, in his excellent videos on escaping Unattended Access, three years ago.  I have tried many of those tricks today, and quite a bit has been fixed.  Moreover, even since my most recent testing before hacker summer camp, many things have improved:
+
 •	File system access via downloads not as useful (although you can still reach files via file:///C:/ syntax).  
 •	The ability to enter app settings and “Modify” an MSI has been removed (only uninstall option).
 

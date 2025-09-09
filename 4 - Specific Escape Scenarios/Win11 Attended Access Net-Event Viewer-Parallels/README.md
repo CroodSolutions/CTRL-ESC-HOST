@@ -36,9 +36,13 @@ You will land in the Magnifier Win11 Settings menu.  Close Magnifier and click �
 
  
 Click “Advanced network settings” at the bottom of the options listed.
- 
+
+<img width="468" height="217" alt="image" src="https://github.com/user-attachments/assets/2f00d61a-9098-46ba-b7ca-1a1110191d4d" />
+
 Click to expand one of the Network adapters, and click “Edit” to launch.
- 
+
+<img width="221" height="287" alt="image" src="https://github.com/user-attachments/assets/f6e03b89-303e-414e-a438-f6a582254953" />
+
 For both Win11 running on Parallels/MacOS and Windows running natively on X64 hardware, this dialog box pops up.  What is unique about the Parallels path is that you can click “Yes” without entering a password and still launches “Ethernet Properties” as System. For a bare metal install of Win11, this required an admin password.  As John Hammond has pointed out previously, this still can be useful there is a weak/guessable admin password or if combined with Social Engineering.  However, I found the behavior on MacOS/Parallels to be the most interesting.  Working with Shammahwoods to do further debugging to see what is actually happening here, because it seems like there may be more to this story.  
  
 While it looks like maybe we could do some interesting things here with the Install button, for this test we click “Configure” to launch the Adapter Properties screen.

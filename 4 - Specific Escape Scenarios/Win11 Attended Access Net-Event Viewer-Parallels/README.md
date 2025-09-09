@@ -14,6 +14,7 @@ Happy Hacking – use these ideas responsibly and ethically.
 
 ## Overview of Findings
 For a very unique edge-case:  If running Win11 on MacOS via Parallels, you may get full kiosk escape to System privileges, via Magnifier, Advanced network settings, Edit (under more adapter options), click “yes” (without a password), configure the network adapter, click events, view all events, action/open saved log, type in direct file path to LotL binary, and it will run with full kiosk escape (including cmd/ps/taskmgr/beacon payload). 
+
 Findings for Win11, Kiosk Mode, Attended Access on traditional host, running AMD Ryzen Pro 7 laptop were a bit different. All of the other aspects of this attack path worked, but with the exception that an admin password was required in order to launch network edit view, which allowed us to spawn event viewer. 
 
 ## Detailed Walkthrough on MacOS w/ Parallels

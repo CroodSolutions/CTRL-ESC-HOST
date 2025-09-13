@@ -135,6 +135,7 @@ TechSpence:
 - [TechSpence](https://github.com/techspence)
 - [Mspisces8](https://x.com/mspisces8)
 - [BiniamGebrehiwot1](https://github.com/BiniamGebrehiwot1)
+- Thomas Haney
 - Jordan Mastel
 - David Doyle
 - [christian-taillon](https://github.com/christian-taillon)

@@ -47,6 +47,8 @@ Launching CMD (or other LotL)
 
 <img width="468" height="90" alt="image" src="https://github.com/user-attachments/assets/9f9f6447-4573-46e1-93a3-3bb8ee9c7192" />
 
+And we have shell!
+
 <img width="468" height="213" alt="image" src="https://github.com/user-attachments/assets/22e634f3-f066-4953-b180-319589832c86" />
 
 ## Recommendations and Lessons Learned 

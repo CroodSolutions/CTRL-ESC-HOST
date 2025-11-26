@@ -53,9 +53,12 @@ And we have shell!
 
 ## Recommendations and Lessons Learned 
 
+Here are some recommendations for organizations using HP or any other kiosk mode software: 
+
 It is clear that kiosk vendors across the board, need to do more with hardening against the basics. I will give a rare shoutout to Microsoft here, because the most recent builds of Windows 11 single app kiosk mode, have not presented much useful attack surface, for me at least. This contrast establishes a standard. Having poor security on kiosk and POS systems is not a given; we can actually work to make it better. Having a secure configuration is not an absolute, but at least you can know you gave it your best effort. Once I escaped kiosk on the HP device, there were very few obstacles in doing whatever else I wanted. When I escape the isolated app in Win11 single app kiosk mode, or certain other products, I am used to encountering obstacles and difficulty. For HP, after the first moment of escape, my only obstacle was admin rights, which only needed some ingress tool transfer and PE, which I deemed out of scope for this test.    
 
-Here are some recommendations for organizations using HP or any other kiosk mode software: 
+Key points:
+
  - Win11 Kiosk mode if possible (and on isolated network and not domain joined).
  - WDAC (applicaiton control)
  - Proper Network Segmentation (Isolate Kiosks/see above)

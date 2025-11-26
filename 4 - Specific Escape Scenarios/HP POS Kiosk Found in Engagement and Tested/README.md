@@ -14,7 +14,7 @@ As mentioned, I tried all of the Windows key escapes including all options invol
 
 TL; DR, They definitely made a good faith effort to block at least some kiosk escapes.  
 
-## Kiosk Escape and Subsequent Testing (no screen shots)
+## Kiosk Escape and Subsequent Testing (without screenshots)
 
  - Shift+Alt+NumLock to open the Mouse Keys dialog box.
  - Click "Disable this keyboard shortcut..."
@@ -28,7 +28,7 @@ TL; DR, They definitely made a good faith effort to block at least some kiosk es
  - Did not install a beacon, RMM, or attempt a PE to fully unlock the potential because that was not my scope for this effort.
  - Remember that a valuable LotL in a kiosk escape may be a web browser to interact with adjacent resources. 
 
-## Walk-through w/ Limited and Redacted Screen Shots
+## Walk-through w/ Limited and Redacted Pictures of Kiosk
 
 Initial Escape
 
@@ -76,6 +76,6 @@ These kiosk issues represent a niche topic of limited importance, when considere
  - Lack of proper segmentation.
  - Inadequate host hardening.
  - Excessive permissions in the context of the user serving up an application.
- - Issues with AD, domain trusts, and weak or overlaping passwords.
+ - Issues with AD, domain trusts, and weak or overlapping passwords.
 
 And, vendors who produce these products should make them better. That said, how likely is it for someone to stand there and smile for the camera while hacking your kiosk? Not that likely, when compared to the risk level of phishing, token/cookie/session theft, or Winter2025! That said, a tech savvy malicious insider or really important use case where a kiosk is a pathway to critical infrastructure or spanning into an isolated zone, could be important. I rate these types of risks as a medium priority.  

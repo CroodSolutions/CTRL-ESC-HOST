@@ -17,7 +17,7 @@ TL; DR, They definitely made a good faith effort to block at least some kiosk es
 ## Kiosk Escape and Subsequent Testing (no screen shots)
 
  - Shift+Alt+NumLock to open the Mouse Keys dialog box.
- - Click "Disasble this keyboard shortcut..."
+ - Click "Disable this keyboard shortcut..."
  - Control Panel window loads.
  - Path A: Navigate to "All Control Panel Items" and change settings, so long as you stay in userland.
  - Path B: Type an exact filepath to an LotL binary with a UI in the Explorer dialog box.
@@ -62,6 +62,6 @@ Key points:
  - Win11 Kiosk mode if possible (and on isolated network and not domain joined).
  - WDAC (applicaiton control)
  - Proper Network Segmentation (Isolate Kiosks/see above)
- - Avoid joining kiosks to any important DC/domain (have isolated domain with no shared secrets, if one is needed)
+ - Avoid joining kiosks to any important DC/domain (have isolated domain with no overlapping secrets, if one is needed)
 
 This list will grow with time.  

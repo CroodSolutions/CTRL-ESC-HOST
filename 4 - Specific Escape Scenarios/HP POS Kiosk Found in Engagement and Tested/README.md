@@ -69,3 +69,12 @@ This list will grow with time.
 ## Reflection on Roles and Responsibilities.  
 
 It is important to note that there is some ambiguity if this should be the fault of HP or the customer who implemented their product (or a third-party service provider). Often when I report escapes to vendors, they say it is a misconfiguration and that it is up to each customer to harden the host to prevent escape and subsequent abuse. I can see both sides. We do not necessarily blame Adobe for an entire infection chain, just because PDFs can be weaponized - at most, they shoulder the burden of initial access. It is expected that other measures are in place to frustrate efforts to move from initial access to complete compromise. On the flip side, are these vendors advertising that they provide a turnkey solution that is secure out of the box?  There may be some nuance to this topic. 
+
+## Risk Prioritization
+
+These kiosk issues represent a niche topic of limited importance, when considered alongside more fundamental security issues that are being neglected. That said, the exemplify the types of issues that bite us in other places such as:
+ - Lack of proper segmentation.
+ - Inadequate host hardening.
+ - Excessive permissions in the context of the user serving up an application.
+ - Issues with AD, domain trusts, and weak or overlaping passwords.
+And, vendors who produce these products should make them better. That said, how likely is it for someone to stand there and smile for the camera while hacking your kiosk? Not that likely, when compared to the risk level of phishing, token/cookie/session theft, or Winter2025! That said, a tech savvy malicious insider or really important use case where a kiosk is a pathway to critical infrastructure or spanning into an isolated zone, could be important. I rate these types of risks as a medium priority.  

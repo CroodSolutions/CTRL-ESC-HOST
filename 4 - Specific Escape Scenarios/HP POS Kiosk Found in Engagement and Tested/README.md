@@ -31,12 +31,22 @@ TL; DR, They definitely made a good faith effort to block at least some kiosk es
 ## Walk-through w/ Limited and Redacted Screen Shots
 
 Intial Escape
+<img width="468" height="191" alt="image" src="https://github.com/user-attachments/assets/01650c92-413e-49ed-bd24-9ac6e17d74f4" />
 
 Control Panel
 
+<img width="383" height="207" alt="image" src="https://github.com/user-attachments/assets/4d70d162-7e4c-4848-8b69-93de95cf96ed" />
+
 Full Control Panel
 
+<img width="382" height="210" alt="image" src="https://github.com/user-attachments/assets/1f5914b1-425e-4edf-9ec8-18a4b1242156" />
+
+
 Launching CMD (or other LotL)
+
+<img width="468" height="90" alt="image" src="https://github.com/user-attachments/assets/9f9f6447-4573-46e1-93a3-3bb8ee9c7192" />
+
+<img width="468" height="213" alt="image" src="https://github.com/user-attachments/assets/22e634f3-f066-4953-b180-319589832c86" />
 
 ## Recommendations and Lessons Learned 
 

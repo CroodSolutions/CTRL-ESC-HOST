@@ -59,9 +59,13 @@ It is clear that kiosk vendors across the board, need to do more with hardening 
 
 Key points:
 
- - Win11 Kiosk mode if possible (and on isolated network and not domain joined).
- - WDAC (applicaiton control)
- - Proper Network Segmentation (Isolate Kiosks/see above)
+ - Win11 Kiosk mode if possible (if not, you can replicate most of the settings via WDAC and GPO).
+ - WDAC (applicaiton control).
+ - Proper Network Segmentation (Isolate Kiosks).
  - Avoid joining kiosks to any important DC/domain (have isolated domain with no overlapping secrets, if one is needed)
 
 This list will grow with time.  
+
+## Reflection on Roles and Responsibilities.  
+
+It is important to note that there is some ambiguity if this should be the fault of HP or the customer who implemented their product (or a third-party service provider). Often when I report escapes to vendors, they say it is a misconfiguration and that it is up to each customer to harden the host to prevent escape and subsequent abuse. I can see both sides. We do not necessarily blame Adobe for an entire infection chain, just because PDFs can be weaponized - at most, they shoulder the burden of initial access. It is expected that other measures are in place to frustrate efforts to move from initial access to complete compromise. On the flip side, are these vendors advertising that they provide a turnkey solution that is secure out of the box?  There may be some nuance to this topic. 

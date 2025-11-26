@@ -26,7 +26,7 @@ TL; DR, They definitely made a good faith effort to block at least some kiosk es
  - Strange caveat: random weird things were blocked, including Task Manager.
  - That said, there was so much LotL open for abuse, it did not really matter.
  - Did not install a beacon, RMM, or attempt a PE to fully unlock the potential because that was not my scope for this effort.
- - Remember that the most valuable LotL in a kiosk escape may be a web browser to interact with adjacent resources. 
+ - Remember that a valuable LotL in a kiosk escape may be a web browser to interact with adjacent resources. 
 
 ## Walk-through w/ Limited and Redacted Screen Shots
 

@@ -2,7 +2,7 @@
 
 During a recent site visit / assessment with a scope focused on kiosks and exposed devices, there was an HP POS kiosk that was on a user/agent signin screen. After testing a wide range of normal kiosk escapes that did not work, Shift+Alt+NumLock for a dialog box and the Windows link to "Disable this keyboard shortcut..." successfully spawned Control Panel, and it was obviously all downhill from there.  
 
-Disclaimer / caveat: In testing kiosks, there is no real screen shot of the stages leading up to escape, so you are stuck with my TERRIBLE camera phone photos. Sucks to be you. 
+Disclaimer / caveat: In testing kiosks, there is no real screen shot of the stages leading up to escape, so you are stuck with my TERRIBLE camera phone photos. 
 
 ## Kiosk / POS Build
 

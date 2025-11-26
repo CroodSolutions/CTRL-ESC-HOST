@@ -31,7 +31,8 @@ TL; DR, They definitely made a good faith effort to block at least some kiosk es
 ## Walk-through w/ Limited and Redacted Screen Shots
 
 Intial Escape
-<img width="468" height="191" alt="image" src="https://github.com/user-attachments/assets/01650c92-413e-49ed-bd24-9ac6e17d74f4" />
+
+<img width="1328" height="497" alt="image" src="https://github.com/user-attachments/assets/39dcadaf-b858-4330-b650-b62c3843a00e" />
 
 Control Panel
 

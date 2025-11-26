@@ -60,7 +60,7 @@ It is clear that kiosk vendors across the board, need to do more with hardening 
 Key points:
 
  - Win11 Kiosk mode if possible (if not, you can replicate most of the settings via WDAC and GPO).
- - WDAC (applicaiton control).
+ - WDAC (application control).
  - Proper Network Segmentation (Isolate Kiosks).
  - Avoid joining kiosks to any important DC/domain (have isolated domain with no overlapping secrets, if one is needed)
 
@@ -79,3 +79,10 @@ These kiosk issues represent a niche topic of limited importance, when considere
  - Issues with AD, domain trusts, and weak or overlapping passwords.
 
 And, vendors who produce these products should make them better. That said, how likely is it for someone to stand there and smile for the camera while hacking your kiosk? Not that likely, when compared to the risk level of phishing, token/cookie/session theft, or Winter2025! That said, a tech savvy malicious insider or really important use case where a kiosk is a pathway to critical infrastructure or spanning into an isolated zone, could be important. I rate these types of risks as a medium priority.  
+
+## References and Resources
+
+https://www.pentestpartners.com/security-blog/breaking-out-of-citrix-and-other-restricted-desktop-environments/#usefulsystemadministrativetools
+https://book.hacktricks.wiki/en/hardware-physical-access/escaping-from-gui-applications.html 
+https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0 
+https://payatu.com/blog/how-to-prevent-hacking-out-of-kiosk/ 

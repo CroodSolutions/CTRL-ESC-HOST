@@ -83,6 +83,10 @@ And, vendors who produce these products should make them better. That said, how 
 ## References and Resources
 
 https://www.pentestpartners.com/security-blog/breaking-out-of-citrix-and-other-restricted-desktop-environments/#usefulsystemadministrativetools
+
 https://book.hacktricks.wiki/en/hardware-physical-access/escaping-from-gui-applications.html 
+
 https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0 
+
 https://payatu.com/blog/how-to-prevent-hacking-out-of-kiosk/ 
+

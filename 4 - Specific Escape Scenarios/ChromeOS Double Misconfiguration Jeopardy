@@ -1,0 +1,15 @@
+## Kiosks Crossing Trust Boundaries
+
+When is a kiosk, more than just a kiosk?  
+
+On one hand, if we escape a boundary provided for a library kiosk, only to find the real protection is that the entire network and domain are isolated - is a kiosk escape important? Probably not. 
+
+On the other hand, what if we have a ChromeOS display kiosk, feeding data supplied from a sensitive network (e.g., OT), while in an exposed zone with physical access. Usually hacking kiosks is for amusement, but occasionally it may have practical implications.
+
+
+
+
+
+
+
+## Practical and Applied Kiosk Applications

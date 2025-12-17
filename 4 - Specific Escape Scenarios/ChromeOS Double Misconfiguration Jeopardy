@@ -1,4 +1,4 @@
-#Kiosks Crossing Trust Boundaries
+# Kiosks Crossing Trust Boundaries
 
 ## When is a kiosk, more than just a kiosk?  
 
@@ -8,9 +8,9 @@ On the other hand, what if we have a display kiosk, feeding data supplied from a
 
 Could it be significant if someone escaped the kiosk to load an RMM, only to circle back later and attack any network zones or domain joins, exposed by that kiosk?  This becomes significant, because we often fall back on the notion that we are ok, because there are cameras and guards. In testing, we are clumsy and slow, but our enemies have lab environments and would carefully rehearse any real attack. So my test where I fumble about for an hour, for a real attacker in a high value scenario, may be rehearsed and reduced down to a minute or two... we could do that; we just don't because we live in the land of POC or GTFO, do not actually commit crimes, and as such in our closest attempts at adversary emulation, still remain different.  
 
-### Defining Kiosk Types  
+## Defining Kiosk Types  
 
-The first step in kiosk hacking, is to figure out what what type of kiosk it is and what OS is running. For this particular scenario, we knew in advance it was a ChromeOS kiosk, although this could have been figured out eventually via keyboard combinations or visual inspection of the appliance that was running.  
+The first step in kiosk hacking, is to figure out what what type of kiosk it is and what OS is running. For this particular scenario, we knew in advance it was a ChromeOS kiosk, although this could have been figured out eventually via keyboard combinations or visual inspection of the device or software that was running.  
 
 
 
@@ -19,4 +19,6 @@ The first step in kiosk hacking, is to figure out what what type of kiosk it is 
 ## Practical and Applied Kiosk Applications
 
 
-### Ethical Warning
+# Ethical Warning
+
+Do not test anything that you do not have legal / written permission to test on, such as in the scope of a penetration test agreement.  

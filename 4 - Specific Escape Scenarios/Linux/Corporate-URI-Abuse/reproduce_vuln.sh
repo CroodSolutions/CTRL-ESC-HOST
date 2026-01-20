@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Setup for CityConnect Scenario
-TARGET_HTML="$HOME/city_connect.html"
-DIR="$(dirname "$0")"
+# Locate the HTML file relative to this script
+DIR="$(dirname "$(realpath "$0")")"
+TARGET_HTML="$DIR/city_connect.html"
 
 # 1. Dependency Check
 echo "[*] Checking dependencies..."
@@ -14,12 +15,9 @@ if ! command -v chromium-browser &> /dev/null; then
     echo "[!] WARNING: 'chromium-browser' is not installed. Script might fail to launch kiosk."
 fi
 
-# 2. Generate the Target Page
-# Execute the generator script located in the same directory
-if [ -f "$DIR/generate_site.sh" ]; then
-    "$DIR/generate_site.sh"
-else
-    echo "[!] Error: generate_site.sh not found in $DIR"
+# 2. Verify Target Page Exists
+if [ ! -f "$TARGET_HTML" ]; then
+    echo "[!] Error: Target HTML file not found at: $TARGET_HTML"
     exit 1
 fi
 

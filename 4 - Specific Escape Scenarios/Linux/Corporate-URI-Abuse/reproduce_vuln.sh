@@ -8,15 +8,19 @@ MOCK_BIN_TARGET="$HOME/.local/bin/mock-totem"
 MOCK_DESKTOP_TARGET="$HOME/.local/share/applications/mock-totem.desktop"
 MIME_TYPE="x-scheme-handler/rtsp"
 
+# Safe temp dir for Snap Chromium (avoids /tmp issues)
+TEMP_PROFILE_DIR="$HOME/.kiosk-profile-$(date +%s)"
+
 MODE="DEV"
 if [[ "$1" == "--prod" ]]; then
     MODE="PROD"
 fi
 
 cleanup() {
-    echo "[*] Cleaning up temporary handler..."
+    echo "[*] Cleaning up temporary handler and profile..."
     xdg-mime default "" "$MIME_TYPE" 2>/dev/null
     rm -f "$MOCK_BIN_TARGET" "$MOCK_DESKTOP_TARGET"
+    rm -rf "$TEMP_PROFILE_DIR"
     # Force update database
     update-desktop-database "$HOME/.local/share/applications" 2>/dev/null
     echo "[+] Cleanup complete."
@@ -71,14 +75,18 @@ fi
 
 # 4. Launch the Scenario
 echo "[*] Launching CityConnect Kiosk (Mode: $MODE)..."
+echo "[*] Target URL: file://$TARGET_HTML"
+echo "[*] Profile Dir: $TEMP_PROFILE_DIR"
+
+mkdir -p "$TEMP_PROFILE_DIR"
 
 if [ "$MODE" == "PROD" ]; then
     # PROD: Full Kiosk, no cleanup
-    chromium-browser --kiosk --no-first-run --user-data-dir=$(mktemp -d) "file://$TARGET_HTML" &>/dev/null &
+    chromium-browser --kiosk --no-first-run --user-data-dir="$TEMP_PROFILE_DIR" "file://$TARGET_HTML" &>/dev/null &
     echo "[+] Kiosk launched in PRODUCTION mode."
 else
     # DEV: Windowed, with cleanup trap
-    chromium-browser --no-first-run --user-data-dir=$(mktemp -d) --app="file://$TARGET_HTML" &>/dev/null &
+    chromium-browser --no-first-run --user-data-dir="$TEMP_PROFILE_DIR" --app="file://$TARGET_HTML" &>/dev/null &
     echo "[+] Kiosk launched in DEV mode (Windowed)."
     echo "[i] Close the browser or press Ctrl+C to clean up temporary handlers."
     

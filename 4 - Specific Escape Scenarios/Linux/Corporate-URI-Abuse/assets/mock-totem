@@ -1,0 +1,12 @@
+#!/bin/bash
+# Simulates a video player attempting to open a stream
+# This represents the "Totem" window that opens over the Kiosk
+
+if command -v zenity &> /dev/null; then
+    zenity --info \
+        --title="Mock Video Player" \
+        --text="<b>Connecting to RTSP Stream...</b>\n\n(This represents the 'Totem' player launching)\n\nIn a real attack, you would now use this window's\n'Open File' dialog to break out." \
+        --width=400
+else
+    xterm -e "echo 'Mock Video Player Launched'; echo 'Press Enter to close...'; read"
+fi

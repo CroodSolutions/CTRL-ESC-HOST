@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Mock Video Player
+Exec=PLACEHOLDER_PATH %u
+Type=Application
+Terminal=false
+MimeType=x-scheme-handler/rtsp;
+NoDisplay=true

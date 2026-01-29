@@ -51,7 +51,4 @@ Special thanks to our key contributors to this project/effort:
 •	christian-taillon
 
 •	Duncan4264
-
-
-Footnote:
-In the short demo video, recorded as a teaser for our new Ctrl+Esc+Host framework, I speculated that Feedback Hub was new; further research shows it has been around for some time, although this escape seems like it could be the result of a recent update (adding some retro-active testing to our to-do list, to eventually determine how far back it goes).  
+  

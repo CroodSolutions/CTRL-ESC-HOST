@@ -1,11 +1,4 @@
 Looking for a way to escape Windows 11 Single App Kiosk Mode / Attended Access?  
-
-<div align="center">
-  <a href="https://www.youtube.com/watch?v=RgO2W3VjqbI">
-    <img src="https://img.youtube.com/vi/RgO2W3VjqbI/maxresdefault.jpg" alt="Windows 11 Kiosk Mode Escape Video" style="width:100%; max-width:600px;">
-  </a>
-  <p><i>Click to watch: Windows 11 Attended Access / Kiosk Mode Escape!</i></p>
-</div>
  
 After some testing, Ezra Woods and I found some fun and interesting ways to Escape-to-Host, including one we will showcase here. It turns out, if you select Win+F it will escape to launch Microsoft Feedback Hub, a cool and interesting place to give MS feedback.  And, it seems like Microsoft trusts this feedback so much, they are willing to give you a terminal.  
 
@@ -30,6 +23,11 @@ After some testing, Ezra Woods and I found some fun and interesting ways to Esca
 •	Right click a second time in the preview area. 
 
 •	Select “Open in Terminal”
+
+
+
+https://github.com/user-attachments/assets/e995aa4f-eed2-4bf6-9911-2d3cad68fb60
+
 
 
 Special thanks to our key contributors to this project/effort:

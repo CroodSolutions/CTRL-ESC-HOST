@@ -2,13 +2,9 @@
 
 This repo is intended to be a collection of our thoughts and ideas related to escape to host flaws, kiosk hacking, and how to better protect against these scenarios.  
 
-## Incremental Rollout
-
-Note that we are going to release a teaser of a fun recent finding here shortly, but it will take a few additional months to take this out of beta and build out a more robust testing framework. Pardon our dust as we begin construction of this framework.
-
 ## Why are we creating this?
 
-In our own testing, a few of us have noticed that escape-to-host flaws are quite prevalent and we believe this is a topic that requires more attention. In some cases, vendors ignore these flaws until there is a lot of attention on the topic (e.g., customer tickets from red team engagements or large public dialog related to something). We seek to assemble a collection of resources and techniques to refine a playbook for escape-to-host testing, which can be applied across various scenarios (from presented apps to kiosks).  
+In our own testing, a few of us have noticed that escape-to-host flaws are quite prevalent and we believe this is a topic that requires more attention. In some cases, vendors ignore these flaws until there is a lot of attention on the topic (e.g., customer tickets from red team engagements or large public dialog related to something). We have assembled a collection of resources and techniques to provide a playbook for escape-to-host testing, which can be applied across various scenarios (from presented apps to kiosks). Let's be real - we want to hack all the kiosks. They are like Pokemon, except with screens and USB ports.  
 
 ## Backstory
 

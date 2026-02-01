@@ -8,6 +8,8 @@ The Kiosk Playbook section is further organized into tops for testing:
  - Chrome Kiosks
  - Placeholder folders for other kiosk platforms, although some of these are placeholders for kiosk types we do not often encounter.
 
+The most robust section, relates to Win11 Kiosk escapaes, which are organized into flows of individual tactics you can chain together if doing red team assessments.  
+
 Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have written permission.  
 
 ## How to use this framework

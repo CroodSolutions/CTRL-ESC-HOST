@@ -72,8 +72,11 @@ Jacob Steadman at bSides Belfast: https://www.youtube.com/watch?v=pZkpH3XV3h0
  ### Articles and Blog Posts
 
 https://www.pentestpartners.com/security-blog/breaking-out-of-citrix-and-other-restricted-desktop-environments/#usefulsystemadministrativetools
+
 https://book.hacktricks.wiki/en/hardware-physical-access/escaping-from-gui-applications.html 
+
 https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0 
+
 https://payatu.com/blog/how-to-prevent-hacking-out-of-kiosk/ 
 
 

@@ -61,7 +61,21 @@ Key contributors to our understanding of this topic, and also direct mentors and
 - [christian-taillon](https://github.com/christian-taillon)
 - [Duncan4264](https://github.com/Duncan4264)
 
-The direct work on this started with Kitsune-Sec and FlawdC0de, and later included Shammahwoods, Mspisces8, and others. Many others contributed advice, mentoring, and/or were part of our background research. 
+The direct work on this started with Kitsune-Sec and FlawdC0de, and later included Shammahwoods, Mspisces8, and others. Many others contributed advice, mentoring, and/or were part of our background research.
+
+## References and Resources
+
+### Talks and Presentations
+
+Jacob Steadman at bSides Belfast: https://www.youtube.com/watch?v=pZkpH3XV3h0 
+
+ ### Articles and Blog Posts
+
+https://www.pentestpartners.com/security-blog/breaking-out-of-citrix-and-other-restricted-desktop-environments/#usefulsystemadministrativetools
+https://book.hacktricks.wiki/en/hardware-physical-access/escaping-from-gui-applications.html 
+https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0 
+https://payatu.com/blog/how-to-prevent-hacking-out-of-kiosk/ 
+
 
 
 

@@ -67,7 +67,11 @@ The direct work on this started with Kitsune-Sec and FlawdC0de, and later includ
 
 ### Talks and Presentations
 
-Jacob Steadman at bSides Belfast: https://www.youtube.com/watch?v=pZkpH3XV3h0 
+Special thanks to the foundation established by Paul Craig, with his foundational work on the topic of kiosk hacking, including his outstanding talk at Def Con 19: https://www.youtube.com/watch?v=LttwrHrLXoA
+
+And more recently Jacob Steadman at bSides Belfast: https://www.youtube.com/watch?v=pZkpH3XV3h0 
+
+(think we even worked on some of the same things in parallel, so we should collaborate on something sometime)
 
  ### Articles and Blog Posts
 

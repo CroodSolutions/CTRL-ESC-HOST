@@ -1,6 +1,14 @@
-# CTRL-ESC-HOST
+# CTRL+ESC+HOST
 
-This repo is intended to be a collection of our thoughts and ideas related to escape to host flaws, kiosk hacking, and how to better protect against these scenarios.  
+CTRL+ESC+HOST is a collection of atomic tests to identify and validate escape-to-host flaws, in particular focused on kiosks and presented applications. It is organized into a folder structure including sections to introduce the basics of escaping to host, playbooks for testing kiosks and presented apps, as well as write-ups and walkthroughs of several real-world escape-to-host problems we were able to find and fix using the framework. Finally, there is a section to organize defensive recommendations to reduce the risk associated with kiosks and presented applications.  
+
+The Kiosk Playbook section is further organized into tops for testing:
+ - Win11 Single App Kiosk Mode / Attended Access
+ - Third Party Kiosk Software Testing on Windows (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
+ - Chrome Kiosks
+ - Placeholder folders for other kiosk platforms, although some of these are placeholders for kiosk types we do not often encounter.
+
+Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have written permission.  
 
 ## How to use this framework
 

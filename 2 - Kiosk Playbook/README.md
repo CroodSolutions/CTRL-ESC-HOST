@@ -4,7 +4,7 @@ The first step of kiosk hacking, is to figure out what kind of kiosk you are tes
 Once you have an idea what product you are dealing with, there is almost always some sort of online documentation that can help you learn and understand the product you are testing.  This will also steer your testing, down particular pathways of this framework (or it may cause you to add new contributions to the framework for pathways not yet explored).  
 
 
-If all else fails, Jacob Steadman pointed out recently at his bSides Belfast talk that one good way to find out exactly what a kiosk device is running, is to reboot it and watch the post sequence.  Of course, be mindful of the scope and rules of engagement for your testing, prior to trying this.  As a tester, you may have an upset customer if their production kiosk does not come up properly right before a prime window of activity.  
+If all else fails, Jacob Steadman pointed out recently at his bSides Belfast talk that one good way to find out exactly what a kiosk device is running, is to reboot it and watch the post sequence. This is usually acocmplished by just killing power to the kiosk/unplugging it. Of course, be mindful of the scope and rules of engagement for your testing, prior to trying this.  As a tester, you may have an upset customer if their production kiosk does not come up properly right before a prime window of activity.  
 
 
 If it is just a web browser displaying a limited browsing context, such as a specific web site for hotel/event check-in or test taking, or a signage kiosk – in our experience it tends to be either:
@@ -13,7 +13,7 @@ If it is just a web browser displaying a limited browsing context, such as a spe
  - A regular system with a browser or app in Fullscreen mode.
 
 
-Yes – we actually see that last one, and far too often. In the scenario with an app or browser just running in full-screen mode, it could be any OS with a policy set to prevent screen lockout (easy to validate).  For Chrome or Windows, it is usually easy to tell, based upon the actual hardware, unless there is an enclosure that prevents visualization of the computer itself.  
+Yes – we actually see that last one, and far too often. In the scenario with an app or browser just running in full-screen mode, it could be any OS with a policy set to prevent screen lockout (easy to validate).  For Chrome or Windows, it is usually easy to tell, based upon the actual hardware, unless there is an enclosure that prevents visualization of the computer itself. We all know airport kiosks are running Windows, because on 7/19/2024 the CrowdStroke outages caused numerous systems in airports to display a windows BSOD. Lol
 
 
 As mentioned above, if it is some sort of proprietary kiosk software, it is usually possible via OSINT to figure out what type of software it is, and what type of OS it runs on, steering your testing down one of these pathways.  

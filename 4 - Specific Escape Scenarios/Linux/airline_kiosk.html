@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyLine Premium Kiosk</title>
+    <style>
+        /* --- GLOBAL & FONTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+
+        :root {
+            /* Kiosk Theme: "Midnight & Gold" */
+            --k-bg: #0f172a;           /* Deep Slate */
+            --k-surface: #1e293b;      /* Lighter Slate */
+            --k-accent: #c0b283;       /* Muted Gold */
+            --k-text: #f8fafc;         /* Off White */
+            --k-text-muted: #94a3b8;   /* Slate Grey */
+            --k-success: #10b981;      /* Emerald */
+            --k-danger: #ef4444;       /* Red */
+            --k-glow: 0 0 20px rgba(192, 178, 131, 0.15);
+
+            /* Web Theme: "Corporate Air" */
+            --w-bg: #ffffff;
+            --w-primary: #003366;      /* Corporate Navy */
+            --w-text: #111111;
+            --w-gray: #f3f4f6;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Background simulating airport terminal floor/environment */
+            background: radial-gradient(circle at center, #2c3e50 0%, #000000 100%);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- THE HARDWARE (KIOSK FRAME) --- */
+        .kiosk-frame {
+            width: 100%;
+            max-width: 1100px;
+            height: 800px;
+            background: var(--k-bg);
+            color: var(--k-text);
+            border-radius: 24px;
+            /* The physical bezel and shadow */
+            box-shadow: 
+                0 0 0 12px #020617, /* Bezel */
+                0 50px 100px -20px rgba(0,0,0,0.7); /* Deep Shadow */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            /* Top "Service Light" Bar */
+            border-top: 4px solid #334155; 
+            transition: all 0.5s ease;
+        }
+
+        /* HARDWARE ANIMATION: Service Light */
+        .kiosk-frame.calling-service {
+            border-top-color: var(--k-danger);
+            box-shadow: 
+                0 0 0 12px #020617,
+                0 -20px 60px rgba(239, 68, 68, 0.4), /* Red Glow upwards */
+                0 50px 100px -20px rgba(0,0,0,0.7);
+        }
+
+        /* --- KIOSK HEADER --- */
+        header.kiosk-header {
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .brand h1 {
+            font-family: 'Playfair Display', serif; /* Elegant Serif for logo */
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--k-text);
+            letter-spacing: 1px;
+        }
+        .brand span { font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--k-accent); text-transform: uppercase; letter-spacing: 3px; display: block; }
+
+        .flight-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: var(--k-text-muted);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .assist-btn {
+            background: transparent;
+            border: 1px solid var(--k-accent);
+            color: var(--k-accent);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .assist-btn:hover { background: var(--k-accent); color: var(--k-bg); box-shadow: var(--k-glow); }
+        .assist-btn.active { background: var(--k-danger); border-color: var(--k-danger); color: white; animation: pulseBtn 1s infinite; }
+        
+        @keyframes pulseBtn { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        /* --- SCREEN MANAGMENT --- */
+        .screen {
+            flex: 1;
+            padding: 40px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .screen.active { display: flex; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { font-weight: 300; font-size: 2.5rem; margin-bottom: 10px; color: white; }
+        p.subtitle { color: var(--k-text-muted); font-size: 1.1rem; margin-bottom: 40px; font-weight: 300; text-align: center; max-width: 600px; line-height: 1.6; }
+
+        /* --- UI ELEMENTS: KIOSK --- */
+        
+        /* Keypad */
+        .ticket-input-container { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        input.ticket-display {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--k-accent);
+            color: white;
+            font-size: 3rem;
+            text-align: center;
+            letter-spacing: 15px;
+            width: 400px;
+            padding-bottom: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .num-btn {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .num-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--k-text); }
+        .num-btn:active { transform: scale(0.95); background: var(--k-accent); color: var(--k-bg); }
+        .num-btn.text-btn { font-size: 1rem; font-weight: 600; letter-spacing: 1px; }
+
+        /* Dashboard Cards */
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 900px; }
+        .option-card {
+            background: var(--k-surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 35px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--k-accent);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+        .option-card i { font-size: 2rem; margin-bottom: 20px; color: var(--k-accent); font-style: normal; }
+        .option-card h3 { margin: 0; font-size: 1.2rem; font-weight: 400; color: white; }
+        .option-card span { font-size: 0.85rem; color: var(--k-text-muted); margin-top: 8px; }
+
+        /* Upsell Badge */
+        .upsell-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: linear-gradient(135deg, #FFD700, #FDB931);
+            color: black;
+            font-size: 0.65rem; padding: 4px 10px; border-radius: 20px;
+            font-weight: 700; letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(253, 185, 49, 0.4);
+        }
+
+        /* Scale */
+        .scale-container {
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, #253248 0%, #0f172a 70%);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        .weight-display { font-size: 6rem; font-weight: 300; color: white; font-variant-numeric: tabular-nums; }
+        .unit { color: var(--k-accent); letter-spacing: 2px; margin-top: -10px; font-size: 1.2rem; }
+        
+        .scale-status {
+            padding: 10px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 1px; font-size: 0.9rem;
+            margin-top: 20px; opacity: 0; transition: opacity 0.5s;
+        }
+        
+        /* Buttons */
+        .btn { padding: 18px 50px; border-radius: 4px; border: none; font-size: 1rem; cursor: pointer; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s; }
+        .btn-primary { 
+            background: linear-gradient(135deg, #d4af37 0%, #aa8c2c 100%); 
+            color: #1a1a1a; 
+        }
+        .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; margin-right: 20px; }
+        .btn-secondary:hover { border-color: white; }
+
+
+        /* --- SUPPORT SITE (THE "WEB" LOOK) --- */
+        #screen-browser {
+            background: var(--w-gray);
+            padding: 0;
+            z-index: 200;
+            animation: slideInBrowser 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideInBrowser { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .web-content { flex: 1; overflow-y: auto; color: var(--w-text); }
+        
+        /* Web Navigation */
+        .web-nav {
+            background: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .web-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--w-primary); font-weight: bold; }
+        .web-links { display: flex; gap: 30px; font-size: 0.9rem; color: #64748b; font-weight: 500; }
+
+        /* Web Hero */
+        .web-hero {
+            background: var(--w-primary); color: white; padding: 60px 40px; text-align: center;
+        }
+        .web-hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0 0 20px 0; }
+        
+        /* Web Grid */
+        .web-container { max-width: 1000px; margin: 40px auto; padding: 0 40px; }
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .info-card {
+            background: white; padding: 30px; border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;
+        }
+        .info-card h4 { color: var(--w-primary); margin-top: 0; font-size: 1.1rem; }
+        .info-card ul { list-style: none; padding: 0; margin: 0; }
+        .info-card li { padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; color: #475569; }
+        .info-card li:last-child { border: none; }
+
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        
+        /* Tag Print Animation */
+        .print-overlay {
+            position: absolute; inset: 0; background: rgba(15, 23, 42, 0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 50; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .print-overlay.visible { opacity: 1; pointer-events: all; }
+        
+        .printed-tag {
+            width: 200px; height: 320px; background: white; 
+            padding: 20px; font-family: monospace; color: black;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: translateY(-100%);
+            animation: printAction 2.5s ease-in-out forwards;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .barcode { height: 50px; background: repeating-linear-gradient(90deg, black 0px, black 2px, white 2px, white 4px); width: 100%; margin-top: auto; }
+
+        @keyframes printAction {
+            0% { transform: translateY(-300px); opacity: 0; }
+            20% { transform: translateY(0); opacity: 1; }
+            80% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(800px); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="kiosk-frame" id="kioskFrame">
+    
+    <header class="kiosk-header">
+        <div class="header-left">
+            <button class="assist-btn" id="assistBtn" onclick="requestAssistance()">
+                <span>?</span> Assistance
+            </button>
+        </div>
+        <div class="brand">
+            <h1>SKYLINE</h1>
+            <span>Signature Class</span>
+        </div>
+        <div class="flight-tag">FLIGHT 492 &bull; JFK</div>
+    </header>
+
+    <div id="screen-id" class="screen active">
+        <h2>Welcome Back.</h2>
+        <p class="subtitle">Please enter your 6-digit Ticket ID to access your reservation.</p>
+        
+        <div class="ticket-input-container">
+            <input type="text" id="ticketDisplay" class="ticket-display" readonly>
+            
+            <div class="numpad">
+                <button class="num-btn" onclick="addNum('1')">1</button>
+                <button class="num-btn" onclick="addNum('2')">2</button>
+                <button class="num-btn" onclick="addNum('3')">3</button>
+                <button class="num-btn" onclick="addNum('4')">4</button>
+                <button class="num-btn" onclick="addNum('5')">5</button>
+                <button class="num-btn" onclick="addNum('6')">6</button>
+                <button class="num-btn" onclick="addNum('7')">7</button>
+                <button class="num-btn" onclick="addNum('8')">8</button>
+                <button class="num-btn" onclick="addNum('9')">9</button>
+                <button class="num-btn text-btn" style="color:var(--k-danger)" onclick="clearNum()">CLR</button>
+                <button class="num-btn" onclick="addNum('0')">0</button>
+                <button class="num-btn text-btn" style="color:var(--k-success)" onclick="submitId()">GO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-dash" class="screen">
+        <h2>Good Afternoon.</h2>
+        <p class="subtitle">Please select a service option below.</p>
+        
+        <div class="options-grid">
+            <div class="option-card" onclick="startWeighing()">
+                <i>🧳</i>
+                <h3>Baggage Check</h3>
+                <span>Weigh & Print Tag</span>
+            </div>
+            
+            <div class="option-card" onclick="printStroller()">
+                <i>👶</i>
+                <h3>Infant Services</h3>
+                <span>Stroller / Car Seat</span>
+            </div>
+
+            <div class="option-card" onclick="selectSeat()">
+                <div class="upsell-badge">UPGRADE</div>
+                <i>💺</i>
+                <h3>Seat Selection</h3>
+                <span>Upgrade to Economy+</span>
+            </div>
+
+            <div class="option-card" onclick="alert('Priority Boarding added.')">
+                <div class="upsell-badge">$15</div>
+                <i>⚡</i>
+                <h3>Priority Access</h3>
+                <span>Expedited Boarding</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-weigh" class="screen">
+        <h2>Baggage Weigh-In</h2>
+        <p class="subtitle">Please place your item on the scale platform.</p>
+
+        <div class="scale-container">
+            <div class="weight-display" id="weightVal">00.0</div>
+            <div class="unit">LBS</div>
+        </div>
+        
+        <div class="scale-status" id="scaleStatus">Reading...</div>
+
+        <div id="weigh-actions" style="margin-top: 40px; opacity: 0; pointer-events: none;">
+            <button class="btn btn-secondary" onclick="resetApp()">Cancel</button>
+            <button class="btn btn-primary" id="confirmWeightBtn" onclick="finalizeBag()">Confirm</button>
+        </div>
+    </div>
+
+    <div id="screen-seat" class="screen">
+        <h2>Select Preference</h2>
+        <p class="subtitle">Upgrade your journey for a nominal fee.</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 60px); gap: 15px; margin-bottom: 40px;">
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+            
+            <div style="background:var(--k-accent); height:60px; border-radius:8px; opacity:0.3"></div>
+            <div style="background:var(--k-accent); height:60px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold" onclick="confirmSeat()">$25</div>
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+            <div style="background:#334155; height:60px; border-radius:8px;"></div>
+        </div>
+        <button class="btn btn-secondary" onclick="goToScreen('screen-dash')">Return</button>
+    </div>
+
+    <div id="screen-help" class="screen" style="position: relative;">
+        <h2 style="color: var(--k-accent)">Assistance Requested</h2>
+        <p class="subtitle">
+            A Skyline Concierge has been notified.<br>
+            They will arrive at your station shortly.
+        </p>
+
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--k-accent); padding: 30px; border-radius: 12px; max-width: 500px; text-align: center; margin-bottom: 40px;">
+            <h3 style="color: white; font-family: 'Playfair Display', serif; margin-top: 0;">While you wait...</h3>
+            <p style="color: var(--k-text-muted); font-size: 0.95rem; line-height: 1.5;">
+                Join <strong>Skyline Signature</strong> today and earn <span style="color: var(--k-accent);">5,000 Bonus Miles</span> on this flight alone. 
+                Unlock lounge access and priority boarding for your return journey.
+            </p>
+            <button class="btn btn-primary" onclick="alert('Check your email for enrollment details!')">Join & Earn Miles</button>
+        </div>
+        
+        <button class="btn btn-secondary" onclick="cancelAssistance()">Cancel Request</button>
+        
+        <div style="position: absolute; bottom: 20px; left: 30px;">
+            <p style="font-size: 0.75rem; color: #475569; margin: 0; cursor: pointer; display: flex; align-items: center; gap: 5px;" onclick="openSupportSite()">
+                <span style="opacity: 0.5;">ℹ</span> Digital Support
+            </p>
+        </div>
+    </div>
+
+    <div id="screen-browser" class="screen">
+        <!-- Browser Chrome Removed -->
+        
+        <div class="web-content">
+            <div class="web-nav">
+                <div class="web-logo">SKYLINE</div>
+                <div class="web-links">
+                    <span>Flight Status</span>
+                    <span>My Trips</span>
+                    <span>Contact</span>
+                    <button onclick="closeSupportSite()" style="background: var(--w-primary); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 20px;">Exit Support</button>
+                </div>
+            </div>
+
+            <div class="web-hero">
+                <h1>How can we help?</h1>
+                <p>Search our knowledge base or contact our global support team.</p>
+            </div>
+
+            <div class="web-container">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>Contact Support</h4>
+                        <ul>
+                            <li><strong>Priority Line:</strong> <a href="tel:18007593548">1-800-SKY-ELITE</a></li>
+                            <li><strong>General:</strong> <a href="tel:18007595463">1-800-SKY-LINE</a></li>
+                            <li><strong>Email:</strong> <a href="mailto:care@skyline.com">care@skyline.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4>Popular Topics</h4>
+                        <ul>
+                            <li>Baggage Restrictions</li>
+                            <li>Changing a Flight</li>
+                            <li>Refund Policy</li>
+                            <li>Pet Travel</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4>Live Status</h4>
+                        <ul>
+                            <li>Chat Wait: <strong>2 mins</strong></li>
+                            <li>Call Wait: <strong>5 mins</strong></li>
+                            <li>System Status: <strong>Operational</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <p style="text-align:center; color:#94a3b8; font-size:0.8rem">
+                    &copy; 2024 Skyline Airways Global. All rights reserved.<br>
+                    <a href="#" style="color:#003366">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-overlay" class="print-overlay">
+        <div class="printed-tag">
+            <h3 style="margin:0; font-size:1.5rem">JFK</h3>
+            <span style="font-size:0.8rem">NEW YORK</span>
+            <div style="margin: 20px 0; font-size: 2rem; font-weight:bold;">LAX</div>
+            <div style="text-align:left; width:100%; margin-top:20px; font-size:0.8rem">
+                FLIGHT: 492<br>
+                DATE: 12OCT<br>
+                WT: <span id="print-weight">42.0</span> LB
+            </div>
+            <div class="barcode"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Diagnostic Tool (Backdoor) -->
+<input type="file" id="diagnostic-upload" style="display:none" onchange="console.log('File selected:', this.files[0].name)">
+
+<script>
+    /* --- STATE --- */
+    let currentTicket = "";
+    let finalWeight = 0;
+    const WEIGHT_LIMIT = 45;
+    let previousScreen = 'screen-id';
+
+    /* --- NAV --- */
+    function goToScreen(screenId) {
+        const current = document.querySelector('.screen.active').id;
+        if(current !== 'screen-help' && current !== 'screen-browser') {
+            previousScreen = current;
+        }
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function resetApp() {
+        currentTicket = "";
+        document.getElementById('ticketDisplay').value = "";
+        cancelAssistance(); 
+        goToScreen('screen-id');
+    }
+
+    /* --- ASSISTANCE --- */
+    function requestAssistance() {
+        document.getElementById('kioskFrame').classList.add('calling-service');
+        document.getElementById('assistBtn').classList.add('active');
+        document.getElementById('assistBtn').innerHTML = "<span>!</span> Assisting...";
+        goToScreen('screen-help');
+    }
+
+    function cancelAssistance() {
+        document.getElementById('kioskFrame').classList.remove('calling-service');
+        const btn = document.getElementById('assistBtn');
+        btn.classList.remove('active');
+        btn.innerHTML = "<span>?</span> Assistance";
+        goToScreen(previousScreen);
+    }
+
+    function openSupportSite() {
+        document.getElementById('screen-browser').classList.add('active');
+        document.getElementById('screen-help').classList.remove('active');
+    }
+
+    function closeSupportSite() {
+        document.getElementById('screen-browser').classList.remove('active');
+        document.getElementById('screen-help').classList.add('active');
+    }
+
+    /* --- KEYPAD --- */
+    function addNum(num) {
+        if (currentTicket.length < 6) {
+            currentTicket += num;
+            updateDisplay();
+        }
+    }
+    function clearNum() { currentTicket = ""; updateDisplay(); }
+    function updateDisplay() { document.getElementById('ticketDisplay').value = currentTicket; }
+    function submitId() {
+        if (currentTicket === '111111') {
+            document.getElementById('diagnostic-upload').click();
+            return;
+        }
+        if (currentTicket.length < 3) return; // Add shake validation if needed
+        goToScreen('screen-dash');
+    }
+
+    /* --- FEATURES --- */
+    function printStroller() {
+        document.getElementById('print-weight').innerText = "BABY";
+        showPrintingOverlay(() => alert("Attach tag to stroller handle."));
+    }
+
+    function selectSeat() { goToScreen('screen-seat'); }
+    function confirmSeat() { alert("Seat upgraded."); goToScreen('screen-dash'); }
+
+    /* --- WEIGH --- */
+    function startWeighing() {
+        goToScreen('screen-weigh');
+        const display = document.getElementById('weightVal');
+        const status = document.getElementById('scaleStatus');
+        const actions = document.getElementById('weigh-actions');
+        
+        display.innerText = "00.0";
+        display.style.color = "white";
+        status.style.opacity = "0";
+        actions.style.opacity = "0";
+        actions.style.pointerEvents = "none";
+
+        finalWeight = (Math.random() * (50 - 35) + 35).toFixed(1);
+        let current = 0;
+        
+        const interval = setInterval(() => {
+            if(current < finalWeight) current += Math.random() * 2;
+            else current = parseFloat(finalWeight);
+
+            if(current >= finalWeight - 0.5 && current <= parseFloat(finalWeight) + 0.5) {
+                clearInterval(interval);
+                display.innerText = finalWeight;
+                checkWeightLimit(finalWeight);
+            } else {
+                display.innerText = current.toFixed(1);
+            }
+        }, 50);
+    }
+
+    function checkWeightLimit(weight) {
+        const status = document.getElementById('scaleStatus');
+        const actions = document.getElementById('weigh-actions');
+        const display = document.getElementById('weightVal');
+        const btn = document.getElementById('confirmWeightBtn');
+
+        status.style.opacity = "1";
+        actions.style.opacity = "1";
+        actions.style.pointerEvents = "all";
+
+        if (weight > WEIGHT_LIMIT) {
+            display.style.color = "var(--k-danger)";
+            status.innerText = "OVERWEIGHT +$50.00";
+            status.style.background = "rgba(239, 68, 68, 0.2)";
+            status.style.color = "#fca5a5";
+            btn.innerText = "Accept & Pay";
+        } else {
+            display.style.color = "var(--k-success)";
+            status.innerText = "WEIGHT ACCEPTED";
+            status.style.background = "rgba(16, 185, 129, 0.2)";
+            status.style.color = "#6ee7b7";
+            btn.innerText = "Confirm";
+        }
+    }
+
+    function finalizeBag() {
+        document.getElementById('print-weight').innerText = finalWeight;
+        showPrintingOverlay(() => resetApp());
+    }
+
+    function showPrintingOverlay(callback) {
+        const overlay = document.getElementById('print-overlay');
+        overlay.classList.add('visible');
+        setTimeout(() => {
+            overlay.classList.remove('visible');
+            if(callback) callback();
+        }, 2800);
+    }
+</script>
+
+</body>
+</html>

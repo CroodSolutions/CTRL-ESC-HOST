@@ -1,53 +1,144 @@
 #!/bin/bash
 # prepare-kiosk.sh - Setup Firefox kiosk mode for escape demonstration
+# Updated to use XDG Desktop Entries instead of shell hooks
 
 set -e
 
-# Detect shell configuration file (zsh or bash)
-SHELL_RC="$HOME/.bashrc"
-[[ "$SHELL" == */zsh ]] && SHELL_RC="$HOME/.zshrc"
+# Configuration
+KIOSK_HTML="$(pwd)/airline_kiosk.html"
+DESKTOP_FILE_NAME="skyline-kiosk.desktop"
+AUTOSTART_DIR="$HOME/.config/autostart"
+APP_DIR="$HOME/.local/share/applications"
+DESKTOP_DIR="$HOME/Desktop"
 
-KIOSK_FILE="$(pwd)/airline_kiosk.html"
+# --- HELPER FUNCTIONS ---
 
-enable_kiosk() {
-    echo "Enabling Kiosk Mode Persistence..."
+cleanup_legacy_config() {
+    # Check for and remove legacy .bashrc/.zshrc modifications that cause crashes
+    for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+        if [ -f "$rc" ]; then
+            if grep -q "# --- KIOSK MODE START ---" "$rc"; then
+                echo "    [!] Cleaning up legacy configuration from $(basename "$rc")..."
+                # Create backup
+                cp "$rc" "${rc}.bak_pre_kiosk_cleanup"
+                # Remove the block
+                sed -i '/# --- KIOSK MODE START ---/,/# --- KIOSK MODE END ---/d' "$rc"
+                echo "    [+] Removed legacy Kiosk block from $rc"
+            fi
+        fi
+    done
+}
+
+generate_desktop_entry() {
+    local output_path="$1"
     
-    # Backup existing configuration
-    cp "$SHELL_RC" "${SHELL_RC}.bak"
-    echo "    Backup created at ${SHELL_RC}.bak"
+    cat <<EOF > "$output_path"
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SkyLine Kiosk
+Comment=Launch the Airline Escape Kiosk
+Exec=firefox --kiosk "file://$KIOSK_HTML"
+Icon=firefox
+Terminal=false
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
+EOF
+    
+    chmod +x "$output_path"
+}
 
-    # Add auto-launch command if not present
-    if grep -q "firefox --kiosk" "$SHELL_RC"; then
-        echo "    [!] Kiosk mode seems to be already configured in $(basename "$SHELL_RC")"
-    else
-        # Append kiosk launch logic
-        {
-            echo ""
-            echo "# --- KIOSK MODE START ---"
-            echo "# Auto-launch Firefox in Kiosk mode (Added: $(date))"
-            echo "if [ -z \"\$SSH_CONNECTION\" ]; then"
-            echo "    # Launch only on local sessions, allow SSH bypass"
-            echo "    firefox --kiosk \"file://$KIOSK_FILE\""
-            echo "fi"
-            echo "# --- KIOSK MODE END ---"
-        } >> "$SHELL_RC"
+setup_manual_launcher() {
+    echo "Setting up Manual Launcher..."
+    cleanup_legacy_config
 
-        echo "    [+] $SHELL_RC updated."
-        echo "    [+] Kiosk mode will start on next login."
+    # 1. Add to Applications Menu
+    mkdir -p "$APP_DIR"
+    generate_desktop_entry "$APP_DIR/$DESKTOP_FILE_NAME"
+    echo "    [+] Added to Applications Menu: $APP_DIR/$DESKTOP_FILE_NAME"
+
+    # 2. Add to Desktop (if exists)
+    if [ -d "$DESKTOP_DIR" ]; then
+        generate_desktop_entry "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
+        echo "    [+] Added to Desktop: $DESKTOP_DIR/$DESKTOP_FILE_NAME"
+        
+        # GNOME specific: Allow launching
+        if command -v gio &> /dev/null; then
+            gio set "$DESKTOP_DIR/$DESKTOP_FILE_NAME" metadata::trusted true 2>/dev/null || true
+        fi
     fi
+    
+    # 3. Clean up autostart if it exists (switch mode)
+    if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
+        rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+        echo "    [-] Removed existing Autostart entry (switched to Manual)"
+    fi
+}
+
+setup_autostart_launcher() {
+    echo "Setting up Autostart Persistence..."
+    cleanup_legacy_config
+    
+    # Ensure directory exists
+    mkdir -p "$AUTOSTART_DIR"
+    
+    # Generate Entry
+    generate_desktop_entry "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+    
+    echo "    [+] Created Autostart Entry: $AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+    echo "    [+] Kiosk will launch automatically on next login."
 }
 
 disable_kiosk() {
-    echo "Disabling Kiosk Mode Persistence..."
-    if grep -q "# --- KIOSK MODE START ---" "$SHELL_RC"; then
-        # Remove the block using sed
-        # Detect OS for sed -i compatibility (Linux vs BSD/Mac) - though script checks for apt so likely Linux
-        sed -i '/# --- KIOSK MODE START ---/,/# --- KIOSK MODE END ---/d' "$SHELL_RC"
-        echo "    [+] Removed Kiosk mode configuration from $SHELL_RC"
+    echo "Disabling Kiosk Mode..."
+    cleanup_legacy_config
+    
+    if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
+        rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+        echo "    [-] Removed Autostart entry."
     else
-        echo "    [!] Kiosk mode configuration not found in $SHELL_RC"
+        echo "    [!] No Autostart entry found."
     fi
 }
+
+check_dependencies() {
+    echo "[1/4] Checking Firefox installation..."
+    if ! command -v firefox &> /dev/null; then
+        echo "    Installing Firefox..."
+        sudo apt update && sudo apt install -y firefox
+    else
+        echo "    Firefox already installed"
+    fi
+
+    echo ""
+    echo "[2/4] Checking Thunderbird installation..."
+    if ! command -v thunderbird &> /dev/null; then
+        echo "    Installing Thunderbird..."
+        sudo apt install -y thunderbird
+    else
+        echo "    Thunderbird already installed"
+    fi
+
+    echo ""
+    echo "[3/4] Verifying xdg-open..."
+    if ! command -v xdg-open &> /dev/null; then
+        echo "    Installing xdg-utils..."
+        sudo apt install -y xdg-utils
+    fi
+
+    echo ""
+    echo "[4/4] Configuring Mail Handler..."
+    # Check if thunderbird is default mail handler
+    MAILTO_HANDLER=$(xdg-mime query default x-scheme-handler/mailto 2>/dev/null || echo "none")
+    if [[ "$MAILTO_HANDLER" != *thunderbird* ]]; then
+        echo "    Setting Thunderbird as default mail client..."
+        xdg-mime default thunderbird.desktop x-scheme-handler/mailto
+    else
+        echo "    Thunderbird is already the default mail handler"
+    fi
+}
+
+# --- MAIN EXECUTION ---
 
 # Handle Arguments
 if [[ "$1" == "--kioskmode" ]]; then
@@ -55,101 +146,70 @@ if [[ "$1" == "--kioskmode" ]]; then
         disable_kiosk
         exit 0
     fi
-    # If "on", we continue to dependency checks
     if [[ "$2" != "on" ]]; then
         echo "Usage: $0 [--kioskmode on|off]"
         exit 1
     fi
+    # If "on", assume full persistence
+    check_dependencies
+    setup_autostart_launcher
+    exit 0
 fi
 
-echo "[+] Firefox Kiosk Breakout Setup"
+echo "================================"
+echo "   Firefox Kiosk Setup Tool"
 echo "================================"
 
-# Check if running on Ubuntu/Debian
+# Verify OS
 if ! command -v apt &> /dev/null; then
     echo "[!] This script is designed for Debian/Ubuntu systems"
     exit 1
 fi
 
-echo ""
-echo "[1/4] Checking Firefox installation..."
-if ! command -v firefox &> /dev/null; then
-    echo "    Installing Firefox..."
-    sudo apt update && sudo apt install -y firefox
-else
-    echo "    Firefox already installed"
-fi
+check_dependencies
 
 echo ""
-echo "[2/4] Checking Thunderbird installation..."
-if ! command -v thunderbird &> /dev/null; then
-    echo "    Installing Thunderbird..."
-    sudo apt install -y thunderbird
-else
-    echo "    Thunderbird already installed"
-fi
-
-echo ""
-echo "[3/4] Verifying xdg-open..."
-if ! command -v xdg-open &> /dev/null; then
-    echo "    Installing xdg-utils..."
-    sudo apt install -y xdg-utils
-fi
-
-# Check if thunderbird is default mail handler
-MAILTO_HANDLER=$(xdg-mime query default x-scheme-handler/mailto 2>/dev/null || echo "none")
-if [[ "$MAILTO_HANDLER" != *thunderbird* ]]; then
-    echo "    Setting Thunderbird as default mail client..."
-    xdg-mime default thunderbird.desktop x-scheme-handler/mailto
-fi
-
-echo ""
-echo "[4/4] Setup complete!"
-echo ""
-
-# If non-interactive mode "on" was selected
-if [[ "$1" == "--kioskmode" && "$2" == "on" ]]; then
-    enable_kiosk
-    exit 0
-fi
-
-# Interactive Menu
 echo "----------------------------------------------------------------"
-echo "Select Kiosk Mode Configuration:"
-echo "1) Standard (Dependencies only)"
-echo "   - You must launch the kiosk manually."
-echo "   - Command: firefox --kiosk file://$(pwd)/airline_kiosk.html"
+echo "Select Configuration Mode:"
+echo "1) Manual Launcher (Recommended for Dev)"
+echo "   - Adds 'SkyLine Kiosk' to your Desktop & App Menu."
+echo "   - You must click to launch."
 echo ""
-echo "2) Full Persistence (Updates shell config)"
+echo "2) Full Persistence (Autostart)"
 echo "   - Automatically launches Kiosk on every login."
-echo "   - LOCKS THE USER into the Firefox application."
-echo "   - Ideal for testing true breakout scenarios."
+echo "   - Uses ~/.config/autostart (Safe method)."
+echo "   - To exit kiosk: Alt+F4"
+echo ""
+echo "3) Remove/Disable Kiosk"
 echo "----------------------------------------------------------------"
-read -p "Choose an option [1/2]: " choice
-
-if [ "$choice" == "2" ]; then
-    echo ""
-    echo "[!] CRITICAL WARNING [!]"
-    echo "You are about to modify your shell configuration to auto-start Firefox."
-    echo "This means every time you login, you will be trapped in the kiosk."
-    echo "Ensure you have a way to revert this (e.g., SSH access, root user)."
-    echo ""
-    read -p "Are you absolutely sure? (type 'yes' to confirm): " confirm
-
-    if [ "$confirm" == "yes" ]; then
-        enable_kiosk
-    else
-        echo "    Aborted persistence setup."
-    fi
-else
-    echo ""
-    echo "To launch kiosk mode manually:"
-    echo "  firefox --kiosk file://$(pwd)/airline_kiosk.html"
-    echo ""
-    echo "To kill Firefox kiosk if it locks up:"
-    echo "  pkill firefox"
-fi
+read -p "Choose an option [1-3]: " choice
 
 echo ""
-echo "[!] Security Warning: This creates a vulnerable kiosk environment"
-echo "    Only run in isolated test environments"
+case "$choice" in
+    1)
+        setup_manual_launcher
+        echo ""
+        echo "Done! Look for 'SkyLine Kiosk' on your desktop or menu."
+        ;;
+    2)
+        setup_autostart_launcher
+        echo ""
+        echo "Done! The kiosk will start next time you log in."
+        ;;
+    3)
+        disable_kiosk
+        if [ -f "$DESKTOP_DIR/$DESKTOP_FILE_NAME" ]; then
+            rm "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
+            echo "    [-] Removed Desktop shortcut."
+        fi
+        if [ -f "$APP_DIR/$DESKTOP_FILE_NAME" ]; then
+            rm "$APP_DIR/$DESKTOP_FILE_NAME"
+            echo "    [-] Removed Menu entry."
+        fi
+        echo "Done!"
+        ;;
+    *)
+        echo "Invalid option."
+        exit 1
+        ;;
+esac

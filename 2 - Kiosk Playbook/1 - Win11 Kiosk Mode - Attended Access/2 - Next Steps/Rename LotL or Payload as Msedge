@@ -1,3 +1,5 @@
+Rename LotL or Payload as Msedge
+
 It was pointed out by John Hammond a few years back, among other issues, that it was possible to rename another LotL binary such as cmd.exe to msedge.exe and it would run providing a shell as an escape from kiosk mode. While this and several other issues he pointed out were resolved, it appears the fix is a bandaid.  
 
 Using a prior tactic, such as downloading via file:///C:/Windows/System32, staging at a location reachable from the web browser, or smuggling via USB:

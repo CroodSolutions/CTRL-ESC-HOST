@@ -35,11 +35,11 @@ cleanup_legacy_config() {
 generate_desktop_entry() {
     local output_path="$1"
     local is_autostart="$2"
-    local exec_cmd="firefox --kiosk \"file://$KIOSK_HTML\""
+    local exec_cmd="firefox --new-instance --kiosk \"$KIOSK_HTML\""
     
     # Add delay for autostart to prevent race conditions with the window manager
     if [ "$is_autostart" = "true" ]; then
-        exec_cmd="sh -c 'sleep 5; firefox --kiosk \"file://$KIOSK_HTML\"'"
+        exec_cmd="sh -c 'sleep 5; firefox --new-instance --kiosk \"$KIOSK_HTML\"'"
     fi
     
     cat <<EOF > "$output_path"

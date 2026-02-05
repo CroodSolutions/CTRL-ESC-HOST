@@ -5,7 +5,10 @@
 set -e
 
 # Configuration
-KIOSK_HTML="$(pwd)/airline_kiosk.html"
+KIOSK_DIR="$HOME/Public"
+KIOSK_HTML_FILENAME="airline_kiosk.html"
+KIOSK_HTML="$KIOSK_DIR/$KIOSK_HTML_FILENAME"
+ORIGINAL_HTML="$(pwd)/airline_kiosk.html"
 DESKTOP_FILE_NAME="skyline-kiosk.desktop"
 AUTOSTART_DIR="$HOME/.config/autostart"
 APP_DIR="$HOME/.local/share/applications"
@@ -31,6 +34,13 @@ cleanup_legacy_config() {
 
 generate_desktop_entry() {
     local output_path="$1"
+    local is_autostart="$2"
+    local exec_cmd="firefox --kiosk \"file://$KIOSK_HTML\""
+    
+    # Add delay for autostart to prevent race conditions with the window manager
+    if [ "$is_autostart" = "true" ]; then
+        exec_cmd="sh -c 'sleep 5; firefox --kiosk \"file://$KIOSK_HTML\"'"
+    fi
     
     cat <<EOF > "$output_path"
 [Desktop Entry]
@@ -38,7 +48,7 @@ Version=1.0
 Type=Application
 Name=SkyLine Kiosk
 Comment=Launch the Airline Escape Kiosk
-Exec=firefox --kiosk "file://$KIOSK_HTML"
+Exec=$exec_cmd
 Icon=firefox
 Terminal=false
 StartupNotify=false
@@ -51,15 +61,19 @@ EOF
 setup_manual_launcher() {
     echo "Setting up Manual Launcher..."
     cleanup_legacy_config
+    
+    # Ensure HTML is in a snap-accessible location
+    mkdir -p "$KIOSK_DIR"
+    cp "$ORIGINAL_HTML" "$KIOSK_HTML"
 
     # 1. Add to Applications Menu
     mkdir -p "$APP_DIR"
-    generate_desktop_entry "$APP_DIR/$DESKTOP_FILE_NAME"
+    generate_desktop_entry "$APP_DIR/$DESKTOP_FILE_NAME" "false"
     echo "    [+] Added to Applications Menu: $APP_DIR/$DESKTOP_FILE_NAME"
 
     # 2. Add to Desktop (if exists)
     if [ -d "$DESKTOP_DIR" ]; then
-        generate_desktop_entry "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
+        generate_desktop_entry "$DESKTOP_DIR/$DESKTOP_FILE_NAME" "false"
         echo "    [+] Added to Desktop: $DESKTOP_DIR/$DESKTOP_FILE_NAME"
         
         # GNOME specific: Allow launching
@@ -78,15 +92,19 @@ setup_manual_launcher() {
 setup_autostart_launcher() {
     echo "Setting up Autostart Persistence..."
     cleanup_legacy_config
+
+    # Ensure HTML is in a snap-accessible location
+    mkdir -p "$KIOSK_DIR"
+    cp "$ORIGINAL_HTML" "$KIOSK_HTML"
     
     # Ensure directory exists
     mkdir -p "$AUTOSTART_DIR"
     
-    # Generate Entry
-    generate_desktop_entry "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+    # Generate Entry with autostart flag (enables delay)
+    generate_desktop_entry "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" "true"
     
     echo "    [+] Created Autostart Entry: $AUTOSTART_DIR/$DESKTOP_FILE_NAME"
-    echo "    [+] Kiosk will launch automatically on next login."
+    echo "    [+] Kiosk will launch automatically on next login (with 5s delay)."
 }
 
 disable_kiosk() {

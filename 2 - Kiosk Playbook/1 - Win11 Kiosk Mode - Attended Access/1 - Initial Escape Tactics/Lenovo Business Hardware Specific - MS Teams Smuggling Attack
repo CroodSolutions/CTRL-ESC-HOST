@@ -1,0 +1,14 @@
+While our testing of this has not been exhaustive because creating and testing on a wide range of kiosk hardware/software combinations, can be cost and time prohibitive, we believe this scenario probably applies to a wide range of Lenovo business “Think” product line kiosks/hosts.  
+
+It turns out that after a fresh reboot, you can hit Ctrl+Alt+Shift+Win+F11, to trigger a local Lenovo bios keyboard shortcut, which appears to call a process hook to launch MS Teams. All this seems perfectly reasonable, except it launches MS Teams even when it is in Attended Access / Kiosk Mode, unless teams has been actually removed via specific host hardening efforts and policies.  It is my opinion that most organizations take the default policies of Attended Access / Kiosk Mode, so there are probably a decent number of hosts this attack vector could work on.    
+
+ - The test for this is simple and follows these basic steps:
+ - Reboot the host (sometimes this can be trigged arbitrarily, but it always works on susceptible hosts right after reboot).
+ - First thing, after kiosk mode comes up, press Ctrl+Alt+Shift+Win+F11 (a strange keyboard squelch should be heard).  
+ - MS Teams should launch, if this attack vector/test was successful.
+ - Sign in to MS Teams with your personal/test account on the kiosk via the app.
+ - From another device you fully control, share a file via that is ftp.exe, renamed to test.txt in a MS Teams chat with, well, yourself.
+ - Download the file, click to open in downloads, and rename to msedge.exe
+ - Launch msedge.exe 
+ - Try double click (should fail)
+ - Type msedge.exe into browser bar and hit enter.  

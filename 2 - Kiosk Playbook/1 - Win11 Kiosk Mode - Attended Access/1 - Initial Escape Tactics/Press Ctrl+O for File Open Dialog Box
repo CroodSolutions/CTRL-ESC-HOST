@@ -1,0 +1,12 @@
+If not specifically locked down, it is possible to invoke the File Open dialog box, via the keyboard shortcut Ctrl+O.
+
+Press Ctrl+O and then proceed to these secondary tactics:
+ - LotL USB Smuggling Attack
+ - Launch Terminal from File Open Dialog Box via Preview Pane
+ - Rename LotL or Payload as Msedge
+
+While some of these are easier and more streamlined than others and they all work on Attended Access presenting Edge as of this writing, individual host-hardening policies may apply, and these could vary from one organization to the next (for penetration testers). 
+
+Note that the File Open dialog box seems to offer quite a bit more attack surface, when compared with the File Save dialog box. 
+
+Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.

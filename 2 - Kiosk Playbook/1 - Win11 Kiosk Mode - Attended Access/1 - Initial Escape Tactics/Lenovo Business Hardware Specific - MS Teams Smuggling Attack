@@ -1,6 +1,6 @@
-While our testing of this has not been exhaustive because creating and testing on a wide range of kiosk hardware/software combinations, can be cost and time prohibitive, we believe this scenario probably applies to a wide range of Lenovo business “Think” product line kiosks/hosts.  
+This escape tactic is specific to Lenovo Think-series business devices, and is dependent on a keyboard shortcut that is specific to their bios, on devices over a certain (unknown) span of time. The exact span/scope of how many devices or what exact models have this keyboard shortcut, remains unkown; that said, it only takes a moment to test/verify this scenario.  
 
-It turns out that after a fresh reboot, you can hit Ctrl+Alt+Shift+Win+F11, to trigger a local Lenovo bios keyboard shortcut, which appears to call a process hook to launch MS Teams. All this seems perfectly reasonable, except it launches MS Teams even when it is in Attended Access / Kiosk Mode, unless teams has been actually removed via specific host hardening efforts and policies.  It is my opinion that most organizations take the default policies of Attended Access / Kiosk Mode, so there are probably a decent number of hosts this attack vector could work on.    
+So what is the shortcut sequence? After a fresh reboot, you can hit Ctrl+Alt+Shift+Win+F11, to trigger a local Lenovo bios keyboard shortcut, which appears to call a hook to launch MS Teams. All this seems perfectly reasonable, except it launches MS Teams even when it is in Attended Access / Kiosk Mode, unless teams has been actually removed via specific host hardening efforts.  It is my opinion that most organizations take the default policies of Attended Access / Kiosk Mode, so there are probably a decent number of hosts this attack vector could work on.    
 
  - The test for this is simple and follows these basic steps:
  - Reboot the host (sometimes this can be trigged arbitrarily, but it always works on susceptible hosts right after reboot).
@@ -12,3 +12,9 @@ It turns out that after a fresh reboot, you can hit Ctrl+Alt+Shift+Win+F11, to t
  - Launch msedge.exe 
  - Try double click (should fail)
  - Type msedge.exe into browser bar and hit enter.  
+
+From here, you should be able to use FTP to send PowerShell commands, as long as they are prepended with an exclamation mark. This could appear as a version of ftp in terminal that lets you add tabs as PowerShell or CMD, or it could be a simplifed shell where you need to interact with ftp directly.  
+
+Note: This does not work on consumer Lenovo devices / only the Think series.  
+
+Only test on your own kiosks and/or with proper written permission and following all appropriate industry ethics and best practices.

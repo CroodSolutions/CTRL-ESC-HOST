@@ -1,0 +1,21 @@
+Launch MS Feedback Hub for File Open Dialog Box
+
+It is possible to launch Microsoft Feedback Hub, via the Win+F, then allowing for a limited-context Explorer File Open dialog box, after a few steps we outline below.   
+
+Here are the basic steps for this kiosk escape:
+ - Win+F (Launch Feedback Hub)
+ - Click “+ Give new feedback”
+ - Add some random text to “Summarize your feedback” and click “Next”
+ - Select “Suggestion” or “Problem” and click “Next”
+ - Click “Next”
+ - Select “Attach a file”
+ - Make sure “Select a file to preview” / preview pane is visible, and click to show it, if not.
+ - Right click in the preview area, and then click away.
+ - Right click a second time in the preview area. 
+ - Select “Open in Terminal”
+
+Note, if the double right click option to launch a terminal is unavailable due to host hardening/policies, proceed to the “Next Steps” section covering what you can do from the File Open dialog box.  
+
+Feedback Hub seems to expose a lot of additional functionality, which deserves further testing, including an ability to share feedback. While this atomic test exposes one pathway from kiosk to shell, there may be other yet undiscovered attack surface associated with Feedback Hub being reachable in kiosk mode.  
+
+Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices

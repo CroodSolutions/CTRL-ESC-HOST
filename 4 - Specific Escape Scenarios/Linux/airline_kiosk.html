@@ -70,21 +70,30 @@
 
         /* --- KIOSK HEADER --- */
         header.kiosk-header {
-            padding: 30px 40px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0;
         }
 
         .brand h1 {
             font-family: 'Playfair Display', serif; /* Elegant Serif for logo */
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin: 0;
-            color: var(--k-text);
-            letter-spacing: 1px;
+            color: white;
+            letter-spacing: 2px;
         }
-        .brand span { font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--k-accent); text-transform: uppercase; letter-spacing: 3px; display: block; }
+        .brand span { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 0.75rem; 
+            color: var(--k-accent); 
+            text-transform: uppercase; 
+            letter-spacing: 4px; 
+            display: block; 
+            margin-top: 4px;
+        }
 
         .flight-tag {
             background: rgba(255,255,255,0.05);
@@ -96,21 +105,21 @@
         }
 
         .assist-btn {
-            background: transparent;
-            border: 1px solid var(--k-accent);
-            color: var(--k-accent);
-            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--k-text-muted);
+            padding: 12px 24px;
             border-radius: 4px;
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-        .assist-btn:hover { background: var(--k-accent); color: var(--k-bg); box-shadow: var(--k-glow); }
+        .assist-btn:hover { background: rgba(255,255,255,0.1); color: white; border-color: white; }
         .assist-btn.active { background: var(--k-danger); border-color: var(--k-danger); color: white; animation: pulseBtn 1s infinite; }
         
         @keyframes pulseBtn { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
@@ -133,12 +142,12 @@
         }
 
         h2 { font-weight: 300; font-size: 2.5rem; margin-bottom: 10px; color: white; }
-        p.subtitle { color: var(--k-text-muted); font-size: 1.1rem; margin-bottom: 40px; font-weight: 300; text-align: center; max-width: 600px; line-height: 1.6; }
+        p.subtitle { color: var(--k-text-muted); font-size: 1.1rem; margin-bottom: 20px; font-weight: 300; text-align: center; max-width: 600px; line-height: 1.6; }
 
         /* --- UI ELEMENTS: KIOSK --- */
         
         /* Keypad */
-        .ticket-input-container { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .ticket-input-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
         input.ticket-display {
             background: transparent;
             border: none;
@@ -151,9 +160,9 @@
             padding-bottom: 10px;
             font-family: 'Inter', sans-serif;
         }
-        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .num-btn {
-            width: 80px; height: 80px;
+            width: 70px; height: 70px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
@@ -167,42 +176,67 @@
         .num-btn.text-btn { font-size: 1rem; font-weight: 600; letter-spacing: 1px; }
 
         /* Dashboard Cards */
-        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; max-width: 900px; }
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 900px; }
         .option-card {
-            background: var(--k-surface);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 35px;
-            border-radius: 12px;
+            background: linear-gradient(145deg, #1e293b, #162030);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
         .option-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--k-accent);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
         }
-        .option-card i { font-size: 2rem; margin-bottom: 20px; color: var(--k-accent); font-style: normal; }
-        .option-card h3 { margin: 0; font-size: 1.2rem; font-weight: 400; color: white; }
-        .option-card span { font-size: 0.85rem; color: var(--k-text-muted); margin-top: 8px; }
+        .option-card:hover svg {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px rgba(192, 178, 131, 0.4));
+        }
+        
+        .option-card svg { 
+            width: 40px; 
+            height: 40px; 
+            margin-bottom: 15px; 
+            fill: var(--k-accent); 
+            transition: all 0.3s ease;
+        }
+        
+        .option-card h3 { 
+            margin: 0; 
+            font-size: 1.3rem; 
+            font-weight: 500; 
+            color: white; 
+            letter-spacing: 0.5px;
+        }
+        .option-card span { 
+            font-size: 0.9rem; 
+            color: var(--k-text-muted); 
+            margin-top: 8px; 
+            font-weight: 300;
+        }
 
         /* Upsell Badge */
         .upsell-badge {
-            position: absolute; top: 15px; right: 15px;
-            background: linear-gradient(135deg, #FFD700, #FDB931);
-            color: black;
-            font-size: 0.65rem; padding: 4px 10px; border-radius: 20px;
-            font-weight: 700; letter-spacing: 0.5px;
-            box-shadow: 0 2px 10px rgba(253, 185, 49, 0.4);
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(192, 178, 131, 0.15);
+            border: 1px solid var(--k-accent);
+            color: var(--k-accent);
+            font-size: 0.7rem; padding: 6px 12px; border-radius: 4px;
+            font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* Scale */
         .scale-container {
-            width: 320px; height: 320px;
+            width: 260px; height: 260px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -210,12 +244,12 @@
             box-shadow: 0 0 50px rgba(0,0,0,0.5);
             margin-bottom: 20px;
         }
-        .weight-display { font-size: 6rem; font-weight: 300; color: white; font-variant-numeric: tabular-nums; }
-        .unit { color: var(--k-accent); letter-spacing: 2px; margin-top: -10px; font-size: 1.2rem; }
+        .weight-display { font-size: 5rem; font-weight: 300; color: white; font-variant-numeric: tabular-nums; }
+        .unit { color: var(--k-accent); letter-spacing: 2px; margin-top: -5px; font-size: 1.2rem; }
         
         .scale-status {
             padding: 10px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 1px; font-size: 0.9rem;
-            margin-top: 20px; opacity: 0; transition: opacity 0.5s;
+            margin-top: 10px; opacity: 0; transition: opacity 0.5s;
         }
         
         /* Buttons */
@@ -272,27 +306,96 @@
         
         /* Tag Print Animation */
         .print-overlay {
-            position: absolute; inset: 0; background: rgba(15, 23, 42, 0.9);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 50; opacity: 0; pointer-events: none; transition: 0.3s;
+            position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 200; opacity: 0; pointer-events: none; transition: 0.3s;
+            backdrop-filter: blur(5px);
         }
         .print-overlay.visible { opacity: 1; pointer-events: all; }
         
-        .printed-tag {
-            width: 200px; height: 320px; background: white; 
-            padding: 20px; font-family: monospace; color: black;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform: translateY(-100%);
-            animation: printAction 2.5s ease-in-out forwards;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
+        .printer-slot {
+            width: 300px; height: 20px;
+            background: #000;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 202;
+            margin-bottom: -10px; /* Overlap tag */
         }
-        .barcode { height: 50px; background: repeating-linear-gradient(90deg, black 0px, black 2px, white 2px, white 4px); width: 100%; margin-top: auto; }
 
-        @keyframes printAction {
-            0% { transform: translateY(-300px); opacity: 0; }
-            20% { transform: translateY(0); opacity: 1; }
-            80% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(800px); opacity: 0; }
+        .printed-tag {
+            width: 240px; height: 380px; background: white; 
+            padding: 25px; font-family: 'Courier New', monospace; color: black;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: translateY(-400px); /* Start hidden above */
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            position: relative;
+            z-index: 201;
+        }
+
+        /* Animation classes toggled by JS */
+        .printed-tag.animating {
+            animation: printSlide 3s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+        }
+
+        @keyframes printSlide {
+            0% { transform: translateY(-400px); }
+            30% { transform: translateY(0); } /* Feed out */
+            70% { transform: translateY(0); } /* Pause for view */
+            100% { transform: translateY(600px) rotate(5deg); opacity: 0; } /* Drop */
+        }
+
+        .print-status {
+            margin-top: 40px;
+            color: var(--k-accent);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .print-status.visible { opacity: 1; animation: pulseText 1.5s infinite; }
+
+        @keyframes pulseText { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        .barcode { 
+            height: 60px; 
+            background: repeating-linear-gradient(90deg, black 0px, black 2px, white 2px, white 4px); 
+            width: 100%; 
+            margin-top: auto; 
+            opacity: 0.8;
+        }
+        
+        .tag-header { border-bottom: 2px solid black; width: 100%; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .tag-big { font-size: 3.5rem; font-weight: 800; line-height: 1; margin: 10px 0; }
+        .tag-row { display: flex; justify-content: space-between; width: 100%; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
+        .tag-label { font-size: 0.7rem; color: #555; font-weight: normal; }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+        .toast-notification.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
     </style>
@@ -336,38 +439,102 @@
                 <button class="num-btn text-btn" style="color:var(--k-success)" onclick="submitId()">GO</button>
             </div>
         </div>
+        <div style="margin-top: 20px; font-size: 0.9rem; color: var(--k-text-muted); opacity: 0.7;">
+            Or Scan QR Code Boarding Pass
+        </div>
     </div>
 
-    <div id="screen-dash" class="screen">
-        <h2>Good Afternoon.</h2>
-        <p class="subtitle">Please select a service option below.</p>
+    <div id="screen-dash" class="screen" style="justify-content: flex-start; padding-top: 30px;">
+        <h2 style="text-transform: uppercase; letter-spacing: 2px; font-size: 1.8rem; margin-bottom: 5px;">Services Dashboard</h2>
+        <p class="subtitle" style="margin-bottom: 25px;">Select services to add to your itinerary.</p>
         
         <div class="options-grid">
             <div class="option-card" onclick="startWeighing()">
-                <i>🧳</i>
+                <div class="upsell-badge" id="bag-badge" style="display:none">0</div>
+                <svg viewBox="0 0 24 24"><path d="M19,6h-3V4c0-1.1-0.9-2-2-2h-4C8.9,2,8,2.9,8,4v2H5C3.9,6,3,6.9,3,8v12c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V8 C21,6.9,20.1,6,19,6z M10,4h4v2h-4V4z M19,20H5V8h14V20z"/></svg>
                 <h3>Baggage Check</h3>
-                <span>Weigh & Print Tag</span>
+                <span id="bag-sub">Weigh & Add</span>
             </div>
             
-            <div class="option-card" onclick="printStroller()">
-                <i>👶</i>
+            <div class="option-card" onclick="toggleStroller()">
+                <div class="upsell-badge" id="stroller-badge" style="display:none; background: var(--k-success); color: white; border-color: var(--k-success);">ADDED</div>
+                <svg viewBox="0 0 24 24"><path d="M6,3v3c0,0.55,0.45,1,1,1h3.5l1.65,2.77C10.74,10.66,9.66,11.5,9.15,12.7L6,6H4v1.27C4,7.63,4.21,7.96,4.55,8.1L8.35,9.8 c0.33,0.15,0.72,0.06,0.96-0.21l1.64-1.84l2.12,3.54l-3.32,1.9C9.27,13.46,9,13.98,9,14.53V15h8.31l1.52-2.54l1.72,1.03l-2.03,3.39 C18.33,17.22,17.99,17.5,17.62,17.5H16v-1c0-0.55-0.45-1-1-1h-4c-0.55,0-1,0.45-1,1v1H8c-1.1,0-2-0.9-2-2v-1.27 c0-0.36,0.21-0.69,0.55-0.83L10,11.5L7.75,7.72L7,9H6V3H6z M8,19c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S9.1,19,8,19z M16,19 c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S17.1,19,16,19z"/></svg>
                 <h3>Infant Services</h3>
                 <span>Stroller / Car Seat</span>
             </div>
 
             <div class="option-card" onclick="selectSeat()">
-                <div class="upsell-badge">UPGRADE</div>
-                <i>💺</i>
+                <div class="upsell-badge" id="seat-badge" style="display:none; background: var(--k-success); color: white; border-color: var(--k-success);">4A</div>
+                <div class="upsell-badge" id="seat-upsell">UPGRADE</div>
+                <svg viewBox="0 0 24 24"><path d="M4,18v3h3v-3h10v3h3v-6H4V18z M19,10h-2V7c0-1.1-0.9-2-2-2h-3C10.9,5,10,5.9,10,7v3H8v8h9v-5h2V10z M15,10h-3V7h3V10z"/></svg>
                 <h3>Seat Selection</h3>
-                <span>Upgrade to Economy+</span>
+                <span id="seat-sub">Economy+</span>
             </div>
 
-            <div class="option-card" onclick="alert('Priority Boarding added.')">
-                <div class="upsell-badge">$15</div>
-                <i>⚡</i>
+            <div class="option-card" onclick="togglePriority()">
+                <div class="upsell-badge" id="priority-badge" style="display:none; background: var(--k-success); color: white; border-color: var(--k-success);">ADDED</div>
+                <div class="upsell-badge" id="priority-upsell">$15</div>
+                <svg viewBox="0 0 24 24"><path d="M7,2v11h3v9l7-12h-4l4-8H7z"/></svg>
                 <h3>Priority Access</h3>
                 <span>Expedited Boarding</span>
             </div>
+        </div>
+
+        <div class="checkout-bar">
+            <div class="checkout-info">
+                <strong>YOUR SELECTION:</strong> <span id="summary-text">Standard Ticket</span>
+            </div>
+            <button class="btn btn-primary" onclick="printAll()">Print Tickets & Tags</button>
+        </div>
+    </div>
+
+    <style>
+        .checkout-bar {
+            margin-top: auto;
+            width: 100%;
+            max-width: 900px;
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 20px 30px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px -5px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        .checkout-info { font-size: 1.1rem; color: var(--k-text-muted); font-weight: 300; }
+        .checkout-info strong { color: white; font-weight: 500; margin-right: 10px; }
+        .checkout-info span { color: var(--k-accent); }
+    </style>
+
+    <div id="screen-priority" class="screen">
+        <h2>Priority Access</h2>
+        <p class="subtitle">You have successfully added Priority Boarding.</p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center;">
+            <div style="font-size: 1.5rem; color: var(--k-accent); margin-bottom: 10px;">GROUP 1</div>
+            <div style="color: var(--k-text-muted);">Expedited TSA security and boarding.</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="confirmPriority()">Add to Itinerary</button>
+        <div style="margin-top: 20px;">
+            <button class="btn btn-secondary" onclick="cancelPriority()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="screen-finish" class="screen">
+        <h2>Have a pleasant flight.</h2>
+        <p class="subtitle">Please collect your boarding pass and tags.</p>
+        
+        <div style="margin: 30px 0; text-align: center;">
+            <p style="margin-top: 40px; color: var(--k-text-muted); font-size: 0.9rem;">
+                Session closing in <span id="autoCloseTimer">15</span>s...
+            </p>
         </div>
     </div>
 
@@ -382,7 +549,7 @@
         
         <div class="scale-status" id="scaleStatus">Reading...</div>
 
-        <div id="weigh-actions" style="margin-top: 40px; opacity: 0; pointer-events: none;">
+        <div id="weigh-actions" style="margin-top: 30px; opacity: 0; pointer-events: none;">
             <button class="btn btn-secondary" onclick="resetApp()">Cancel</button>
             <button class="btn btn-primary" id="confirmWeightBtn" onclick="finalizeBag()">Confirm</button>
         </div>
@@ -398,11 +565,14 @@
             <div style="background:#334155; height:60px; border-radius:8px;"></div>
             
             <div style="background:var(--k-accent); height:60px; border-radius:8px; opacity:0.3"></div>
-            <div style="background:var(--k-accent); height:60px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold" onclick="confirmSeat()">$25</div>
+            <div id="seat-upgrade-btn" style="background:var(--k-accent); height:60px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold" onclick="confirmSeat()">$25</div>
             <div style="background:#334155; height:60px; border-radius:8px;"></div>
             <div style="background:#334155; height:60px; border-radius:8px;"></div>
         </div>
-        <button class="btn btn-secondary" onclick="goToScreen('screen-dash')">Return</button>
+        
+        <div id="seat-actions" style="text-align: center;">
+            <button class="btn btn-secondary" onclick="goToScreen('screen-dash')">Return</button>
+        </div>
     </div>
 
     <div id="screen-help" class="screen" style="position: relative;">
@@ -487,17 +657,54 @@
     </div>
 
     <div id="print-overlay" class="print-overlay">
-        <div class="printed-tag">
-            <h3 style="margin:0; font-size:1.5rem">JFK</h3>
-            <span style="font-size:0.8rem">NEW YORK</span>
-            <div style="margin: 20px 0; font-size: 2rem; font-weight:bold;">LAX</div>
-            <div style="text-align:left; width:100%; margin-top:20px; font-size:0.8rem">
-                FLIGHT: 492<br>
-                DATE: 12OCT<br>
-                WT: <span id="print-weight">42.0</span> LB
+        <div class="printer-slot"></div>
+        <div class="printed-tag" id="tag-element">
+            <div class="tag-header">
+                <span>SKYLINE</span>
+                <span style="font-size:0.8rem">PRIORITY</span>
             </div>
+            
+            <div style="text-align: left; width: 100%;">
+                <span class="tag-label">DESTINATION</span>
+                <div class="tag-big" id="tag-dest-code">LAX</div>
+                <div style="font-size: 0.9rem;" id="tag-dest-full">LOS ANGELES</div>
+            </div>
+
+            <div style="width: 100%; border-top: 1px dashed #999; margin: 20px 0;"></div>
+
+            <div class="tag-row">
+                <div>
+                    <div class="tag-label">FLIGHT</div>
+                    <div id="tag-flight">492</div>
+                </div>
+                <div>
+                    <div class="tag-label">DATE</div>
+                    <div id="tag-date">12OCT</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="tag-label">WEIGHT</div>
+                    <div><span id="tag-weight">42.0</span> LB</div>
+                </div>
+            </div>
+
+            <div class="tag-row" style="margin-top: 10px;">
+                <div>
+                    <div class="tag-label">SEQ</div>
+                    <div>0042</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="tag-label">TYPE</div>
+                    <div id="tag-type">BAG</div>
+                </div>
+            </div>
+
             <div class="barcode"></div>
         </div>
+        <div class="print-status" id="print-status-text">Printing Tag...</div>
+    </div>
+
+    <div id="toast" class="toast-notification">
+        <span>✓</span> <span id="toast-msg">Notification</span>
     </div>
 
 </div>
@@ -508,25 +715,127 @@
 <script>
     /* --- STATE --- */
     let currentTicket = "";
-    let finalWeight = 0;
-    const WEIGHT_LIMIT = 45;
     let previousScreen = 'screen-id';
+    let finishTimer = null;
+    
+    // Cart State
+    let cart = {
+        bags: [],
+        stroller: false,
+        seat: null,
+        priority: false
+    };
 
     /* --- NAV --- */
     function goToScreen(screenId) {
+        // Clear any existing finish timer
+        if (finishTimer) {
+            clearInterval(finishTimer);
+            finishTimer = null;
+        }
+
         const current = document.querySelector('.screen.active').id;
         if(current !== 'screen-help' && current !== 'screen-browser') {
             previousScreen = current;
         }
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+
+        // Start timer if on finish screen
+        if (screenId === 'screen-finish') {
+            startFinishTimer();
+        }
+        
+        if (screenId === 'screen-dash') {
+            updateDashUI();
+        }
+    }
+
+    function updateDashUI() {
+        // Bags
+        const bagBadge = document.getElementById('bag-badge');
+        if (cart.bags.length > 0) {
+            bagBadge.style.display = 'block';
+            bagBadge.innerText = cart.bags.length;
+            document.getElementById('bag-sub').innerText = cart.bags.length + " Added";
+        } else {
+            bagBadge.style.display = 'none';
+            document.getElementById('bag-sub').innerText = "Weigh & Add";
+        }
+
+        // Stroller
+        document.getElementById('stroller-badge').style.display = cart.stroller ? 'block' : 'none';
+
+        // Seat
+        const seatBadge = document.getElementById('seat-badge');
+        const seatUpsell = document.getElementById('seat-upsell');
+        if (cart.seat) {
+            seatBadge.style.display = 'block';
+            seatBadge.innerText = cart.seat;
+            seatUpsell.style.display = 'none';
+            document.getElementById('seat-sub').innerText = "Selected";
+        } else {
+            seatBadge.style.display = 'none';
+            seatUpsell.style.display = 'block';
+            document.getElementById('seat-sub').innerText = "Upgrade to Economy+";
+        }
+
+        // Priority
+        const prioBadge = document.getElementById('priority-badge');
+        const prioUpsell = document.getElementById('priority-upsell');
+        if (cart.priority) {
+            prioBadge.style.display = 'block';
+            prioUpsell.style.display = 'none';
+        } else {
+            prioBadge.style.display = 'none';
+            prioUpsell.style.display = 'block';
+        }
+
+        // Summary Line
+        const parts = ["Boarding Pass"];
+        if(cart.seat) parts[0] += " (" + cart.seat + ")";
+        if(cart.priority) parts.push("Priority");
+        if(cart.bags.length > 0) parts.push(cart.bags.length + " Bag(s)");
+        if(cart.stroller) parts.push("Stroller");
+        
+        document.getElementById('summary-text').innerText = parts.join(", ");
+    }
+
+    function startFinishTimer() {
+        let timeLeft = 15;
+        const timerDisplay = document.getElementById('autoCloseTimer');
+        timerDisplay.innerText = timeLeft;
+        
+        finishTimer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(finishTimer);
+                resetApp();
+            }
+        }, 1000);
     }
 
     function resetApp() {
         currentTicket = "";
+        cart = { bags: [], stroller: false, seat: null, priority: false };
         document.getElementById('ticketDisplay').value = "";
+        
+        // Reset UI visuals
+        document.getElementById('seat-upgrade-btn').style.background = "var(--k-accent)";
+        document.getElementById('seat-upgrade-btn').innerText = "$25";
+
         cancelAssistance(); 
         goToScreen('screen-id');
+    }
+
+    function showNotification(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = msg;
+        toast.classList.add('active');
+        setTimeout(() => {
+            toast.classList.remove('active');
+        }, 3000);
     }
 
     /* --- ASSISTANCE --- */
@@ -574,16 +883,63 @@
     }
 
     /* --- FEATURES --- */
-    function printStroller() {
-        document.getElementById('print-weight').innerText = "BABY";
-        showPrintingOverlay(() => alert("Attach tag to stroller handle."));
+    function toggleStroller() {
+        cart.stroller = !cart.stroller;
+        if(cart.stroller) showNotification("Stroller added to cart.");
+        else showNotification("Stroller removed.");
+        updateDashUI();
     }
 
-    function selectSeat() { goToScreen('screen-seat'); }
-    function confirmSeat() { alert("Seat upgraded."); goToScreen('screen-dash'); }
+    function togglePriority() {
+        if (!cart.priority) {
+            goToScreen('screen-priority');
+        } else {
+            cart.priority = false;
+            showNotification("Priority Access removed.");
+            updateDashUI();
+        }
+    }
+    
+    // Called by Priority Screen button
+    function confirmPriority() {
+        cart.priority = true;
+        showNotification("Priority Added");
+        goToScreen('screen-dash');
+    }
+
+    // Called by Priority Screen Cancel
+    function cancelPriority() {
+        goToScreen('screen-dash');
+    }
+
+    function selectSeat() { 
+        // If already selected, maybe just show it? For now let them re-select
+        goToScreen('screen-seat'); 
+    }
+
+    function confirmSeat() { 
+        // Visual update for selection
+        document.getElementById('seat-upgrade-btn').style.background = "var(--k-success)";
+        document.getElementById('seat-upgrade-btn').innerText = "✓";
+        
+        // Show Actions
+        document.getElementById('seat-actions').innerHTML = `
+            <div style="margin-bottom: 20px; color: var(--k-success);">Seat 4A Selected</div>
+            <button class="btn btn-primary" onclick="finalizeSeat()">Confirm Selection</button>
+            <br><br>
+            <button class="btn btn-secondary" onclick="goToScreen('screen-dash')">Cancel</button>
+        `;
+    }
+
+    function finalizeSeat() {
+        cart.seat = "4A";
+        showNotification("Seat 4A Confirmed");
+        goToScreen('screen-dash');
+    }
 
     /* --- WEIGH --- */
     function startWeighing() {
+        finalWeight = 0; // Reset
         goToScreen('screen-weigh');
         const display = document.getElementById('weightVal');
         const status = document.getElementById('scaleStatus');
@@ -594,16 +950,17 @@
         status.style.opacity = "0";
         actions.style.opacity = "0";
         actions.style.pointerEvents = "none";
-
-        finalWeight = (Math.random() * (50 - 35) + 35).toFixed(1);
+        
+        let target = 35 + Math.random() * 15;
         let current = 0;
         
         const interval = setInterval(() => {
-            if(current < finalWeight) current += Math.random() * 2;
-            else current = parseFloat(finalWeight);
-
-            if(current >= finalWeight - 0.5 && current <= parseFloat(finalWeight) + 0.5) {
+            current += 0.5 + Math.random();
+            
+            if(current >= target) {
+                current = target;
                 clearInterval(interval);
+                finalWeight = target.toFixed(1);
                 display.innerText = finalWeight;
                 checkWeightLimit(finalWeight);
             } else {
@@ -638,17 +995,97 @@
     }
 
     function finalizeBag() {
-        document.getElementById('print-weight').innerText = finalWeight;
-        showPrintingOverlay(() => resetApp());
+        cart.bags.push(finalWeight);
+        showNotification("Bag #" + cart.bags.length + " Added");
+        goToScreen('screen-dash');
     }
 
-    function showPrintingOverlay(callback) {
+    /* --- PRINTING --- */
+    function printAll() {
+        let queue = [];
+
+        // 1. Boarding Pass
+        let seat = cart.seat ? cart.seat : "24F";
+        let type = cart.priority ? "PRIORITY" : "ECONOMY";
+        queue.push({
+            destCode: "LAX",
+            destFull: "LOS ANGELES",
+            weight: "N/A",
+            type: "SEAT " + seat + " / " + type
+        });
+
+        // 2. Bags
+        cart.bags.forEach((w, i) => {
+            queue.push({
+                destCode: "LAX",
+                destFull: "LOS ANGELES",
+                weight: w,
+                type: "BAG " + (i+1) + " OF " + cart.bags.length
+            });
+        });
+
+        // 3. Stroller
+        if(cart.stroller) {
+            queue.push({
+                destCode: "GATE",
+                destFull: "CLAIM AT GATE",
+                weight: "N/A",
+                type: "STROLLER"
+            });
+        }
+
+        processPrintQueue(queue);
+    }
+
+    function processPrintQueue(queue) {
+        if(queue.length === 0) {
+            goToScreen('screen-finish');
+            return;
+        }
+
+        const item = queue.shift();
+        printTag(item, () => {
+            processPrintQueue(queue);
+        });
+    }
+
+    function printTag(data, callback) {
+        // Update Tag Content
+        document.getElementById('tag-dest-code').innerText = data.destCode;
+        document.getElementById('tag-dest-full').innerText = data.destFull;
+        document.getElementById('tag-weight').innerText = data.weight;
+        document.getElementById('tag-type').innerText = data.type;
+
+        // Elements
         const overlay = document.getElementById('print-overlay');
+        const tag = document.getElementById('tag-element');
+        const status = document.getElementById('print-status-text');
+
+        // Reset Animation
+        tag.classList.remove('animating');
+        void tag.offsetWidth; // Trigger reflow
+
+        // Start Sequence
         overlay.classList.add('visible');
+        status.innerText = "Printing Tag...";
+        status.classList.add('visible');
+        
+        // Start animation slightly delayed
+        setTimeout(() => {
+            tag.classList.add('animating');
+        }, 100);
+
+        // Update status during print
+        setTimeout(() => {
+            status.innerText = "Verifying...";
+        }, 2000);
+
+        // Finish
         setTimeout(() => {
             overlay.classList.remove('visible');
+            status.classList.remove('visible');
             if(callback) callback();
-        }, 2800);
+        }, 3500);
     }
 </script>
 

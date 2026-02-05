@@ -3,6 +3,65 @@
 
 set -e
 
+# Detect shell configuration file (zsh or bash)
+SHELL_RC="$HOME/.bashrc"
+[[ "$SHELL" == */zsh ]] && SHELL_RC="$HOME/.zshrc"
+
+KIOSK_FILE="$(pwd)/airline_kiosk.html"
+
+enable_kiosk() {
+    echo "Enabling Kiosk Mode Persistence..."
+    
+    # Backup existing configuration
+    cp "$SHELL_RC" "${SHELL_RC}.bak"
+    echo "    Backup created at ${SHELL_RC}.bak"
+
+    # Add auto-launch command if not present
+    if grep -q "firefox --kiosk" "$SHELL_RC"; then
+        echo "    [!] Kiosk mode seems to be already configured in $(basename "$SHELL_RC")"
+    else
+        # Append kiosk launch logic
+        {
+            echo ""
+            echo "# --- KIOSK MODE START ---"
+            echo "# Auto-launch Firefox in Kiosk mode (Added: $(date))"
+            echo "if [ -z \"\$SSH_CONNECTION\" ]; then"
+            echo "    # Launch only on local sessions, allow SSH bypass"
+            echo "    firefox --kiosk \"file://$KIOSK_FILE\""
+            echo "fi"
+            echo "# --- KIOSK MODE END ---"
+        } >> "$SHELL_RC"
+
+        echo "    [+] $SHELL_RC updated."
+        echo "    [+] Kiosk mode will start on next login."
+    fi
+}
+
+disable_kiosk() {
+    echo "Disabling Kiosk Mode Persistence..."
+    if grep -q "# --- KIOSK MODE START ---" "$SHELL_RC"; then
+        # Remove the block using sed
+        # Detect OS for sed -i compatibility (Linux vs BSD/Mac) - though script checks for apt so likely Linux
+        sed -i '/# --- KIOSK MODE START ---/,/# --- KIOSK MODE END ---/d' "$SHELL_RC"
+        echo "    [+] Removed Kiosk mode configuration from $SHELL_RC"
+    else
+        echo "    [!] Kiosk mode configuration not found in $SHELL_RC"
+    fi
+}
+
+# Handle Arguments
+if [[ "$1" == "--kioskmode" ]]; then
+    if [[ "$2" == "off" ]]; then
+        disable_kiosk
+        exit 0
+    fi
+    # If "on", we continue to dependency checks
+    if [[ "$2" != "on" ]]; then
+        echo "Usage: $0 [--kioskmode on|off]"
+        exit 1
+    fi
+fi
+
 echo "[+] Firefox Kiosk Breakout Setup"
 echo "================================"
 
@@ -48,13 +107,20 @@ echo ""
 echo "[4/4] Setup complete!"
 echo ""
 
+# If non-interactive mode "on" was selected
+if [[ "$1" == "--kioskmode" && "$2" == "on" ]]; then
+    enable_kiosk
+    exit 0
+fi
+
+# Interactive Menu
 echo "----------------------------------------------------------------"
 echo "Select Kiosk Mode Configuration:"
 echo "1) Standard (Dependencies only)"
 echo "   - You must launch the kiosk manually."
 echo "   - Command: firefox --kiosk file://$(pwd)/airline_kiosk.html"
 echo ""
-echo "2) Full Persistence (Updates .bashrc)"
+echo "2) Full Persistence (Updates shell config)"
 echo "   - Automatically launches Kiosk on every login."
 echo "   - LOCKS THE USER into the Firefox application."
 echo "   - Ideal for testing true breakout scenarios."
@@ -64,34 +130,14 @@ read -p "Choose an option [1/2]: " choice
 if [ "$choice" == "2" ]; then
     echo ""
     echo "[!] CRITICAL WARNING [!]"
-    echo "You are about to modify ~/.bashrc to auto-start Firefox in Kiosk mode."
+    echo "You are about to modify your shell configuration to auto-start Firefox."
     echo "This means every time you login, you will be trapped in the kiosk."
     echo "Ensure you have a way to revert this (e.g., SSH access, root user)."
     echo ""
     read -p "Are you absolutely sure? (type 'yes' to confirm): " confirm
 
     if [ "$confirm" == "yes" ]; then
-        KIOSK_FILE="$(pwd)/airline_kiosk.html"
-        
-        # Backup bashrc
-        cp ~/.bashrc ~/.bashrc.bak
-        echo "    Backup created at ~/.bashrc.bak"
-
-        # Check if already added
-        if grep -q "firefox --kiosk" ~/.bashrc; then
-            echo "    [!] Kiosk mode seems to be already configured in .bashrc"
-        else
-            echo "" >> ~/.bashrc
-            echo "# --- KIOSK MODE START ---" >> ~/.bashrc
-            echo "# Added by prepare-kiosk.sh on $(date)" >> ~/.bashrc
-            echo "if [ -z \"\$SSH_CONNECTION\" ]; then" >> ~/.bashrc
-            echo "    # Only run on local login, allow SSH to bypass" >> ~/.bashrc
-            echo "    firefox --kiosk \"file://$KIOSK_FILE\"" >> ~/.bashrc
-            echo "fi" >> ~/.bashrc
-            echo "# --- KIOSK MODE END ---" >> ~/.bashrc
-            echo "    [+] ~/.bashrc updated."
-            echo "    [+] Kiosk mode will start on next login."
-        fi
+        enable_kiosk
     else
         echo "    Aborted persistence setup."
     fi

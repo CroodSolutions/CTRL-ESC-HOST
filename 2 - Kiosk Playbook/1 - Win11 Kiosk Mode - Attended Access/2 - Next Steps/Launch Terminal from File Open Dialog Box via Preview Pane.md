@@ -1,3 +1,5 @@
+## Launch Terminal from File Open Dialog Box via Preview Pane
+
 It is possible to launch a terminal from the Preview Pane of the File Open dialog box, via right clicking twice.  
 
 Make sure “Select a file to preview” / preview pane is visible, and click to show it, if not.

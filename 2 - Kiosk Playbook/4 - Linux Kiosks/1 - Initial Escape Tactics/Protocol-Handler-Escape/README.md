@@ -1,11 +1,11 @@
-# Firefox Kiosk Breakout: External Application Escape
+# Protocol Handler Kiosk Breakout: External Application Escape
 
 ## Overview
 
-A demonstration of escaping a Firefox kiosk-mode browser through external application handlers.
+A demonstration of escaping a kiosk-mode browser through external application handlers. This strategy should work for any browser. Note that the kiosk mode for the framework to test with this uses the firefox browser's kiosk mode.
 
 **Attack Chain:**
-1. **Firefox Kiosk** → User clicks a `mailto:` or `tel:` link.
+1. **Kiosk Browser** → User clicks a `mailto:` or `tel:` link.
 2. **External Handler** → OS opens an unconstrained window (e.g., Thunderbird).
 3. **Application Escape** → Access system tools or file browsers via the external app.
 4. **System Access** → Full OS access or shell execution.
@@ -45,6 +45,4 @@ firefox --kiosk "file://$(pwd)/airline_kiosk.html"
 
 ## Mitigation
 
--   **Disable Protocols:** Set `network.protocol-handler.external.mailto` to `false` in `about:config`.
--   **Hardened Image:** Remove unnecessary handlers: `sudo apt remove thunderbird xdg-utils`.
--   **Sandboxing:** Use a dedicated Kiosk OS (e.g., Ubuntu Frame, Windows Assigned Access).
+For detailed mitigation strategies regarding protocol handlers, please refer to [Protocol Handler Hardening](../../../../5%20-%20Defensive%20Recommendations/Protocol-Handler-Hardening.md).

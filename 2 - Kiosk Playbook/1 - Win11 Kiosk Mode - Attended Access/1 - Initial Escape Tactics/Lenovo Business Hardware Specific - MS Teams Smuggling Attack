@@ -16,3 +16,5 @@ So what is the shortcut sequence? After a fresh reboot, you can hit Ctrl+Alt+Shi
 From here, you should be able to use FTP to send PowerShell commands, as long as they are prepended with an exclamation mark. This could appear as a version of ftp in terminal that lets you add tabs as PowerShell or CMD, or it could be a simplifed shell where you need to interact with ftp directly.  
 
 Note: This does not work on consumer Lenovo devices / only the Think series.  
+
+Only test on your own kiosks and/or with proper written permission and following all appropriate industry ethics and best practices.

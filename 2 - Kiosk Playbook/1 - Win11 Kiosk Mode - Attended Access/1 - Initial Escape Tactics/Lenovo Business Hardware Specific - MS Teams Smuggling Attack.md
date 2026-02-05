@@ -1,3 +1,5 @@
+## Lenovo Business Hardware Specific - MS Teams Smuggling Attack
+
 This escape tactic is specific to Lenovo Think-series business devices, and is dependent on a keyboard shortcut that is specific to their bios, on devices over a certain (unknown) span of time. The exact span/scope of how many devices or what exact models have this keyboard shortcut, remains unkown; that said, it only takes a moment to test/verify this scenario.  
 
 So what is the shortcut sequence? After a fresh reboot, you can hit Ctrl+Alt+Shift+Win+F11, to trigger a local Lenovo bios keyboard shortcut, which appears to call a hook to launch MS Teams. All this seems perfectly reasonable, except it launches MS Teams even when it is in Attended Access / Kiosk Mode, unless teams has been actually removed via specific host hardening efforts.  It is my opinion that most organizations take the default policies of Attended Access / Kiosk Mode, so there are probably a decent number of hosts this attack vector could work on.    
@@ -17,4 +19,6 @@ From here, you should be able to use FTP to send PowerShell commands, as long as
 
 Note: This does not work on consumer Lenovo devices / only the Think series.  
 
-Only test on your own kiosks and/or with proper written permission and following all appropriate industry ethics and best practices.
+Next move on to [3 - Post-Exploitation - Moving from Kiosk to Domain and-or Network](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access/3%20-%20Post-Exploitation%20-%20Moving%20from%20Kiosk%20to%20Domain%20and-or%20Network)
+
+Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.

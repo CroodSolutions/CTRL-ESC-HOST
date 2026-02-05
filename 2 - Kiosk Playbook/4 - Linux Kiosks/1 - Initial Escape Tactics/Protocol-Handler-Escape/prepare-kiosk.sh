@@ -32,14 +32,21 @@ cleanup_legacy_config() {
     done
 }
 
+# Firefox binary path - prefer user-installed version over snap
+FIREFOX_BIN="$HOME/.local/opt/firefox/firefox"
+if [ ! -f "$FIREFOX_BIN" ]; then
+    FIREFOX_BIN="firefox"
+fi
+
 generate_desktop_entry() {
     local output_path="$1"
     local is_autostart="$2"
-    local exec_cmd="firefox --new-instance --kiosk \"$KIOSK_HTML\""
+    # Force software rendering to avoid GPU issues in kiosk mode
+    local exec_cmd="env LIBGL_ALWAYS_SOFTWARE=1 $FIREFOX_BIN --kiosk \"$KIOSK_HTML\""
     
     # Add delay for autostart to prevent race conditions with the window manager
     if [ "$is_autostart" = "true" ]; then
-        exec_cmd="sh -c 'sleep 5; firefox --new-instance --kiosk \"$KIOSK_HTML\"'"
+        exec_cmd="sh -c 'sleep 5; env LIBGL_ALWAYS_SOFTWARE=1 $FIREFOX_BIN --kiosk \"$KIOSK_HTML\"'"
     fi
     
     cat <<EOF > "$output_path"
@@ -121,11 +128,16 @@ disable_kiosk() {
 
 check_dependencies() {
     echo "[1/4] Checking Firefox installation..."
-    if ! command -v firefox &> /dev/null; then
-        echo "    Installing Firefox..."
-        sudo apt update && sudo apt install -y firefox
+    if [ -f "$HOME/.local/opt/firefox/firefox" ]; then
+        echo "    User-installed Firefox found at: $HOME/.local/opt/firefox/firefox"
+    elif ! command -v firefox &> /dev/null; then
+        echo "    [!] Firefox not found. Please install Firefox first."
+        echo "    Options:"
+        echo "      1. Install user version: Download from mozilla.org and extract to ~/.local/opt/firefox/"
+        echo "      2. Install via apt: sudo apt install firefox"
+        exit 1
     else
-        echo "    Firefox already installed"
+        echo "    System Firefox found: $(which firefox)"
     fi
 
     echo ""

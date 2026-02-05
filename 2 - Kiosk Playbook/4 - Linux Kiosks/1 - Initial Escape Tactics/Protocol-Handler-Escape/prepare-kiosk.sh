@@ -41,12 +41,22 @@ fi
 generate_desktop_entry() {
     local output_path="$1"
     local is_autostart="$2"
-    # Force software rendering to avoid GPU issues in kiosk mode
-    local exec_cmd="env LIBGL_ALWAYS_SOFTWARE=1 $FIREFOX_BIN --kiosk \"$KIOSK_HTML\""
+    local wrapper_script="$KIOSK_DIR/start-kiosk.sh"
     
-    # Add delay for autostart to prevent race conditions with the window manager
+    # Create the wrapper script
+    cat <<SCRIPT > "$wrapper_script"
+#!/bin/bash
+export LIBGL_ALWAYS_SOFTWARE=1
+export MOZ_ENABLE_WAYLAND=0
+"$FIREFOX_BIN" --kiosk "$KIOSK_HTML"
+SCRIPT
+    chmod +x "$wrapper_script"
+    
+    local exec_cmd="$wrapper_script"
+    
+    # Add delay for autostart
     if [ "$is_autostart" = "true" ]; then
-        exec_cmd="sh -c 'sleep 5; env LIBGL_ALWAYS_SOFTWARE=1 $FIREFOX_BIN --kiosk \"$KIOSK_HTML\"'"
+        exec_cmd="sh -c 'sleep 5; $wrapper_script'"
     fi
     
     cat <<EOF > "$output_path"

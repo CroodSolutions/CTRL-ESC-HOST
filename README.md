@@ -1,14 +1,14 @@
-<p align="center">
-  <img src="ctrleschost-logo.png" width="400" alt="CTRL+ESC+HOST Logo">
-</p>
-
 # CTRL+ESC+HOST
 
 CTRL+ESC+HOST is a collection of atomic tests to identify and validate escape-to-host flaws, in particular focused on kiosks and presented applications. It is organized into a folder structure including sections to introduce the basics of escaping to host, playbooks for testing kiosks and presented apps, as well as write-ups and walkthroughs of several real-world escape-to-host problems we were able to find and fix using the framework. Finally, there is a section to organize defensive recommendations to reduce the risk associated with kiosks and presented applications.
 
+<p align="center">
+  <img src="ctrleschost-logo.png" width="400" alt="CTRL+ESC+HOST Logo">
+</p>
+
 ---
 
-## 🚀 How to use this framework
+## How to use this framework
 
 This framework is both for red-teams doing assessments that may involve kiosks or presented apps, as well as defenders looking to run tests to see when it is possible to escape kiosk or presented app trust boundaries. We have organized this framework into a guided journey through a series of interconnected atomic tests, to expose security flaws, risks, and issues you do not want to allow to go live - at least, without understanding each risk tradeoff.
 
@@ -25,13 +25,13 @@ The most robust section relates to **Win11 Kiosk escapes**, which are organized 
 
 ---
 
-## 💡 Why are we creating this?
+## Why are we creating this?
 
 In our own testing, a few of us have noticed that escape-to-host flaws are quite prevalent and we believe this is a topic that requires more attention. In some cases, vendors ignore these flaws until there is a lot of attention on the topic (e.g., customer tickets from red team engagements or large public dialog related to something). We have assembled a collection of resources and techniques to provide a playbook for escape-to-host testing, which can be applied across various scenarios (from presented apps to kiosks). Let's be real - we want to hack all the kiosks. They are like Pokemon, except with screens and USB ports.
 
 ---
 
-## 📖 Backstory
+## Backstory
 
 This all started with a few of us working an attack on some Citrix ADC infrastructure, 3-4 years back. Once we were done with the normal SOC/IR steps, we decided to purple team Citrix a bit, just to see what attack surface existed that made it such an enticing target. Now of course, there have been countless RCEs with their products before and also since, but something else caught our attention. Some of us stayed up until 3-AM, exploring these flaws, which we later reported to them (w/ FlawdC0de & Kitsune-Sec). We found numerous ways to escape to host from a presented app, and ultimately compromise the underlying system(s). The response from Citrix was that they did not really care and that it was up to each customer to lock down ADC for each app via GPO. This was confirmed by Kitsune-Sec finding resources where people had found the Citrix flaws, long before us (so they were not really even new, at least not most of them).
 
@@ -82,16 +82,16 @@ The direct work on this started with **Kitsune-Sec** and **FlawdC0de**, and late
 
 ---
 
-## 📚 References and Resources
+## References and Resources
 
-### 🎙️ Talks and Presentations
+### Talks and Presentations
 
 *   Special thanks to the foundation established by **Paul Craig**, with his foundational work on the topic of kiosk hacking, including his outstanding talk at **Def Con 19**: [YouTube Link](https://www.youtube.com/watch?v=LttwrHrLXoA)
 *   And more recently **Jacob Steadman** at **bSides Belfast**: [YouTube Link](https://www.youtube.com/watch?v=pZkpH3XV3h0)
 
 *(think we even worked on some of the same things in parallel, so we should collaborate on something sometime)*
 
-### 📝 Articles and Blog Posts
+### Articles and Blog Posts
 
 *   [Breaking out of Citrix and other restricted desktop environments](https://www.pentestpartners.com/security-blog/breaking-out-of-citrix-and-other-restricted-desktop-environments/#usefulsystemadministrativetools)
 *   [Escaping from GUI Applications - HackTricks](https://book.hacktricks.wiki/en/hardware-physical-access/escaping-from-gui-applications.html)

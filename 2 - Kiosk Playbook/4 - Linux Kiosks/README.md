@@ -2,7 +2,9 @@ This section organizes Linux kiosk escape workflows from initial breakout to pos
 
 ## Video Walkthrough
 
-[protocol-escape-ctrl-escp-host.mp4](assets/protocol-escape-ctrl-escp-host.mp4)
+<video controls src="https://raw.githubusercontent.com/christian-taillon/CTRL-ESC-HOST/main/2%20-%20Kiosk%20Playbook/4%20-%20Linux%20Kiosks/assets/protocol-escape-ctrl-escp-host.mp4" style="max-width: 100%;"></video>
+
+If the player does not render in your viewer, open the file directly: [assets/protocol-escape-ctrl-escp-host.mp4](assets/protocol-escape-ctrl-escp-host.mp4)
 
 ## Contents
 

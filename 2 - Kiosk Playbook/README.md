@@ -19,14 +19,9 @@ If it is just a web browser displaying a limited browsing context, such as a spe
 
 Yes – we actually see that last one, and far too often. In the scenario with an app or browser just running in full-screen mode, it could be any OS with a policy set to prevent screen lockout (easy to validate). For Chrome or Windows, it is usually easy to tell based upon the actual hardware, unless there is an enclosure that prevents visualization of the computer itself. We all know airport kiosks are running Windows because on 7/19/2024 the CrowdStrike outages caused numerous systems in airports to display a Windows BSOD.
 
-## Proprietary Software & Linux Nuances
+## Proprietary Software
 
 In fact, kiosks that are just a native OS running a proprietary application that applies its own kiosk restrictions (not in native/OS Kiosk mode) seem to be all too common. This is important because, in our experience, proprietary kiosk software running on Windows is far less secure than the native functionality built into the OS by large vendors.
-
-### The Linux Container Gap
-For Linux-based kiosks, a specific architectural weakness often exists known as the **"Container Gap"**. Even if the kiosk browser is strictly sandboxed (e.g., via Snap or Flatpak), it often relies on the host OS to handle external protocols like `mailto:` or `tel:`.
-*   **The Pivot:** Clicking a "Contact Us" email link can trigger the OS to launch an external mail client (like Thunderbird).
-*   **The Escape:** Because this secondary application launches in the user's context (outside the browser's sandbox), it can be used to traverse to a File Manager and launch a Terminal, effectively bypassing the kiosk entirely.
 
 ## Interaction & Attack Surface
 
@@ -46,8 +41,6 @@ This playbook is organized into directories by Operating System and Vendor to gu
 *   **[`3 - Chrome Kiosk Mode`](./3%20-%20Chrome%20Kiosk%20Mode)**: Escapes for ChromeOS and Enterprise Kiosk modes.
 *   **[`4 - Linux Kiosks`](./4%20-%20Linux%20Kiosks)**: **(New)** Covers Linux-specific vectors like Protocol Handler Escapes and Environment configuration (`prepare-kiosk.sh`).
 *   **5-7**: Android, iPad, and macOS Kiosk sections.
-
-For the latest updates, visit the repository: [https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook)
 
 ---
 *Remember, only test on systems that are your systems, or where you have written permission as part of the scope of a penetration test or approved bug bounty program. Follow all ethical guidelines of ethical hacking and industry best practices that may apply to your testing scenario.*

@@ -12,3 +12,8 @@ While some of these are easier and more streamlined than others and they all wor
 Note that the File Open dialog box seems to offer quite a bit more attack surface, when compared with the File Save dialog box. 
 
 Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.
+
+
+
+https://github.com/user-attachments/assets/db6682eb-87b1-4f24-9d62-7299be10eda6
+

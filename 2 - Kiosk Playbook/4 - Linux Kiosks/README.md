@@ -2,7 +2,7 @@ This section organizes Linux kiosk escape workflows from initial breakout to pos
 
 ## Video Walkthrough
 
-[![Watch the video](https://img.youtube.com/vi/GCcQD3k4V90/maxresdefault.jpg)](https://youtu.be/GCcQD3k4V90)
+[protocol-escape-ctrl-escp-host.mp4](assets/protocol-escape-ctrl-escp-host.mp4)
 
 ## Contents
 

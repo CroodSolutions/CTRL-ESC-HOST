@@ -1,4 +1,4 @@
-Download LotL Binaries or Payload from the Web 
+## Download LotL Binaries or Payload from the Web 
 
 For this tactic, all you need to do is stage a LotL binary or payload somewhere on the internet, such as your favorite file sharing service, and then download. While there are numerous tactics for hiding an exe so it will not be blocked by cloud sharing services, it is important to remember that whatever method you use needs to work within the constraints of kiosk mode.
 
@@ -18,6 +18,6 @@ Key points for finding a sub-domain that allows you to stage files:
 
 Caveat: If browser-based download capabilities are completely disabled, this tactic will not work (instead try USB Smuggling or Lenovo MS Teams techniques).  
 
-Now proceed to Rename LotL or Payload as Msedge.  
+Now proceed to [Rename LotL or Payload as Msedge](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access/2%20-%20Next%20Steps/Rename%20LotL%20or%20Payload%20as%20Msedge.md)  
 
 Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices

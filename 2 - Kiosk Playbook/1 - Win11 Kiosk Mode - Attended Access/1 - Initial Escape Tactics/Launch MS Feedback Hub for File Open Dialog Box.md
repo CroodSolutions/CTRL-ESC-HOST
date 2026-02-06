@@ -14,4 +14,10 @@ See Next Steps section on [Launch Terminal from File Open Dialog Box via Preview
 
 Feedback Hub seems to expose a lot of additional functionality, which deserves further testing, including an ability to share feedback. While this atomic test exposes one pathway from kiosk to shell, there may be other yet undiscovered attack surface associated with Feedback Hub being reachable in kiosk mode.  
 
-Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices
+Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.
+
+
+
+https://github.com/user-attachments/assets/82d877ff-4058-4ed3-b97a-2fd5334b5baa
+
+

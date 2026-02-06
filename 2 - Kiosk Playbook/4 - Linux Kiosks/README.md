@@ -2,9 +2,7 @@ This section organizes Linux kiosk escape workflows from initial breakout to pos
 
 ## Video Walkthrough
 
-[![protocol-escape demo](assets/protocol-escape-thumb.png)](assets/protocol-escape-ctrl-escp-host.mp4)
-
-Click the thumbnail to open the video in GitHub's file viewer (which will render a player).
+[![Watch the video](https://img.youtube.com/vi/GCcQD3k4V90/maxresdefault.jpg)](https://youtu.be/GCcQD3k4V90)
 
 ## Contents
 

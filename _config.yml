@@ -1,0 +1,50 @@
+title: CTRL+ESC+HOST
+author: CTRL+ESC+HOST Contributors
+description: >-
+  A playbook of atomic tests and walkthroughs to identify and validate escape-to-host
+  flaws in kiosks and presented applications.
+
+# Project Pages base path. Works for both forks and upstream.
+baseurl: "/CTRL-ESC-HOST"
+
+remote_theme: daattali/beautiful-jekyll@6.0.1
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+navbar-links:
+  "Introduction": "/introduction/"
+  "Kiosk Playbook": "/kiosk-playbook/"
+  "Presented Apps": "/presented-app-playbook/"
+  "Scenarios": "/escape-scenarios/"
+  "Defensive": "/defensive-recommendations/"
+  "GitHub": "https://github.com/CroodSolutions/CTRL-ESC-HOST"
+
+timezone: "America/Phoenix"
+highlighter: rouge
+markdown: kramdown
+
+navbar-col: "#0e0e0e"
+navbar-text-col: "#ffffff"
+navbar-border-col: "#0e0e0e"
+page-col: "#ffffff"
+text-col: "#0e0e0e"
+link-col: "#289dff"
+hover-col: "#289dff"
+footer-col: "#0e0e0e"
+footer-text-col: "#ffffff"
+footer-link-col: "#289dff"
+footer-hover-col: "#289dff"
+
+exclude:
+  - vendor
+  - .bundle
+  - .jekyll-cache
+  - _site
+  - node_modules
+  - tools
+  - Gemfile
+  - Gemfile.lock

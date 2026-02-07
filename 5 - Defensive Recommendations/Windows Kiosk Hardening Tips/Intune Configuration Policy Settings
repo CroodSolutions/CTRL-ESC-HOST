@@ -1,0 +1,81 @@
+#Base Configuration Policy settings
+
+
+Administrative Templates
+
+Printers
+- List of Approved USB-connected print devices: Enabled (vid/pid - Device)
+
+Windows Components
+
+Windows PowerShell
+- Execution Policy (User)
+* Allow only signed scripts
+* Turn on Script Execution: Enabled
+- Execution Policy (Device)
+* Allow local scripts and remote signed scripts
+* Turn on Script Execution (Device): Enabled
+
+App Package Deployment (Device = True for all below)
+- Microsoft Copilot
+- Microsoft Photos
+- Xbox TCUI
+- Windows Terminal
+- Snipping Tool
+- Windows Notepad
+- Microsoft Sticky Notes
+- Microsoft Solitaire Collection
+- Xbox Speech To Text Overlay
+- Windows Media Player
+- Quick Assist
+- Paint
+- Microsoft Clipchamp
+- Windows Sound Recorder
+- Microsoft To Do
+- MSN Weather
+- Microsoft Teams
+- Microsoft News
+- Xbox Gaming App
+- Xbox Identity Provider
+- Microsoft 365 Copilot
+- Windows Calculator
+- Feedback Hub
+- Outlook for Windows
+- Windows Camera
+
+Remove Default Microsoft Store packages from the system: Enabled
+
+System
+
+Removable Storage Access
+- Removable Disks: Deny execute access — Enabled
+- Removable Disks: Deny read access — Enabled
+
+Filesystem → NTFS
+- Do not allow compression on all NTFS volumes
+
+Experience
+- Do Not Show Feedback Notifications (disabled)
+
+Microsoft App Store
+- Require Private Store Only
+
+Microsoft Edge Settings
+- Allow importing of favorites: Disabled
+- Allow users to edit favorites: Disabled
+- Block access to a list of URLs: Enabled
+- Disable specific keyboard shortcuts (Device): JSON list
+
+Allowed URLs
+- Defined list (Device)
+
+Search Bar
+- Enabled: Disabled
+
+OneDrive
+- Allow users to contact Microsoft for feedback and support
+
+Task Manager
+- Allow End Task: Block
+
+ 

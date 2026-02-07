@@ -1,0 +1,30 @@
+#Endpoint security Attack Surface Reduction template
+
+System > Device Installation > Device Installation Restrictions
+Apply layered order of evaluation for Allow and Prevent device installation policies across all device match criteria
+Setting: Disabled
+
+Allow installation of devices that match any of these device IDs
+Setting: Enabled
+Allowed Device IDs:
+
+
+Prevent installation of devices not described by other policy settings
+Setting: Enabled
+
+System > Removable Storage Access
+Connectivity
+Allow Bluetooth
+Setting: Disallow Bluetooth
+
+The Bluetooth radio in the control panel is disabled.
+Users cannot turn Bluetooth on.
+
+
+DMA Guard – Device Enumeration Policy
+Setting: Block all (Most restrictive)
+
+Allow Storage Card
+Setting: SD card use is not allowed; USB drives are disabled.
+#This restriction does not prevent programmatic access to the storage card.
+

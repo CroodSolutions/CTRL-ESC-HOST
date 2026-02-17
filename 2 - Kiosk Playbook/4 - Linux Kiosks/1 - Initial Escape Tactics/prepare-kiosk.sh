@@ -13,6 +13,14 @@ DESKTOP_FILE_NAME="skyline-kiosk.desktop"
 AUTOSTART_DIR="$HOME/.config/autostart"
 APP_DIR="$HOME/.local/share/applications"
 DESKTOP_DIR="$HOME/Desktop"
+OPTIONAL_DISABLE_SUPER_KEY="false"
+OPTIONAL_ENABLE_GDM_AUTOLOGIN="false"
+OPTIONAL_ADDITIONAL_CHROME_FLAGS="false"
+
+print_usage() {
+  echo "Usage: $0 [--kioskmode on|off] [--disable-super-key] [--enable-gdm-autologin] [--additioal-chorme]"
+  echo "       $0 [--help|--helper]"
+}
 
 # --- HELPER FUNCTIONS ---
 
@@ -119,13 +127,21 @@ generate_desktop_entry() {
   local output_path="$1"
   local is_autostart="$2"
   local wrapper_script="$KIOSK_DIR/start-kiosk.sh"
+  local browser_launch_cmd
+
+  browser_launch_cmd="\"$BROWSER_BIN\" --kiosk \"$KIOSK_HTML\""
+
+  if [ "$OPTIONAL_ADDITIONAL_CHROME_FLAGS" = "true" ] && [[ "$BROWSER_NAME" == "chromium" || "$BROWSER_NAME" == "google-chrome" ]]; then
+    browser_launch_cmd="\"$BROWSER_BIN\" --noerrdialogs --disable-infobars --no-first-run --enable-features=OverlayScrollbar --start-maximized --kiosk \"$KIOSK_HTML\""
+    echo "    [+] Applying additional Chromium/Chrome launch flags."
+  fi
 
   # Create the wrapper script
   cat <<SCRIPT >"$wrapper_script"
 #!/bin/bash
 export LIBGL_ALWAYS_SOFTWARE=1
 export MOZ_ENABLE_WAYLAND=0
-"$BROWSER_BIN" --kiosk "$KIOSK_HTML"
+$browser_launch_cmd
 SCRIPT
   chmod +x "$wrapper_script"
 
@@ -215,6 +231,130 @@ disable_kiosk() {
   fi
 }
 
+disable_gnome_super_key() {
+  echo "Configuring GNOME Super key behavior..."
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping Super key change."
+    return
+  fi
+
+  if ! gsettings writable org.gnome.mutter overlay-key &>/dev/null; then
+    echo "    [!] GNOME overlay key setting is not writable. Skipping."
+    return
+  fi
+
+  gsettings set org.gnome.mutter overlay-key ''
+  echo "    [+] Disabled GNOME Super key overlay shortcut."
+}
+
+configure_gdm_autologin() {
+  local gdm_conf="/etc/gdm/custom.conf"
+  local tmp_file
+  local backup_file
+
+  echo "Configuring GDM automatic login for user 'kiosk'..."
+
+  if ! sudo test -f "$gdm_conf"; then
+    echo "    [!] $gdm_conf not found. Skipping GDM auto-login configuration."
+    return
+  fi
+
+  backup_file="${gdm_conf}.bak_pre_kiosk_$(date +%Y%m%d%H%M%S)"
+  sudo cp "$gdm_conf" "$backup_file"
+  echo "    [+] Backup created: $backup_file"
+
+  tmp_file=$(mktemp)
+
+  sudo awk '
+  BEGIN { in_daemon=0; daemon_found=0; has_enable=0; has_login=0 }
+
+  /^\[daemon\]/ {
+    daemon_found=1
+    in_daemon=1
+    print
+    next
+  }
+
+  /^\[/ {
+    if (in_daemon) {
+      if (!has_enable) print "AutomaticLoginEnable=True"
+      if (!has_login) print "AutomaticLogin=kiosk"
+    }
+    in_daemon=0
+    print
+    next
+  }
+
+  {
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLoginEnable[[:space:]]*=/) {
+      if (!has_enable) {
+        print "AutomaticLoginEnable=True"
+        has_enable=1
+      }
+      next
+    }
+
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLogin[[:space:]]*=/) {
+      if (!has_login) {
+        print "AutomaticLogin=kiosk"
+        has_login=1
+      }
+      next
+    }
+
+    print
+  }
+
+  END {
+    if (!daemon_found) {
+      print ""
+      print "[daemon]"
+      print "AutomaticLoginEnable=True"
+      print "AutomaticLogin=kiosk"
+    } else if (in_daemon) {
+      if (!has_enable) print "AutomaticLoginEnable=True"
+      if (!has_login) print "AutomaticLogin=kiosk"
+    }
+  }
+  ' "$gdm_conf" >"$tmp_file"
+
+  sudo install -m 644 "$tmp_file" "$gdm_conf"
+  rm -f "$tmp_file"
+
+  echo "    [+] Updated $gdm_conf"
+  echo "    [+] Applied under [daemon]: AutomaticLoginEnable=True, AutomaticLogin=kiosk"
+}
+
+prompt_optional_features() {
+  local answer
+
+  echo ""
+  read -r -p "Disable GNOME Super key (Activities overlay)? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_DISABLE_SUPER_KEY="true"
+    ;;
+  esac
+
+  read -r -p "Enable GDM auto-login as user 'kiosk'? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_ENABLE_GDM_AUTOLOGIN="true"
+    ;;
+  esac
+}
+
+apply_optional_features() {
+  if [ "$OPTIONAL_DISABLE_SUPER_KEY" = "true" ]; then
+    disable_gnome_super_key
+  fi
+
+  if [ "$OPTIONAL_ENABLE_GDM_AUTOLOGIN" = "true" ]; then
+    configure_gdm_autologin
+  fi
+}
+
 check_dependencies() {
   echo ""
   echo "[1/3] Checking Thunderbird installation..."
@@ -247,18 +387,55 @@ check_dependencies() {
 # --- MAIN EXECUTION ---
 
 # Handle Arguments
-if [[ "$1" == "--kioskmode" ]]; then
-  if [[ "$2" == "off" ]]; then
+KIOSKMODE_ARG=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --kioskmode)
+    if [[ -z "$2" ]]; then
+      print_usage
+      exit 1
+    fi
+    KIOSKMODE_ARG="$2"
+    shift 2
+    ;;
+  --disable-super-key)
+    OPTIONAL_DISABLE_SUPER_KEY="true"
+    shift
+    ;;
+  --enable-gdm-autologin)
+    OPTIONAL_ENABLE_GDM_AUTOLOGIN="true"
+    shift
+    ;;
+  --additioal-chorme | --additional-chrome)
+    OPTIONAL_ADDITIONAL_CHROME_FLAGS="true"
+    shift
+    ;;
+  -h | --help | --helper)
+    print_usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown argument: $1"
+    print_usage
+    exit 1
+    ;;
+  esac
+done
+
+if [[ -n "$KIOSKMODE_ARG" ]]; then
+  if [[ "$KIOSKMODE_ARG" == "off" ]]; then
     disable_kiosk
     exit 0
   fi
-  if [[ "$2" != "on" ]]; then
-    echo "Usage: $0 [--kioskmode on|off]"
+  if [[ "$KIOSKMODE_ARG" != "on" ]]; then
+    print_usage
     exit 1
   fi
   # If "on", assume full persistence
   check_dependencies
   setup_autostart_launcher
+  apply_optional_features
   exit 0
 fi
 
@@ -284,6 +461,7 @@ echo ""
 echo "2) Full Persistence (Autostart)"
 echo "   - Automatically launches Kiosk on every login."
 echo "   - Uses ~/.config/autostart (Safe method)."
+echo "   - Optional hardening: disable Super key and GDM auto-login."
 echo "   - To exit kiosk: Alt+F4"
 echo ""
 echo "3) Remove/Disable Kiosk"
@@ -299,6 +477,8 @@ case "$choice" in
   ;;
 2)
   setup_autostart_launcher
+  prompt_optional_features
+  apply_optional_features
   echo ""
   echo "Done! The kiosk will start next time you log in."
   ;;

@@ -16,9 +16,10 @@ DESKTOP_DIR="$HOME/Desktop"
 OPTIONAL_DISABLE_SUPER_KEY="false"
 OPTIONAL_ENABLE_GDM_AUTOLOGIN="false"
 OPTIONAL_ADDITIONAL_CHROME_FLAGS="false"
+OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="false"
 
 print_usage() {
-  echo "Usage: $0 [--kioskmode on|off] [--disable-super-key] [--enable-gdm-autologin] [--additioal-chorme]"
+  echo "Usage: $0 [--kioskmode on|off] [--disable-super-key] [--enable-gdm-autologin] [--additioal-chorme] [--global-shortcut-lockdown]"
   echo "       $0 [--help|--helper]"
 }
 
@@ -248,6 +249,140 @@ disable_gnome_super_key() {
   echo "    [+] Disabled GNOME Super key overlay shortcut."
 }
 
+set_gsettings_key() {
+  local schema="$1"
+  local key="$2"
+  local value="$3"
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping GNOME shortcut override."
+    return 1
+  fi
+
+  if ! gsettings writable "$schema" "$key" &>/dev/null; then
+    echo "    [!] $schema::$key is not writable. Skipping."
+    return 1
+  fi
+
+  gsettings set "$schema" "$key" "$value"
+  return 0
+}
+
+reset_gsettings_key() {
+  local schema="$1"
+  local key="$2"
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping GNOME shortcut reset."
+    return 1
+  fi
+
+  if ! gsettings writable "$schema" "$key" &>/dev/null; then
+    echo "    [!] $schema::$key is not writable. Skipping reset."
+    return 1
+  fi
+
+  gsettings reset "$schema" "$key"
+  return 0
+}
+
+configure_global_shortcut_lockdown() {
+  local custom_schema="org.gnome.settings-daemon.plugins.media-keys"
+  local base_path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+  local bind_close_path="${base_path}/kiosk-block-close/"
+  local bind_newtab_path="${base_path}/kiosk-block-new-tab/"
+  local bind_newwindow_path="${base_path}/kiosk-block-new-window/"
+  local bind_showdesktop_path="${base_path}/kiosk-block-show-desktop/"
+  local bind_overview_path="${base_path}/kiosk-block-overview/"
+
+  echo "Applying global GNOME shortcut lockdown for kiosk mode..."
+
+  # Intercept high-risk key combinations before apps receive them.
+  set_gsettings_key "$custom_schema" custom-keybindings "['$bind_close_path', '$bind_newtab_path', '$bind_newwindow_path', '$bind_showdesktop_path', '$bind_overview_path']" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" name "'Kiosk Block Close Tab'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" binding "'<Primary>w'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" name "'Kiosk Block New Tab'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" binding "'<Primary>t'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" name "'Kiosk Block New Window'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" binding "'<Primary>n'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" name "'Kiosk Block Show Desktop'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" binding "'<Super>d'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" name "'Kiosk Block Overview'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" binding "'<Super>s'" || true
+
+  # Disable GNOME window-manager shortcuts commonly used to escape kiosk.
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" close "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" minimize "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" show-desktop "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-left "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-right "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-up "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-down "[]" || true
+
+  # Disable a few shell launcher shortcuts that can break kiosk flow.
+  set_gsettings_key "org.gnome.shell.keybindings" toggle-overview "[]" || true
+  set_gsettings_key "org.gnome.shell.keybindings" toggle-application-view "[]" || true
+
+  echo "    [+] Applied GNOME shortcut lockdown (Ctrl+W/Ctrl+T/Ctrl+N, show desktop, overview, minimize/workspace switching)."
+}
+
+cleanup_global_shortcut_lockdown() {
+  local custom_schema="org.gnome.settings-daemon.plugins.media-keys"
+  local base_path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+  local bind_close_path="${base_path}/kiosk-block-close/"
+  local bind_newtab_path="${base_path}/kiosk-block-new-tab/"
+  local bind_newwindow_path="${base_path}/kiosk-block-new-window/"
+  local bind_showdesktop_path="${base_path}/kiosk-block-show-desktop/"
+  local bind_overview_path="${base_path}/kiosk-block-overview/"
+
+  echo "Cleaning up GNOME shortcut lockdown overrides..."
+
+  reset_gsettings_key "$custom_schema" custom-keybindings || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" binding || true
+
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" close || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" minimize || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" show-desktop || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-left || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-right || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-up || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-down || true
+
+  reset_gsettings_key "org.gnome.shell.keybindings" toggle-overview || true
+  reset_gsettings_key "org.gnome.shell.keybindings" toggle-application-view || true
+
+  echo "    [+] Removed GNOME shortcut lockdown overrides."
+}
+
 configure_gdm_autologin() {
   local gdm_conf="/etc/gdm/custom.conf"
   local tmp_file
@@ -326,6 +461,88 @@ configure_gdm_autologin() {
   echo "    [+] Applied under [daemon]: AutomaticLoginEnable=True, AutomaticLogin=kiosk"
 }
 
+cleanup_gdm_autologin() {
+  local gdm_conf="/etc/gdm/custom.conf"
+  local tmp_file
+  local backup_file
+
+  echo "Restoring GDM auto-login settings to disabled..."
+
+  if ! sudo test -f "$gdm_conf"; then
+    echo "    [!] $gdm_conf not found. Skipping GDM cleanup."
+    return
+  fi
+
+  backup_file="${gdm_conf}.bak_pre_kiosk_cleanup_$(date +%Y%m%d%H%M%S)"
+  sudo cp "$gdm_conf" "$backup_file"
+  echo "    [+] Backup created: $backup_file"
+
+  tmp_file=$(mktemp)
+
+  sudo awk '
+  BEGIN { in_daemon=0; daemon_found=0; has_enable=0 }
+
+  /^\[daemon\]/ {
+    daemon_found=1
+    in_daemon=1
+    print
+    next
+  }
+
+  /^\[/ {
+    if (in_daemon && !has_enable) {
+      print "AutomaticLoginEnable=False"
+      has_enable=1
+    }
+    in_daemon=0
+    print
+    next
+  }
+
+  {
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLoginEnable[[:space:]]*=/) {
+      if (!has_enable) {
+        print "AutomaticLoginEnable=False"
+        has_enable=1
+      }
+      next
+    }
+
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLogin[[:space:]]*=/) {
+      next
+    }
+
+    print
+  }
+
+  END {
+    if (!daemon_found) {
+      print ""
+      print "[daemon]"
+      print "AutomaticLoginEnable=False"
+    } else if (in_daemon && !has_enable) {
+      print "AutomaticLoginEnable=False"
+    }
+  }
+  ' "$gdm_conf" >"$tmp_file"
+
+  sudo install -m 644 "$tmp_file" "$gdm_conf"
+  rm -f "$tmp_file"
+
+  echo "    [+] Updated $gdm_conf"
+  echo "    [+] Applied under [daemon]: AutomaticLoginEnable=False and removed AutomaticLogin"
+}
+
+cleanup_optional_features() {
+  echo "Cleaning up optional kiosk hardening flags..."
+
+  reset_gsettings_key "org.gnome.mutter" overlay-key || true
+  cleanup_global_shortcut_lockdown
+  cleanup_gdm_autologin
+
+  echo "    [+] Optional feature cleanup complete."
+}
+
 prompt_optional_features() {
   local answer
 
@@ -343,6 +560,14 @@ prompt_optional_features() {
     OPTIONAL_ENABLE_GDM_AUTOLOGIN="true"
     ;;
   esac
+
+  read -r -p "Apply global shortcut lockdown for kiosk escape keys? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="true"
+    ;;
+  esac
+
 }
 
 apply_optional_features() {
@@ -352,6 +577,10 @@ apply_optional_features() {
 
   if [ "$OPTIONAL_ENABLE_GDM_AUTOLOGIN" = "true" ]; then
     configure_gdm_autologin
+  fi
+
+  if [ "$OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN" = "true" ]; then
+    configure_global_shortcut_lockdown
   fi
 }
 
@@ -411,6 +640,10 @@ while [[ $# -gt 0 ]]; do
     OPTIONAL_ADDITIONAL_CHROME_FLAGS="true"
     shift
     ;;
+  --global-shortcut-lockdown)
+    OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="true"
+    shift
+    ;;
   -h | --help | --helper)
     print_usage
     exit 0
@@ -426,6 +659,7 @@ done
 if [[ -n "$KIOSKMODE_ARG" ]]; then
   if [[ "$KIOSKMODE_ARG" == "off" ]]; then
     disable_kiosk
+    cleanup_optional_features
     exit 0
   fi
   if [[ "$KIOSKMODE_ARG" != "on" ]]; then
@@ -484,6 +718,7 @@ case "$choice" in
   ;;
 3)
   disable_kiosk
+  cleanup_optional_features
   if [ -f "$DESKTOP_DIR/$DESKTOP_FILE_NAME" ]; then
     rm "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
     echo "    [-] Removed Desktop shortcut."

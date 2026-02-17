@@ -17,9 +17,11 @@ This directory collects initial escape tactics and supporting resources for test
   - `--no-first-run`
   - `--enable-features=OverlayScrollbar`
   - `--start-maximized`
+- `--global-shortcut-lockdown`: Adds GNOME global overrides for common kiosk escape shortcuts (for example `Ctrl+W`, `Ctrl+T`, `Ctrl+N`, `Super+D`, `Super+S`) and disables selected WM/Shell shortcuts such as close/minimize/show-desktop/workspace switching.
 - `--help` / `--helper`: Show script usage.
 
 These are optional features. Existing kiosk setup behavior remains unchanged unless you opt in.
+When you run `--kioskmode off` (or choose Remove/Disable Kiosk), the script now also performs best-effort cleanup for optional hardening changes.
 
 ## Notes
 

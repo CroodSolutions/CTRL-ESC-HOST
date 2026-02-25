@@ -7,4 +7,6 @@ This attack is relevant for use cases where very aggressive policies have been a
 
 Why does this matter? Because, across all of these organizations and providers, it is highly likely there is something available where you can setup an account (free or paid) and attach a file to some sort of ticket, request, inquiry, or message. Chances are that if that file is an LotL binary, beacon payload, RMM-install, one of these things will give the adversary covert control of a host, with very low detectability.  
 
-
+Subdomain smuggling attacks live at the intersection of two problems:
+ - Renaming or otherwise hiding LotL or beacon payloads, in a way that can sneak them through many barriers, including kiosk modes and also some isolation browsers.
+ - 

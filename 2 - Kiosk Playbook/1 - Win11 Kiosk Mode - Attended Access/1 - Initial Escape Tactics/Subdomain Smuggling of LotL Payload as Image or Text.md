@@ -31,6 +31,8 @@ On the kiosk:
  - This view will only show executables, so click "New Folder" and right click in the preview area.
  - Select "Open in new window" and you should now see your downloaded file.
  - Rename it to msedge.exe and type msedge in the browser bar / hit enter.
+ - And, you have shell or payload execution.
+ - If you selected FTP, simply type !PowerShell.exe to get a full shell on the kiosk.
 
 Special thanks to [Jake Frenzel](https://github.com/jakefrenzel) for his great work testing and refining this, as well as for the discovery that even when it shows that the download has failed, it actually succeeds.  
 

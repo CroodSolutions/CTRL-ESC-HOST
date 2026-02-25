@@ -77,6 +77,7 @@ Key contributors to our understanding of this topic, and also direct mentors and
 *   David Doyle
 *   [christian-taillon](https://github.com/christian-taillon)
 *   [Duncan4264](https://github.com/Duncan4264)
+*   [Jake Frenzel](https://github.com/jakefrenzel)
 
 The direct work on this started with **Kitsune-Sec** and **FlawdC0de**, and later included **Shammahwoods**, **Mspisces8**, and others. Many others contributed advice, mentoring, and/or were part of our background research.
 

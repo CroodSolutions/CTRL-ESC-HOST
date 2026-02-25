@@ -36,6 +36,10 @@ On the kiosk:
 
 Special thanks to [Jake Frenzel](https://github.com/jakefrenzel) for his great work testing and refining this, as well as for the discovery that even when it shows that the download has failed, it actually succeeds.  
 
+## For Additional Resources on HTTP Smuggling Attacks See SmuggleKing
+
+For futher resources related to testing for Web Payload Smuggling attacks, check out our other project [SmuggleKing](https://github.com/CroodSolutions/SmuggleKing).
+
 ## Legal and Ethical Notice
 
 Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.

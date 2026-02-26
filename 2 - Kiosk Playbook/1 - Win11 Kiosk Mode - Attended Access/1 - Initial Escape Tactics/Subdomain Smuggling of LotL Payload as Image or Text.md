@@ -42,4 +42,4 @@ For futher resources related to testing for Web Payload Smuggling attacks, check
 
 ## Legal and Ethical Notice
 
-Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices.
+Remember: Only test on your own kiosks and/or with proper written permission and following all appropriate laws and industry ethics / best practices. Our views are our own and do not reflect our employer or any associated volunteer organizations.  

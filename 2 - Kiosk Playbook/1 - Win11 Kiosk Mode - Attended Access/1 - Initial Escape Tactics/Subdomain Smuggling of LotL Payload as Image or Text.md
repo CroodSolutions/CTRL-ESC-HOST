@@ -16,7 +16,7 @@ Subdomain smuggling attacks live at the intersection of a few problems:
 ## Steps to Replicate / Testing Instructions
 
 On your system:
- - Recon phase: run nslookup to identify likely SaaS services to test nslookup -type=txt example.com (or other recon mentods).
+ - Recon phase: run nslookup to identify likely SaaS services to test nslookup -type=txt example.com (or other recon methods).
  - Identify a SaaS/cloud application or internal app you can gain access to easily (for a large enterprise, think of customer-facing apps).
  - Find a form that allows you to attach a file (messaging, ticketing, or customer service portals work well for this).
  - Select an LotL binary, such as ftp.exe or a [beacon payload](https://github.com/CroodSolutions/BeaconatorC2) and rename it as text file.

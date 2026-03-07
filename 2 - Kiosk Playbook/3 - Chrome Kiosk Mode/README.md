@@ -7,7 +7,7 @@ When attacking ChromeOS Kiosks, we have had success in two types of scenarios:
  - The first is when policies allow for some keyboard shortcuts, and the default Enterprise Enrollment (Device Registration) policy is less secure than the specific kiosk policy that is applied (escape to default policy).
  - Second we have noticed cases where the application itself, running on ChromeOS has security flaws that can be exploited.
 
-Most ChromeOS signage kiosks or Chromebooks have a restrictions on entering the device bios even upon reboot, although others have written of multiple hardware hacking approaches to this, apparently sometimes as simple as removing a control screw.  
+Most ChromeOS signage kiosks or Chromebooks have a restrictions on entering the device bios even upon reboot, although others have written of multiple hardware hacking approaches to this, apparently sometimes as simple as removing a Write Protect control screw.  
 
 So far, we have not found much in the way of flaws in ChromeOS allowing for native escape and takeover when properly configured. Here are a few reasons we suspect this is the case: 
 

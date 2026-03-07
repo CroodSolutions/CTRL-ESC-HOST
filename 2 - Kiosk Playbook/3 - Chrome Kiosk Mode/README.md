@@ -34,7 +34,7 @@ These two specific scenarios, underscore the more generic concept, of there bein
 
 We have compiled a quick-reference of ChromeOS keyboard shortcuts and things you can try when testing ChromeOS kiosks. Some of these are from general research and may include internet-suggested keyboard shortcuts that we have never actually seen work, but it is easy enough to try them anyway.  
 
-- [Generic ChromeOS Kiosk Test Cases](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode)
+- [Generic ChromeOS Kiosk Test Cases](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode/ChromeOS%20Generic%20Testing%20Resources.md)
 
 ## Legal and Ethical Reminder 
 

@@ -26,7 +26,7 @@ Note that most of these will not work, for a properly setup ChromeOS kiosk setup
 
  - Demo mode
  - Developer mode
- - Powerwash (x2)
+ - Powerwash
  - Diagnostics
  - Crosh (ChromeOS Shell)
 

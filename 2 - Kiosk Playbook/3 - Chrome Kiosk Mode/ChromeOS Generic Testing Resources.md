@@ -19,6 +19,8 @@ Note that most of these will not work, for a properly setup ChromeOS kiosk setup
  - Ctrl+Alt+S (exit kiosk)
  - Ctrl+Alt+Shift+X (debug)
  - Ctrl+Alt+K (kiosk enrollment)
+ - Ctrl+Alt+V (display system info)
+ - Ctrl+Alt+I (dev tools)
 
 ## Goals and Objectives
 
@@ -26,3 +28,8 @@ Note that most of these will not work, for a properly setup ChromeOS kiosk setup
  - Developer mode
  - Powerwash (x2)
  - Diagnostics
+ - Crosh (ChromeOS Shell)
+
+## Legal and Ethical Reminder 
+
+Only test on your kiosks or with permission such as part of a penetration test or bug bounty, in accordance with all applicable laws and ethical standards.

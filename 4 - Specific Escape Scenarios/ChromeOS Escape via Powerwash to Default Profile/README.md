@@ -8,9 +8,9 @@ In one testing scenario, this is exactly what happened. The device was a kiosk o
 
 ## Testing / Steps to Replicate (without screenshots)
 
-Note that this particular test was on a ChromeOS Kiosk running AppSpace signage kiosk software. However, we were also able to produce similar results with other types of kiosks, if similar misconfigurations were present. Precondition inlcudes the ability to connect a keyboard to the kiosk. 
+Note that this particular test was on a ChromeOS Kiosk running AppSpace signage kiosk software. However, we were also able to produce similar results with other types of kiosks, if similar misconfigurations were present. Precondition includes the ability to connect a keyboard to the kiosk. 
 
-The first step is to escape the applicaiton, which can be done a few ways:
+The first step is to escape the application, which can be done a few ways:
 
  - For App Space, Ctrl+Alt+Shift+M, followed by Ctrl+Alt+S.
  - For other apps try Esc+Power+Refresh, enter developer mode, and then when it fails proceed with the steps below.
@@ -39,7 +39,7 @@ Only test on your kiosks or with permission such as part of a penetration test o
 
 ## Appendix: A few Screen Shots / Photos
 
-Since this is not the kind of testing where we were on a VM, what we are left with is actual photos.  TL;DR, the photos suck / appologies in advance.
+Since this is not the kind of testing where we were on a VM, what we are left with is actual photos.  TL;DR, the photos suck / apologies in advance.
 
 Ctrl+Alt+Shift+M for APPSPACE Device Menu:
 

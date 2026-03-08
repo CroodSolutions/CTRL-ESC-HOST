@@ -42,7 +42,8 @@ We have compiled a quick-reference of ChromeOS keyboard shortcuts and things you
  - Demo mode does not seem to load properly for enterprise enrolled devices, but after it fails it does allow Powerwash from that screen.
  - Most settings menus are locked out from the reset screen; however, accessibility features and network settings are available.
  - This includes network proxy settings, which should allow for potential hijacking or payload introduction vectors.
- - Sometimes when a controlled failure causes restart, a WSOD / White Screen of Death can be introduced. 
+ - At a minimum, this provides a DOS vector where a proxy sinkhole can put it in a registration failure loop.
+ - Sometimes when a controlled failure causes restart, a WSOD / White Screen of Death can be introduce (still exploring this one).
 
 ## Legal and Ethical Reminder 
 

@@ -34,14 +34,15 @@ These two specific scenarios, underscore the more generic concept, of there bein
 
 We have compiled a quick-reference of ChromeOS keyboard shortcuts and things you can try when testing ChromeOS kiosks. Some of these are from general research and may include internet-suggested keyboard shortcuts that we have never actually seen work, but it is easy enough to try them anyway. 
 
+- [Generic ChromeOS Kiosk Test Cases](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode/ChromeOS%20Generic%20Testing%20Resources.md)
+
+
 ## Topics for Future Testing
 
  - Demo mode does not seem to load properly for enterprise enrolled devices, but after it fails it does allow Powerwash from that screen.
  - Most settings menus are locked out from the reset screen; however, accessibility features and network settings are available.
  - This includes network proxy settings, which should allow for potential hijacking or payload introduction vectors.
  - Sometimes when a controlled failure causes restart, a WSOD / White Screen of Death can be introduced. 
-
-- [Generic ChromeOS Kiosk Test Cases](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode/ChromeOS%20Generic%20Testing%20Resources.md)
 
 ## Legal and Ethical Reminder 
 

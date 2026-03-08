@@ -26,7 +26,7 @@ Variations on these outcomes/scenarios you may encounter:
  - Powerwash could just work from the kiosk app, depending on settings, so it is at least worth a try.
  - Proper configurations could mean the default enterprise profile for the device, IS the kiosk profile (meaning no escape here).
  - If not enterprise enrolled, at the other extreme, it could just reset to the state of a new / unlocked chrome book.
- - This approach could also be combined with the well-documented approach of removing the Write Protect control screw, although I have not yet tried this.
+ - This approach could also be combined with the well-documented approach of removing the Write Protect control screw (for older devices), although I have not yet tried this.
 
 
 ## Resolution 

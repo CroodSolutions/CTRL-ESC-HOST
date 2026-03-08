@@ -22,7 +22,7 @@ It is worth noting that I have been able to crash ChromeOS kioks producing a WSO
 
 We have two primary real-world testing scenarios to share, representing scenarios we think you may also find when penetration testing ChromeOS kiosks:
 
- - Misconfigured Default Enterprise Enrollment template, Allowing Escape via Powerwash
+ - [Misconfigured Default Enterprise Enrollment template, Allowing Escape via Powerwash](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/4%20-%20Specific%20Escape%20Scenarios/ChromeOS%20Escape%20via%20Powerwash%20to%20Default%20Profile/README.md)
  - [Hijack Signage Template via Unregister and then Reregister Using an Attacker Controlled Account](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/4%20-%20Specific%20Escape%20Scenarios/AppSpace%20Unregister%20and%20Reregister%20Signage%20Hijacking%20on%20ChromeOS/README.md)
 
 These two specific scenarios, underscore the more generic concept, of there being a few types of layers to attack ChromeOS Kiosks:

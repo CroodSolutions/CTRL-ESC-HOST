@@ -11,7 +11,7 @@ Using a prior tactic, such as downloading via file:///C:/Windows/System32, stagi
 
 Note that this works with many, but not all LotL binaries (it is confirmed with cmd and ftp). It also worked with a custom payload we created as a compiled AutoIt script compiled and renamed as msedge.exe.  
 
-## Attended Access Update - Microsft Fixed This, but Not Really  
+## Attended Access Update - Microsoft Fixed This, but Not Really  
 
 Note that Microsoft fixed this issue, sort of, a little bit (or at least they tried); insofar as, it no longer works in Win11 Attended Access directly from the File Open menu. 
 

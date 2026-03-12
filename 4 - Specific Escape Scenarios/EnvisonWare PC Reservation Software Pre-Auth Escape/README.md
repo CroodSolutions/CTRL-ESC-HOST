@@ -30,3 +30,8 @@ Ok, this should seem more cool and 31337, but it is really just opening an app a
 
 Only test on your kiosks or with permission such as part of a penetration test or bug bounty, in accordance with all applicable laws and ethical standards.
 
+### Reporting
+
+Um, months and months ago. Here is the formal submission form for 12/2025.
+
+<img width="1029" height="1028" alt="image" src="https://github.com/user-attachments/assets/73b3f515-9645-4f7f-b415-4b3ee74896c4" />

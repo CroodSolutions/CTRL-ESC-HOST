@@ -14,6 +14,10 @@ Note that a prerequisite for many of these may be attaching a keyboard, launchin
  - [Microsoft Windows Key Escapes](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/1%20-%20Basic%20Escape%20Tactics/Microsoft%20Windows%20Key%20Escapes.md)
  - [OEM Hardware Breakouts](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/1%20-%20Basic%20Escape%20Tactics/OEM%20Hardware%20Breakouts.md)
 
+## Next Steps
+
+Once escape has been achieved, here are some common themes in terms of where to go next. Many of these will overlap with pathways that we also found for Win11 Attended Access, although there are many more possibilities for the full range of Windows kiosks, vs the specific and narrower subset of things that work for Attended Access.  
+
 
  ## Ethical Note
 

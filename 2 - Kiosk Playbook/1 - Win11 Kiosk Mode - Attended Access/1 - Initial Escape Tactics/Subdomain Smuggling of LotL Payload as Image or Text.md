@@ -38,7 +38,7 @@ Special thanks to [Jake Frenzel](https://github.com/jakefrenzel) for his great w
 
 ## For Additional Resources on HTTP Smuggling Attacks See SmuggleKing
 
-For futher resources related to testing for Web Payload Smuggling attacks, check out our other project [SmuggleKing](https://github.com/CroodSolutions/SmuggleKing).
+For further resources related to testing for Web Payload Smuggling attacks, check out our other project [SmuggleKing](https://github.com/CroodSolutions/SmuggleKing).
 
 ## Legal and Ethical Notice
 

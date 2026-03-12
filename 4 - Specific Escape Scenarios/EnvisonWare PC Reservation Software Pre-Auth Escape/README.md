@@ -22,3 +22,11 @@ Key points:  PC Reservation did lock out a lot of activities and options, so it 
 
 Defensive Recommendations: See what Jordan added to the defensive recommendations / windows kiosk hardening tips section as a guide. 
 
+### Post-Authentication Kiosk Hacking Flows
+
+Ok, this should seem more cool and 31337, but it is really just opening an app and clicking save to get an explorer dialog box, allowing you to smuggle, right click for terminal, or any other methods from the framework to execute code. 
+
+### Ethical Reminder 
+
+Only test on your kiosks or with permission such as part of a penetration test or bug bounty, in accordance with all applicable laws and ethical standards.
+

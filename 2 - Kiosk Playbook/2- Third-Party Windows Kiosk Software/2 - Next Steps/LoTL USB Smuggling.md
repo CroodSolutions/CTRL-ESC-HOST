@@ -27,3 +27,9 @@ Here are a few things you can do to make yourself more resilient against this ta
 ## Ethical Note
 
 Remember to only test on your own kiosks, or with permission such as in the scope of a bug bounty or penetration test, with good intentions of helping elevate kiosk security.  
+
+## Demo Video
+
+Here is a short video demo of this tactic:
+
+https://youtu.be/XTlbUAwq7Iw?si=CoYh0p7sXuSEJ9xi

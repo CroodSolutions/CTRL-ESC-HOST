@@ -10,8 +10,8 @@ Make sure “Select a file to preview” / preview pane is visible, and click to
  - Select “Open in Terminal”
 
 Note, if the double right click option to launch a terminal is unavailable due to host hardening/policies, attempt:
- - LotL USB Smuggling Attack
- - Download LotL Binaries via Brower
+ - [LotL USB Smuggling Attack](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access/1%20-%20Initial%20Escape%20Tactics/LotL%20USB%20Smuggling%20Attack.md)
+ - [Download LotL Binaries via Browser](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access/2%20-%20Next%20Steps/Download%20LotL%20Binaries%20via%20Browser%20from%20Local%20Host.md)
 
 Then, attempt the Rename LotL or Payload as Msedge to launch.  
 

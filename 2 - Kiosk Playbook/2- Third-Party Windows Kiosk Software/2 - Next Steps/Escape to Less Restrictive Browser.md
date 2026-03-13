@@ -24,6 +24,11 @@ Second method:
 
 Once in settings, there are numerous links that will also launch an unlocked browser, and more get added as Win11 evolves and gains new features.  
 
+## Next Steps
+
+ - [Download LotL Binaries via Browser from Local Host](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Download%20LotL%20Binaries%20via%20Browser%20from%20Local%20Host.md)
+ - [Subdomain Smuggling of LotL Payload](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Subdomain%20Smuggling%20of%20LotL%20Payload.md)
+
 ## Defensive Recommendations 
 
 Here are a few things you can do to make yourself more resilient against this tactic:

@@ -36,6 +36,10 @@ See also these specific Windows walkthroughs that outline real-world test cases:
  - [Library Testing of Win11 Attended Access + InTune Hardening, Part 2](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/4%20-%20Specific%20Escape%20Scenarios/Win11%20Attended%20Access%20Feedback%20Hub%20Escape)
  - [EnvisionWare PC Reservation Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/4%20-%20Specific%20Escape%20Scenarios/EnvisonWare%20PC%20Reservation%20Software%20Pre-Auth%20Escape)
 
+## Other Useful Tips
+
+ - When in various File Save or File Open dialog boxes, be sure to try both Right Click and Shift + Right Click, to sometimes unlock different menu options. This opens the classic Explorer Right Click menu options, vs. the newer options, exposing other options. 
+ - If you are not in the type of File/Explorer dialog box you want, but have the ability to add New Folder, or better yet other file types, try New Folder and then right click in the Preview Pane for this New Folder for other options. 
 
 ## Ethical Note
 

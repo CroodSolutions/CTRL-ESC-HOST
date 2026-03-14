@@ -14,11 +14,12 @@ This framework is both for red-teams doing assessments that may involve kiosks o
 
 The **Kiosk Playbook** section is further organized into topics for testing:
 *   **[Win11 Single App Kiosk Mode / Assigned Access](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access)**
-*   **Third Party Kiosk Software Testing on Windows** (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
-*   **Chrome Kiosks**
-*   **Placeholder folders** for other kiosk platforms.
+*   **[Third Party Kiosk Software Testing on Windows](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software)** (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
+*   **[Chrome Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode)**
+*   **[Linux Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode)**
+*   **[Apple iMac MacOS Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/7%20-%20Apple%20MacOS%20Kiosks)**
 
-The most robust section relates to **Win11 Kiosk escapes**, which are organized into flows of individual tactics you can chain together if doing red team assessments.
+The most robust sections relate to **Windows Kiosk escapes**, which are organized into flows of individual tactics you can chain together if doing red team assessments.
 
 > [!IMPORTANT]
 > Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have written permission.

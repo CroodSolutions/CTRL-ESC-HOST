@@ -19,6 +19,8 @@ A vast number of kiosks we have encountered in the wild have been third party so
 
 Once the initial kiosk application has been escaped, here are some pathways to gain expanded capabilities on the host.
 
+ - [Download LotL Binaries via Browser from Local Host](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Download%20LotL%20Binaries%20via%20Browser%20from%20Local%20Host.md)
+ - [Escape to Less Restrictive Browser](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Escape%20to%20Less%20Restrictive%20Browser.md)
  - [Launch Terminal from File Open Dialog Box via Preview Pane](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Launch%20Terminal%20from%20File%20Open%20Dialog%20Box%20via%20Preview%20Pane.md)
  - [LoTL USB Smuggling](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/LoTL%20USB%20Smuggling.md)
  - [Rename LotL or Payload as Name of Kiosk App](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/Rename%20LotL%20or%20Payload%20as%20Name%20of%20Kiosk%20App.md)

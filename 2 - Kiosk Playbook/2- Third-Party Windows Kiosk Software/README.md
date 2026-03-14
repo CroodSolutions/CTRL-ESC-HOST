@@ -1,6 +1,6 @@
 ## Introduction
 
-A vast number of kiosks we have encountered in the wild have been third party software suites, implementing a proprietary kiosk suite on top of Windows. In theory, such devices can also be protected via InTune or GPO policies for significant levels of hardening and attack surface reduction, in addition to the 'out of the box' kiosk restrictions of a given 3rd party product. In practice, we rarely see this - usually the setup is somewhere between the normal workstation build and whatever level of security the kiosk software provider brings to the table.
+A vast number of kiosks we have encountered in the wild have been third party software products, implementing a proprietary kiosk suite on top of Windows. In theory, such devices can also be protected via InTune or GPO policies for significant levels of hardening and attack surface reduction, in addition to the 'out of the box' kiosk restrictions of a given 3rd party product. In practice, we rarely see this - usually the setup is somewhere between the normal workstation build and whatever level of security the kiosk software provider brings to the table.
 
  ## Tactics for Initial Escape
 

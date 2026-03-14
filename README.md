@@ -22,7 +22,7 @@ The **Kiosk Playbook** section is further organized into topics for testing:
 The most robust sections relate to **Windows Kiosk escapes**, which are organized into flows of individual tactics you can chain together if doing red team assessments.
 
 > [!IMPORTANT]
-> Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have written permission.
+> Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have both proper permission and good intentions.
 
 ---
 

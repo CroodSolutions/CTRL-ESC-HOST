@@ -40,7 +40,9 @@ See also these specific Windows walkthroughs that outline real-world test cases:
 
  - When in various File Save or File Open dialog boxes, be sure to try both Right Click and Shift + Right Click, to sometimes unlock different menu options. This opens the classic Explorer Right Click menu options, vs. the newer options, exposing other options. 
  - If you are not in the type of File/Explorer dialog box you want but have the ability to add a New Folder, or sometimes other file types, try New Folder and then right click in the Preview Pane for this New Folder for other options.
- - Other file types under create new, could let you add an archive to drop an executable in (can sometimes bypass app restrictions) or even drop an empty text file, type or paste in a script, then change the file type and attempt to run. 
+ - Other file types under create new, could let you add an archive to drop an executable in (can sometimes bypass app restrictions) or even drop an empty text file, type or paste in a script, then change the file type and attempt to run.
+
+See [File Explorer Interaction Tips](https://github.com/CroodSolutions/CTRL-ESC-HOST/blob/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software/2%20-%20Next%20Steps/File%20Explorer%20Interaction%20Tips.md) for more helpful tips on leveraging the File Open and File Save dialog box.
 
 ## Ethical Note
 

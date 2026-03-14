@@ -13,7 +13,7 @@ CTRL+ESC+HOST is a collection of atomic tests to identify and validate escape-to
 This framework is both for red-teams doing assessments that may involve kiosks or presented apps, as well as defenders looking to run tests to see when it is possible to escape kiosk or presented app trust boundaries. We have organized this framework into a guided journey through a series of interconnected atomic tests, to expose security flaws, risks, and issues you do not want to allow to go live - at least, without understanding each risk tradeoff.
 
 The **Kiosk Playbook** section is further organized into topics for testing:
-*   **Win11 Single App Kiosk Mode / Attended Access**
+*   **[Win11 Single App Kiosk Mode / Assigned Access](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access)**
 *   **Third Party Kiosk Software Testing on Windows** (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
 *   **Chrome Kiosks**
 *   **Placeholder folders** for other kiosk platforms.

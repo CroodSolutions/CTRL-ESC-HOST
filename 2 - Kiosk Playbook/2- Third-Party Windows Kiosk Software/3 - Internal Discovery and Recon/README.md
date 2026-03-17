@@ -2,7 +2,7 @@
 
 So, you managed to get shell on a kiosk. Now what?
 
-In a normal penetration test engagement, this is where you run a defense evastion and ingress tool transfer playbook, to start dropping the tools on the host. 
+In a normal penetration test engagement, this is where you run a defense evasion and ingress tool transfer playbook, to start dropping the tools on the host. 
 
 And in fact, if this is a full-scoped engagement, you may load tools such as:
  - Nmap, Zenmap, or Masscan
@@ -12,7 +12,7 @@ And in fact, if this is a full-scoped engagement, you may load tools such as:
 
 It has been my experience though that kiosk engagements sometimes have a smaller scope and tighter rules of engagement. That does not stop administrators from asking questions though; such as, "you got shell on my kiosk, so what?" Here are some things that you can do from a windows Kiosk (or Citrix/presented app) host that do not require any particular tooling.  
 
-**Key Point**: This is not intended to replace tools like Locksmith or Rubeus. What you can learn about a host with these commands is very high level, basic, and will miss a lot of more subtle points. It does give you enough to answer a few basic questions relevant to (ethical) kiosk hacking though, in a few minutes with no tooling. It will allow you to very quick understand:
+**Key Point**: This is not intended to replace tools like Locksmith or Rubeus. What you can learn about a host with these commands is very high level, basic, and will miss a lot of more subtle points. It does give you enough to answer a few basic questions relevant to (ethical) kiosk hacking though, in a few minutes with no tooling. It will allow you to very quickly understand:
  - What network(s) is it on / what hosts can it likely reach.
  - Is it joined to a domain?
  - What domain trusts may exist that need to be considered.  
@@ -23,7 +23,17 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
 
 ### Basic Host Info
 
- - SystemInfo (make note of "Domain:" as an input for basic AD recon)
+ - systeminfo (make note of "Domain:" as an input for basic AD recon)
+ - echo %COMPUTERNAME%
+ - echo %USERNAME%
+ - echo %USERDOMAIN%
+ - echo %LOGONSERVER%
+ - whoami /all
+ - whoami /fqdn
+ - wmic os get caption,version,buildnumber
+ - net config workstation
+
+**Note** that whoami always gets hit by EDR, so when in doubt try it via ftp.exe with the "!" to prepend the commands.  
 
 ### Passive Network Discovery
 
@@ -31,6 +41,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - arp -a
  - netstat -ano
  - ipconfig /displaydns
+ - ipconfig /all
 
 ### Basic Account, Domain, and Policy Enumeration
 
@@ -38,25 +49,48 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - nltest /dclist:(domain name here)
  - nltest /domain_trusts
  - gpresult /z
+ - gpresult /r
+ - quser
+ - net accounts
 
 ### Identify Running Software
 
- - Tasklist
- - Taslklist /v findstr /i "NameOfProcess"
+ - tasklist
+ - tasklist /v findstr /i "NameOfProcess"
+ - tasklist /svc
+ - sc query
+ - sc query | findstr /i "NameOfProcess"
+ - driverquery
  - Launch Task Manager (view tasks and services)
 
-### File Share Mapping 
+### Mapped Drives and Reachable Shares
 
  - Explorer 
    - (Ctrl+O or Ctrl+S)
    - Look for mapped drives or shares
    - Enter the server address/folder path to resources found during host recon.
    - Browse network
- - net share
+ - net share (local only)
+ - net use
+ - net view \\hostname
+ - net use
+  - net use
+  - wmic logicaldisk get name,drivetype,providername
+  - wmic printer get name,systemname,sharename,network
+  - Get-Printer (via PowerShell or FTP+!)
+
+**Note**: EDR clobbered my net view commands right away and killed the PowerShell window. However, when launched via FTP using "!" prepended, with the commands after, it ran fine. For net view, any hostname in the domain can be used (not just the one you are on), including any hostnames you found via ipconfig /displaydns. 
 
 ### Examine Scheduled Tasks
 
  - schtasks /query /fo LIST
+ - schtasks /query /fo LIST /v
+
+### Active Sessions
+
+ - qwinsta
+ - quser
+ - query user
 
 ### Domain Enumeration via Add Printer 
 

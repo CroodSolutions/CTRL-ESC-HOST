@@ -7,7 +7,7 @@ In a normal penetration test engagement, this is where you run a defense evastio
 And in fact, if this is a full-scoped engagement, you may load tools such as:
  - Nmap, Zenmap, or Masscan
  - MimiKatz, Rubeus, or other cred harvesting tool
- - Bloodhound, Locksmith, AD Deliganator
+ - Bloodhound, Locksmith, AD Deliganator or Ping Castle 
  - A beacon for your favorite C2 framework (we are partial to BeaconatorC2 using BOF, but Sliver, Cobalt Strike, or Brute Ratel also work).
 
 It has been my experience though that kiosk engagements sometimes have a smaller scope and tighter rules of engagement. That does not stop administrators from asking questions though; such as, "you got shell on my kiosk, so what?" Here are some things that you can do from a windows Kiosk (or Citrix/presented app) host that do not require any particular tooling.  
@@ -82,3 +82,10 @@ Here are the steps to perform domain enumeration via Find Printer:
 
 ## Other Articles and Resources 
 
+Here are some helpful links and resources for further exploration:
+ - [AD Security Kit by TechSpence](https://spenceralessi.com/adsecuritykit/)
+ - [AD Deleginator](https://github.com/techspence/ADeleginator)
+ - [Purple Knight](https://www.semperis.com/purple-knight/)
+ - [Ping Castle](https://www.pingcastle.com/)
+ - [From Vendor to ESC1 by Debugger](https://medium.com/@Debugger/from-vendor-to-esc1-ed32281b7ea7)
+ - [From Vendor to ESC3 by Debugger](https://medium.com/@Debugger/from-vendor-to-esc3-esc4-3f7d2d9fbde7)

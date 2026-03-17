@@ -30,6 +30,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - echo %LOGONSERVER%
  - whoami /all
  - whoami /fqdn
+ - whoami /groups
  - wmic os get caption,version,buildnumber
  - net config workstation
 
@@ -45,6 +46,8 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
 
 ### Basic Account, Domain, and Policy Enumeration
 
+#### Using only CMD
+
  - net user
  - nltest /dclist:(domain name here)
  - nltest /domain_trusts
@@ -52,6 +55,23 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - gpresult /r
  - quser
  - net accounts
+ - net localgroup administrators
+ - certutil -config - -ping
+ - certutil -CATemplates
+    (or)
+ - certutil -template
+ - certutil -store my
+ - klist
+
+#### PowerShell Options
+
+ - ([ADSI]"LDAP://RootDSE").defaultNamingContext
+ - ([adsisearcher]"(&(objectCategory=computer)(name=$env:COMPUTERNAME))").FindOne().Path
+ - ([adsisearcher]"(&(objectCategory=computer)(name=$env:COMPUTERNAME))").FindOne().Properties
+ - ([adsisearcher]"(&(objectCategory=group)(cn=Domain Admins))").FindOne().Properties.member
+ - ([adsisearcher]"(&(objectCategory=user)(samAccountName=$env:USERNAME))").FindOne().Properties
+ - ([adsisearcher]"(&(objectCategory=computer)(name=$env:COMPUTERNAME))").FindOne().Properties | % Keys
+ - Get-ChildItem Cert:\LocalMachine\My | select Subject,Issuer,EnhancedKeyUsageList
 
 ### Identify Running Software
 

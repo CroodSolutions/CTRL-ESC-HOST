@@ -62,6 +62,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - certutil -template
  - certutil -store my
  - klist
+ - setspn -Q */*
 
 #### PowerShell Options
 
@@ -71,7 +72,11 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - ([adsisearcher]"(&(objectCategory=group)(cn=Domain Admins))").FindOne().Properties.member
  - ([adsisearcher]"(&(objectCategory=user)(samAccountName=$env:USERNAME))").FindOne().Properties
  - ([adsisearcher]"(&(objectCategory=computer)(name=$env:COMPUTERNAME))").FindOne().Properties | % Keys
+ - ([adsisearcher]"(servicePrincipalName=*)").FindAll() | % { $_.Properties.samaccountname; $_.Properties.distinguishedname; $_.Properties.serviceprincipalname; '' }
+     (or)
+ - ([adsisearcher]"(servicePrincipalName=*)").FindAll() | % { [pscustomobject]@{User=$_.Properties.samaccountname[0];SPN=($_.Properties.serviceprincipalname -join '; ');DN=$_.Properties.distinguishedname[0]} }
  - Get-ChildItem Cert:\LocalMachine\My | select Subject,Issuer,EnhancedKeyUsageList
+
 
 ### Identify Running Software
 

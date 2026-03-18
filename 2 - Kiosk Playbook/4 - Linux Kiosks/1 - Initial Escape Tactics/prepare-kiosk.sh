@@ -1,6 +1,6 @@
 #!/bin/bash
-# prepare-kiosk.sh - Setup Firefox kiosk mode for escape demonstration
-# Updated to use XDG Desktop Entries instead of shell hooks
+# prepare-kiosk.sh - Setup Web App Kiosk mode for escape demonstration
+# Updated to use XDG Desktop Entries and support multiple browsers
 
 set -e
 
@@ -13,197 +13,674 @@ DESKTOP_FILE_NAME="skyline-kiosk.desktop"
 AUTOSTART_DIR="$HOME/.config/autostart"
 APP_DIR="$HOME/.local/share/applications"
 DESKTOP_DIR="$HOME/Desktop"
+OPTIONAL_DISABLE_SUPER_KEY="false"
+OPTIONAL_ENABLE_GDM_AUTOLOGIN="false"
+OPTIONAL_ADDITIONAL_CHROME_FLAGS="false"
+OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="false"
+
+print_usage() {
+  echo "Usage: $0 [--kioskmode on|off] [--disable-super-key] [--enable-gdm-autologin] [--additioal-chorme] [--global-shortcut-lockdown]"
+  echo "       $0 [--help|--helper]"
+}
 
 # --- HELPER FUNCTIONS ---
 
 cleanup_legacy_config() {
-    # Check for and remove legacy .bashrc/.zshrc modifications that cause crashes
-    for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
-        if [ -f "$rc" ]; then
-            if grep -q "# --- KIOSK MODE START ---" "$rc"; then
-                echo "    [!] Cleaning up legacy configuration from $(basename "$rc")..."
-                # Create backup
-                cp "$rc" "${rc}.bak_pre_kiosk_cleanup"
-                # Remove the block
-                sed -i '/# --- KIOSK MODE START ---/,/# --- KIOSK MODE END ---/d' "$rc"
-                echo "    [+] Removed legacy Kiosk block from $rc"
-            fi
-        fi
-    done
+  # Check for and remove legacy .bashrc/.zshrc modifications that cause crashes
+  for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    if [ -f "$rc" ]; then
+      if grep -q "# --- KIOSK MODE START ---" "$rc"; then
+        echo "    [!] Cleaning up legacy configuration from $(basename "$rc")..."
+        # Create backup
+        cp "$rc" "${rc}.bak_pre_kiosk_cleanup"
+        # Remove the block
+        sed -i '/# --- KIOSK MODE START ---/,/# --- KIOSK MODE END ---/d' "$rc"
+        echo "    [+] Removed legacy Kiosk block from $rc"
+      fi
+    fi
+  done
 }
 
-# Firefox binary path - prefer user-installed version over snap
-FIREFOX_BIN="$HOME/.local/opt/firefox/firefox"
-if [ ! -f "$FIREFOX_BIN" ]; then
-    FIREFOX_BIN="firefox"
-fi
+select_browser() {
+  # Check availability
+  local chrome_path=""
+  local chromium_path=""
+  local firefox_path=""
+  local firefox_status="Not Found"
+  local chrome_status="Not Found"
+  local chromium_status="Not Found"
+
+  # Check Chromium
+  if command -v chromium-browser &>/dev/null; then
+    chromium_path=$(which chromium-browser)
+    chromium_status="Installed"
+  elif command -v chromium &>/dev/null; then
+    chromium_path=$(which chromium)
+    chromium_status="Installed"
+  fi
+
+  # Check Chrome
+  if command -v google-chrome &>/dev/null; then
+    chrome_path=$(which google-chrome)
+    chrome_status="Installed"
+  elif command -v google-chrome-stable &>/dev/null; then
+    chrome_path=$(which google-chrome-stable)
+    chrome_status="Installed"
+  fi
+
+  # Check Firefox (Local build preferred, then system)
+  if [ -f "$HOME/.local/opt/firefox/firefox" ]; then
+    firefox_path="$HOME/.local/opt/firefox/firefox"
+    firefox_status="Local Build ($firefox_path)"
+  elif command -v firefox &>/dev/null; then
+    firefox_path=$(which firefox)
+    firefox_status="System Install"
+  fi
+
+  echo "----------------------------------------------------------------"
+  echo "Select Browser for Kiosk Mode:"
+  echo "1) Chromium      [$chromium_status]"
+  echo "2) Google Chrome [$chrome_status]"
+  echo "3) Firefox       [$firefox_status]"
+  echo "----------------------------------------------------------------"
+
+  while true; do
+    read -p "Choose a browser [1-3]: " b_choice
+    case "$b_choice" in
+    1)
+      if [[ "$chromium_status" == "Not Found" ]]; then
+        echo "    [!] Chromium is not found. Please install it first."
+        continue
+      fi
+      BROWSER_NAME="chromium"
+      BROWSER_BIN="$chromium_path"
+      break
+      ;;
+    2)
+      if [[ "$chrome_status" == "Not Found" ]]; then
+        echo "    [!] Google Chrome is not found. Please install it first."
+        continue
+      fi
+      BROWSER_NAME="google-chrome"
+      BROWSER_BIN="$chrome_path"
+      break
+      ;;
+    3)
+      if [[ "$firefox_status" == "Not Found" ]]; then
+        echo "    [!] Firefox is not found. Please install it first."
+        continue
+      fi
+      BROWSER_NAME="firefox"
+      BROWSER_BIN="$firefox_path"
+      break
+      ;;
+    *)
+      echo "    Invalid selection. Please choose 1, 2, or 3."
+      ;;
+    esac
+  done
+
+  echo "    [+] Selected: $BROWSER_NAME"
+  echo "    [+] Binary: $BROWSER_BIN"
+}
 
 generate_desktop_entry() {
-    local output_path="$1"
-    local is_autostart="$2"
-    local wrapper_script="$KIOSK_DIR/start-kiosk.sh"
-    
-    # Create the wrapper script
-    cat <<SCRIPT > "$wrapper_script"
+  local output_path="$1"
+  local is_autostart="$2"
+  local wrapper_script="$KIOSK_DIR/start-kiosk.sh"
+  local browser_launch_cmd
+
+  browser_launch_cmd="\"$BROWSER_BIN\" --kiosk \"$KIOSK_HTML\""
+
+  if [ "$OPTIONAL_ADDITIONAL_CHROME_FLAGS" = "true" ] && [[ "$BROWSER_NAME" == "chromium" || "$BROWSER_NAME" == "google-chrome" ]]; then
+    browser_launch_cmd="\"$BROWSER_BIN\" --noerrdialogs --disable-infobars --no-first-run --enable-features=OverlayScrollbar --start-maximized --kiosk \"$KIOSK_HTML\""
+    echo "    [+] Applying additional Chromium/Chrome launch flags."
+  fi
+
+  # Create the wrapper script
+  cat <<SCRIPT >"$wrapper_script"
 #!/bin/bash
 export LIBGL_ALWAYS_SOFTWARE=1
 export MOZ_ENABLE_WAYLAND=0
-"$FIREFOX_BIN" --kiosk "$KIOSK_HTML"
+$browser_launch_cmd
 SCRIPT
-    chmod +x "$wrapper_script"
-    
-    local exec_cmd="$wrapper_script"
-    
-    # Add delay for autostart
-    if [ "$is_autostart" = "true" ]; then
-        exec_cmd="sh -c 'sleep 5; $wrapper_script'"
-    fi
-    
-    cat <<EOF > "$output_path"
+  chmod +x "$wrapper_script"
+
+  local exec_cmd="$wrapper_script"
+
+  # Add delay for autostart
+  if [ "$is_autostart" = "true" ]; then
+    exec_cmd="sh -c 'sleep 1; $wrapper_script'"
+  fi
+
+  cat <<EOF >"$output_path"
 [Desktop Entry]
 Version=1.0
 Type=Application
 Name=SkyLine Kiosk
 Comment=Launch the Airline Escape Kiosk
 Exec=$exec_cmd
-Icon=firefox
+Icon=$BROWSER_NAME
 Terminal=false
 StartupNotify=false
 X-GNOME-Autostart-enabled=true
 EOF
-    
-    chmod +x "$output_path"
+
+  chmod +x "$output_path"
 }
 
 setup_manual_launcher() {
-    echo "Setting up Manual Launcher..."
-    cleanup_legacy_config
-    
-    # Ensure HTML is in a snap-accessible location
-    mkdir -p "$KIOSK_DIR"
-    cp "$ORIGINAL_HTML" "$KIOSK_HTML"
+  select_browser
+  echo "Setting up Manual Launcher..."
+  cleanup_legacy_config
 
-    # 1. Add to Applications Menu
-    mkdir -p "$APP_DIR"
-    generate_desktop_entry "$APP_DIR/$DESKTOP_FILE_NAME" "false"
-    echo "    [+] Added to Applications Menu: $APP_DIR/$DESKTOP_FILE_NAME"
+  # Ensure HTML is in a snap-accessible location
+  mkdir -p "$KIOSK_DIR"
+  cp "$ORIGINAL_HTML" "$KIOSK_HTML"
 
-    # 2. Add to Desktop (if exists)
-    if [ -d "$DESKTOP_DIR" ]; then
-        generate_desktop_entry "$DESKTOP_DIR/$DESKTOP_FILE_NAME" "false"
-        echo "    [+] Added to Desktop: $DESKTOP_DIR/$DESKTOP_FILE_NAME"
-        
-        # GNOME specific: Allow launching
-        if command -v gio &> /dev/null; then
-            gio set "$DESKTOP_DIR/$DESKTOP_FILE_NAME" metadata::trusted true 2>/dev/null || true
-        fi
+  # 1. Add to Applications Menu
+  mkdir -p "$APP_DIR"
+  generate_desktop_entry "$APP_DIR/$DESKTOP_FILE_NAME" "false"
+  echo "    [+] Added to Applications Menu: $APP_DIR/$DESKTOP_FILE_NAME"
+
+  # 2. Add to Desktop (if exists)
+  if [ -d "$DESKTOP_DIR" ]; then
+    generate_desktop_entry "$DESKTOP_DIR/$DESKTOP_FILE_NAME" "false"
+    echo "    [+] Added to Desktop: $DESKTOP_DIR/$DESKTOP_FILE_NAME"
+
+    # GNOME specific: Allow launching
+    if command -v gio &>/dev/null; then
+      gio set "$DESKTOP_DIR/$DESKTOP_FILE_NAME" metadata::trusted true 2>/dev/null || true
     fi
-    
-    # 3. Clean up autostart if it exists (switch mode)
-    if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
-        rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
-        echo "    [-] Removed existing Autostart entry (switched to Manual)"
-    fi
+  fi
+
+  # 3. Clean up autostart if it exists (switch mode)
+  if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
+    rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+    echo "    [-] Removed existing Autostart entry (switched to Manual)"
+  fi
 }
 
 setup_autostart_launcher() {
-    echo "Setting up Autostart Persistence..."
-    cleanup_legacy_config
+  select_browser
+  echo "Setting up Autostart Persistence..."
+  cleanup_legacy_config
 
-    # Ensure HTML is in a snap-accessible location
-    mkdir -p "$KIOSK_DIR"
-    cp "$ORIGINAL_HTML" "$KIOSK_HTML"
-    
-    # Ensure directory exists
-    mkdir -p "$AUTOSTART_DIR"
-    
-    # Generate Entry with autostart flag (enables delay)
-    generate_desktop_entry "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" "true"
-    
-    echo "    [+] Created Autostart Entry: $AUTOSTART_DIR/$DESKTOP_FILE_NAME"
-    echo "    [+] Kiosk will launch automatically on next login (with 5s delay)."
+  # Ensure HTML is in a snap-accessible location
+  mkdir -p "$KIOSK_DIR"
+  cp "$ORIGINAL_HTML" "$KIOSK_HTML"
+
+  # Ensure directory exists
+  mkdir -p "$AUTOSTART_DIR"
+
+  # Generate Entry with autostart flag (enables delay)
+  generate_desktop_entry "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" "true"
+
+  echo "    [+] Created Autostart Entry: $AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+  echo "    [+] Kiosk will launch automatically on next login (with 5s delay)."
 }
 
 disable_kiosk() {
-    echo "Disabling Kiosk Mode..."
-    cleanup_legacy_config
-    
-    if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
-        rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
-        echo "    [-] Removed Autostart entry."
-    else
-        echo "    [!] No Autostart entry found."
-    fi
+  echo "Disabling Kiosk Mode..."
+  cleanup_legacy_config
+
+  if [ -f "$AUTOSTART_DIR/$DESKTOP_FILE_NAME" ]; then
+    rm "$AUTOSTART_DIR/$DESKTOP_FILE_NAME"
+    echo "    [-] Removed Autostart entry."
+  else
+    echo "    [!] No Autostart entry found."
+  fi
+}
+
+disable_gnome_super_key() {
+  echo "Configuring GNOME Super key behavior..."
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping Super key change."
+    return
+  fi
+
+  if ! gsettings writable org.gnome.mutter overlay-key &>/dev/null; then
+    echo "    [!] GNOME overlay key setting is not writable. Skipping."
+    return
+  fi
+
+  gsettings set org.gnome.mutter overlay-key ''
+  echo "    [+] Disabled GNOME Super key overlay shortcut."
+}
+
+set_gsettings_key() {
+  local schema="$1"
+  local key="$2"
+  local value="$3"
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping GNOME shortcut override."
+    return 1
+  fi
+
+  if ! gsettings writable "$schema" "$key" &>/dev/null; then
+    echo "    [!] $schema::$key is not writable. Skipping."
+    return 1
+  fi
+
+  gsettings set "$schema" "$key" "$value"
+  return 0
+}
+
+reset_gsettings_key() {
+  local schema="$1"
+  local key="$2"
+
+  if ! command -v gsettings &>/dev/null; then
+    echo "    [!] gsettings not found. Skipping GNOME shortcut reset."
+    return 1
+  fi
+
+  if ! gsettings writable "$schema" "$key" &>/dev/null; then
+    echo "    [!] $schema::$key is not writable. Skipping reset."
+    return 1
+  fi
+
+  gsettings reset "$schema" "$key"
+  return 0
+}
+
+configure_global_shortcut_lockdown() {
+  local custom_schema="org.gnome.settings-daemon.plugins.media-keys"
+  local base_path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+  local bind_close_path="${base_path}/kiosk-block-close/"
+  local bind_newtab_path="${base_path}/kiosk-block-new-tab/"
+  local bind_newwindow_path="${base_path}/kiosk-block-new-window/"
+  local bind_showdesktop_path="${base_path}/kiosk-block-show-desktop/"
+  local bind_overview_path="${base_path}/kiosk-block-overview/"
+
+  echo "Applying global GNOME shortcut lockdown for kiosk mode..."
+
+  # Intercept high-risk key combinations before apps receive them.
+  set_gsettings_key "$custom_schema" custom-keybindings "['$bind_close_path', '$bind_newtab_path', '$bind_newwindow_path', '$bind_showdesktop_path', '$bind_overview_path']" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" name "'Kiosk Block Close Tab'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" binding "'<Primary>w'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" name "'Kiosk Block New Tab'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" binding "'<Primary>t'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" name "'Kiosk Block New Window'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" binding "'<Primary>n'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" name "'Kiosk Block Show Desktop'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" binding "'<Super>d'" || true
+
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" name "'Kiosk Block Overview'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" command "'/usr/bin/true'" || true
+  set_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" binding "'<Super>s'" || true
+
+  # Disable GNOME window-manager shortcuts commonly used to escape kiosk.
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" close "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" minimize "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" show-desktop "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-left "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-right "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-up "[]" || true
+  set_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-down "[]" || true
+
+  # Disable a few shell launcher shortcuts that can break kiosk flow.
+  set_gsettings_key "org.gnome.shell.keybindings" toggle-overview "[]" || true
+  set_gsettings_key "org.gnome.shell.keybindings" toggle-application-view "[]" || true
+
+  echo "    [+] Applied GNOME shortcut lockdown (Ctrl+W/Ctrl+T/Ctrl+N, show desktop, overview, minimize/workspace switching)."
+}
+
+cleanup_global_shortcut_lockdown() {
+  local custom_schema="org.gnome.settings-daemon.plugins.media-keys"
+  local base_path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+  local bind_close_path="${base_path}/kiosk-block-close/"
+  local bind_newtab_path="${base_path}/kiosk-block-new-tab/"
+  local bind_newwindow_path="${base_path}/kiosk-block-new-window/"
+  local bind_showdesktop_path="${base_path}/kiosk-block-show-desktop/"
+  local bind_overview_path="${base_path}/kiosk-block-overview/"
+
+  echo "Cleaning up GNOME shortcut lockdown overrides..."
+
+  reset_gsettings_key "$custom_schema" custom-keybindings || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_close_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newtab_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_newwindow_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_showdesktop_path" binding || true
+
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" name || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" command || true
+  reset_gsettings_key "$custom_schema.custom-keybinding:$bind_overview_path" binding || true
+
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" close || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" minimize || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" show-desktop || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-left || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-right || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-up || true
+  reset_gsettings_key "org.gnome.desktop.wm.keybindings" switch-to-workspace-down || true
+
+  reset_gsettings_key "org.gnome.shell.keybindings" toggle-overview || true
+  reset_gsettings_key "org.gnome.shell.keybindings" toggle-application-view || true
+
+  echo "    [+] Removed GNOME shortcut lockdown overrides."
+}
+
+configure_gdm_autologin() {
+  local gdm_conf="/etc/gdm/custom.conf"
+  local tmp_file
+  local backup_file
+
+  echo "Configuring GDM automatic login for user 'kiosk'..."
+
+  if ! sudo test -f "$gdm_conf"; then
+    echo "    [!] $gdm_conf not found. Skipping GDM auto-login configuration."
+    return
+  fi
+
+  backup_file="${gdm_conf}.bak_pre_kiosk_$(date +%Y%m%d%H%M%S)"
+  sudo cp "$gdm_conf" "$backup_file"
+  echo "    [+] Backup created: $backup_file"
+
+  tmp_file=$(mktemp)
+
+  sudo awk '
+  BEGIN { in_daemon=0; daemon_found=0; has_enable=0; has_login=0 }
+
+  /^\[daemon\]/ {
+    daemon_found=1
+    in_daemon=1
+    print
+    next
+  }
+
+  /^\[/ {
+    if (in_daemon) {
+      if (!has_enable) print "AutomaticLoginEnable=True"
+      if (!has_login) print "AutomaticLogin=kiosk"
+    }
+    in_daemon=0
+    print
+    next
+  }
+
+  {
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLoginEnable[[:space:]]*=/) {
+      if (!has_enable) {
+        print "AutomaticLoginEnable=True"
+        has_enable=1
+      }
+      next
+    }
+
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLogin[[:space:]]*=/) {
+      if (!has_login) {
+        print "AutomaticLogin=kiosk"
+        has_login=1
+      }
+      next
+    }
+
+    print
+  }
+
+  END {
+    if (!daemon_found) {
+      print ""
+      print "[daemon]"
+      print "AutomaticLoginEnable=True"
+      print "AutomaticLogin=kiosk"
+    } else if (in_daemon) {
+      if (!has_enable) print "AutomaticLoginEnable=True"
+      if (!has_login) print "AutomaticLogin=kiosk"
+    }
+  }
+  ' "$gdm_conf" >"$tmp_file"
+
+  sudo install -m 644 "$tmp_file" "$gdm_conf"
+  rm -f "$tmp_file"
+
+  echo "    [+] Updated $gdm_conf"
+  echo "    [+] Applied under [daemon]: AutomaticLoginEnable=True, AutomaticLogin=kiosk"
+}
+
+cleanup_gdm_autologin() {
+  local gdm_conf="/etc/gdm/custom.conf"
+  local tmp_file
+  local backup_file
+
+  echo "Restoring GDM auto-login settings to disabled..."
+
+  if ! sudo test -f "$gdm_conf"; then
+    echo "    [!] $gdm_conf not found. Skipping GDM cleanup."
+    return
+  fi
+
+  backup_file="${gdm_conf}.bak_pre_kiosk_cleanup_$(date +%Y%m%d%H%M%S)"
+  sudo cp "$gdm_conf" "$backup_file"
+  echo "    [+] Backup created: $backup_file"
+
+  tmp_file=$(mktemp)
+
+  sudo awk '
+  BEGIN { in_daemon=0; daemon_found=0; has_enable=0 }
+
+  /^\[daemon\]/ {
+    daemon_found=1
+    in_daemon=1
+    print
+    next
+  }
+
+  /^\[/ {
+    if (in_daemon && !has_enable) {
+      print "AutomaticLoginEnable=False"
+      has_enable=1
+    }
+    in_daemon=0
+    print
+    next
+  }
+
+  {
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLoginEnable[[:space:]]*=/) {
+      if (!has_enable) {
+        print "AutomaticLoginEnable=False"
+        has_enable=1
+      }
+      next
+    }
+
+    if (in_daemon && $0 ~ /^[[:space:]]*AutomaticLogin[[:space:]]*=/) {
+      next
+    }
+
+    print
+  }
+
+  END {
+    if (!daemon_found) {
+      print ""
+      print "[daemon]"
+      print "AutomaticLoginEnable=False"
+    } else if (in_daemon && !has_enable) {
+      print "AutomaticLoginEnable=False"
+    }
+  }
+  ' "$gdm_conf" >"$tmp_file"
+
+  sudo install -m 644 "$tmp_file" "$gdm_conf"
+  rm -f "$tmp_file"
+
+  echo "    [+] Updated $gdm_conf"
+  echo "    [+] Applied under [daemon]: AutomaticLoginEnable=False and removed AutomaticLogin"
+}
+
+cleanup_optional_features() {
+  echo "Cleaning up optional kiosk hardening flags..."
+
+  reset_gsettings_key "org.gnome.mutter" overlay-key || true
+  cleanup_global_shortcut_lockdown
+  cleanup_gdm_autologin
+
+  echo "    [+] Optional feature cleanup complete."
+}
+
+prompt_optional_features() {
+  local answer
+
+  echo ""
+  read -r -p "Disable GNOME Super key (Activities overlay)? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_DISABLE_SUPER_KEY="true"
+    ;;
+  esac
+
+  read -r -p "Enable GDM auto-login as user 'kiosk'? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_ENABLE_GDM_AUTOLOGIN="true"
+    ;;
+  esac
+
+  read -r -p "Apply global shortcut lockdown for kiosk escape keys? [y/N]: " answer
+  case "$answer" in
+  y | Y | yes | YES)
+    OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="true"
+    ;;
+  esac
+
+}
+
+apply_optional_features() {
+  if [ "$OPTIONAL_DISABLE_SUPER_KEY" = "true" ]; then
+    disable_gnome_super_key
+  fi
+
+  if [ "$OPTIONAL_ENABLE_GDM_AUTOLOGIN" = "true" ]; then
+    configure_gdm_autologin
+  fi
+
+  if [ "$OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN" = "true" ]; then
+    configure_global_shortcut_lockdown
+  fi
 }
 
 check_dependencies() {
-    echo "[1/4] Checking Firefox installation..."
-    if [ -f "$HOME/.local/opt/firefox/firefox" ]; then
-        echo "    User-installed Firefox found at: $HOME/.local/opt/firefox/firefox"
-    elif ! command -v firefox &> /dev/null; then
-        echo "    [!] Firefox not found. Please install Firefox first."
-        echo "    Options:"
-        echo "      1. Install user version: Download from mozilla.org and extract to ~/.local/opt/firefox/"
-        echo "      2. Install via apt: sudo apt install firefox"
-        exit 1
-    else
-        echo "    System Firefox found: $(which firefox)"
-    fi
+  echo ""
+  echo "[1/3] Checking Thunderbird installation..."
+  if ! command -v thunderbird &>/dev/null; then
+    echo "    Installing Thunderbird..."
+    sudo apt install -y thunderbird
+  else
+    echo "    Thunderbird already installed"
+  fi
 
-    echo ""
-    echo "[2/4] Checking Thunderbird installation..."
-    if ! command -v thunderbird &> /dev/null; then
-        echo "    Installing Thunderbird..."
-        sudo apt install -y thunderbird
-    else
-        echo "    Thunderbird already installed"
-    fi
+  echo ""
+  echo "[2/3] Verifying xdg-open..."
+  if ! command -v xdg-open &>/dev/null; then
+    echo "    Installing xdg-utils..."
+    sudo apt install -y xdg-utils
+  fi
 
-    echo ""
-    echo "[3/4] Verifying xdg-open..."
-    if ! command -v xdg-open &> /dev/null; then
-        echo "    Installing xdg-utils..."
-        sudo apt install -y xdg-utils
-    fi
-
-    echo ""
-    echo "[4/4] Configuring Mail Handler..."
-    # Check if thunderbird is default mail handler
-    MAILTO_HANDLER=$(xdg-mime query default x-scheme-handler/mailto 2>/dev/null || echo "none")
-    if [[ "$MAILTO_HANDLER" != *thunderbird* ]]; then
-        echo "    Setting Thunderbird as default mail client..."
-        xdg-mime default thunderbird.desktop x-scheme-handler/mailto
-    else
-        echo "    Thunderbird is already the default mail handler"
-    fi
+  echo ""
+  echo "[3/3] Configuring Mail Handler..."
+  # Check if thunderbird is default mail handler
+  MAILTO_HANDLER=$(xdg-mime query default x-scheme-handler/mailto 2>/dev/null || echo "none")
+  if [[ "$MAILTO_HANDLER" != *thunderbird* ]]; then
+    echo "    Setting Thunderbird as default mail client..."
+    xdg-mime default thunderbird.desktop x-scheme-handler/mailto
+  else
+    echo "    Thunderbird is already the default mail handler"
+  fi
 }
 
 # --- MAIN EXECUTION ---
 
 # Handle Arguments
-if [[ "$1" == "--kioskmode" ]]; then
-    if [[ "$2" == "off" ]]; then
-        disable_kiosk
-        exit 0
+KIOSKMODE_ARG=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --kioskmode)
+    if [[ -z "$2" ]]; then
+      print_usage
+      exit 1
     fi
-    if [[ "$2" != "on" ]]; then
-        echo "Usage: $0 [--kioskmode on|off]"
-        exit 1
-    fi
-    # If "on", assume full persistence
-    check_dependencies
-    setup_autostart_launcher
+    KIOSKMODE_ARG="$2"
+    shift 2
+    ;;
+  --disable-super-key)
+    OPTIONAL_DISABLE_SUPER_KEY="true"
+    shift
+    ;;
+  --enable-gdm-autologin)
+    OPTIONAL_ENABLE_GDM_AUTOLOGIN="true"
+    shift
+    ;;
+  --additioal-chorme | --additional-chrome)
+    OPTIONAL_ADDITIONAL_CHROME_FLAGS="true"
+    shift
+    ;;
+  --global-shortcut-lockdown)
+    OPTIONAL_GLOBAL_SHORTCUT_LOCKDOWN="true"
+    shift
+    ;;
+  -h | --help | --helper)
+    print_usage
     exit 0
+    ;;
+  *)
+    echo "Unknown argument: $1"
+    print_usage
+    exit 1
+    ;;
+  esac
+done
+
+if [[ -n "$KIOSKMODE_ARG" ]]; then
+  if [[ "$KIOSKMODE_ARG" == "off" ]]; then
+    disable_kiosk
+    cleanup_optional_features
+    exit 0
+  fi
+  if [[ "$KIOSKMODE_ARG" != "on" ]]; then
+    print_usage
+    exit 1
+  fi
+  # If "on", assume full persistence
+  check_dependencies
+  setup_autostart_launcher
+  apply_optional_features
+  exit 0
 fi
 
 echo "================================"
-echo "   Firefox Kiosk Setup Tool"
+echo "   Web App Kiosk Setup Tool"
 echo "================================"
 
 # Verify OS
-if ! command -v apt &> /dev/null; then
-    echo "[!] This script is designed for Debian/Ubuntu systems"
-    exit 1
+if ! command -v apt &>/dev/null; then
+  echo "[!] This script is designed for Debian/Ubuntu systems"
+  exit 1
 fi
 
 check_dependencies
@@ -218,6 +695,7 @@ echo ""
 echo "2) Full Persistence (Autostart)"
 echo "   - Automatically launches Kiosk on every login."
 echo "   - Uses ~/.config/autostart (Safe method)."
+echo "   - Optional hardening: disable Super key and GDM auto-login."
 echo "   - To exit kiosk: Alt+F4"
 echo ""
 echo "3) Remove/Disable Kiosk"
@@ -226,30 +704,33 @@ read -p "Choose an option [1-3]: " choice
 
 echo ""
 case "$choice" in
-    1)
-        setup_manual_launcher
-        echo ""
-        echo "Done! Look for 'SkyLine Kiosk' on your desktop or menu."
-        ;;
-    2)
-        setup_autostart_launcher
-        echo ""
-        echo "Done! The kiosk will start next time you log in."
-        ;;
-    3)
-        disable_kiosk
-        if [ -f "$DESKTOP_DIR/$DESKTOP_FILE_NAME" ]; then
-            rm "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
-            echo "    [-] Removed Desktop shortcut."
-        fi
-        if [ -f "$APP_DIR/$DESKTOP_FILE_NAME" ]; then
-            rm "$APP_DIR/$DESKTOP_FILE_NAME"
-            echo "    [-] Removed Menu entry."
-        fi
-        echo "Done!"
-        ;;
-    *)
-        echo "Invalid option."
-        exit 1
-        ;;
+1)
+  setup_manual_launcher
+  echo ""
+  echo "Done! Look for 'SkyLine Kiosk' on your desktop or menu."
+  ;;
+2)
+  setup_autostart_launcher
+  prompt_optional_features
+  apply_optional_features
+  echo ""
+  echo "Done! The kiosk will start next time you log in."
+  ;;
+3)
+  disable_kiosk
+  cleanup_optional_features
+  if [ -f "$DESKTOP_DIR/$DESKTOP_FILE_NAME" ]; then
+    rm "$DESKTOP_DIR/$DESKTOP_FILE_NAME"
+    echo "    [-] Removed Desktop shortcut."
+  fi
+  if [ -f "$APP_DIR/$DESKTOP_FILE_NAME" ]; then
+    rm "$APP_DIR/$DESKTOP_FILE_NAME"
+    echo "    [-] Removed Menu entry."
+  fi
+  echo "Done!"
+  ;;
+*)
+  echo "Invalid option."
+  exit 1
+  ;;
 esac

@@ -94,4 +94,6 @@ chmod +x /tmp/payload.sh
 
 ## 3. Moving to Network (Lateral Movement)
 
-Once persistence is set, shift focus to internal discovery and credential access. See `3 - Post-Exploitation - Moving from Kiosk to Domain and-or Network/README.md` for details.
+Once persistence is set, shift focus to internal discovery and credential access. 
+- See `3 - Internal Discovery and Recon/README.md` for quick host and network discovery.
+- See `4 - Post-Exploitation - Moving from Kiosk to Domain and-or Network/README.md` for lateral movement and network objectives.

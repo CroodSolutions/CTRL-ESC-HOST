@@ -170,3 +170,10 @@ In addition to the overall project contributors on the main page for CTRL+ESC+HO
  - [shammahwoods](https://github.com/shammahwoods)
  - [DebugPrivilege](https://x.com/DebugPrivilege)
  - [Christian Taillon](https://x.com/christian_tail)
+
+## Footnotes 
+
+ - Note that WMIC has been completely removed from any recent builds of Win11
+  - It still works on most supported server builds in most production environments (for Citrix and other presented apps).
+  - Also, still will work on a lot of legacy kiosks that have not been moved to Win11 or recently patched.
+  - So, we are leaving it in this guide, for times when it may work where other things are blocked.  

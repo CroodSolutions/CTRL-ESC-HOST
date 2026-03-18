@@ -148,3 +148,12 @@ Here are some helpful links and resources for further exploration:
  - [Ping Castle](https://www.pingcastle.com/)
  - [From Vendor to ESC1 by Debugger](https://medium.com/@Debugger/from-vendor-to-esc1-ed32281b7ea7)
  - [From Vendor to ESC3 by Debugger](https://medium.com/@Debugger/from-vendor-to-esc3-esc4-3f7d2d9fbde7)
+
+## Credits
+
+In addition to the overall project contributors on the main page for CTRL+ESC+HOST, these ideas have been shaped by:
+ - [TechSpence](https://x.com/techspence)
+ - [FlawdC0de](https://x.com/FlawdC0de)
+ - [NotNordGaren](https://x.com/NotNordgaren)
+ - [Kitsune-Sec](https://github.com/Kitsune-Sec)
+ - [shammahwoods](https://github.com/shammahwoods)

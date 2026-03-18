@@ -44,6 +44,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - netstat -ano
  - ipconfig /displaydns
  - ipconfig /all
+ - netsh advfirewall show currentprofile
 
 ### Basic Account, Domain, and Policy Enumeration
 
@@ -93,8 +94,10 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - Launch Task Manager (view tasks and services)
  - Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select DisplayName, DisplayVersion
  - wmic service get name,displayname,pathname,startmode | findstr /i "Auto" | findstr /i "Program Files"
+ - wmic qfe get csname,hotfixid,installedon,description
  - Get-WmiObject Win32_Service | Where-Object { $_.PathName -notmatch '"' -and $_.PathName -match ' ' } | Select-Object Name, PathName, StartMode, StartName
  - gwmi Win32_Service | ? { $_.PathName -notmatch '"' -and $_.PathName -match ' ' } | select Name, PathName
+ - Get-Process | Select-Object Name, Id, Path, UserName
 
 ### Mapped Drives and Reachable Shares
 

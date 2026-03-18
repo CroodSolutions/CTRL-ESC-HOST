@@ -157,3 +157,4 @@ In addition to the overall project contributors on the main page for CTRL+ESC+HO
  - [NotNordGaren](https://x.com/NotNordgaren)
  - [Kitsune-Sec](https://github.com/Kitsune-Sec)
  - [shammahwoods](https://github.com/shammahwoods)
+ - [DebugPrivilege](https://x.com/DebugPrivilege)

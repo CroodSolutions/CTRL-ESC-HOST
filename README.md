@@ -13,15 +13,16 @@ CTRL+ESC+HOST is a collection of atomic tests to identify and validate escape-to
 This framework is both for red-teams doing assessments that may involve kiosks or presented apps, as well as defenders looking to run tests to see when it is possible to escape kiosk or presented app trust boundaries. We have organized this framework into a guided journey through a series of interconnected atomic tests, to expose security flaws, risks, and issues you do not want to allow to go live - at least, without understanding each risk tradeoff.
 
 The **Kiosk Playbook** section is further organized into topics for testing:
-*   **Win11 Single App Kiosk Mode / Attended Access**
-*   **Third Party Kiosk Software Testing on Windows** (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
-*   **Chrome Kiosks**
-*   **Placeholder folders** for other kiosk platforms.
+*   **[Win11 Single App Kiosk Mode / Assigned Access](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/1%20-%20Win11%20Kiosk%20Mode%20-%20Attended%20Access)**
+*   **[Third Party Kiosk Software Testing on Windows](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/2-%20Third-Party%20Windows%20Kiosk%20Software)** (e.g., how do you test an HP POS, NCR, EnvisonWare, or other type of kiosk you encounter)
+*   **[Chrome Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode)**
+*   **[Linux Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/3%20-%20Chrome%20Kiosk%20Mode)**
+*   **[Apple iMac MacOS Kiosks](https://github.com/CroodSolutions/CTRL-ESC-HOST/tree/main/2%20-%20Kiosk%20Playbook/7%20-%20Apple%20MacOS%20Kiosks)**
 
-The most robust section relates to **Win11 Kiosk escapes**, which are organized into flows of individual tactics you can chain together if doing red team assessments.
+The most robust sections relate to **Windows Kiosk escapes**, which are organized into flows of individual tactics you can chain together if doing red team assessments.
 
 > [!IMPORTANT]
-> Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have written permission.
+> Always test responsibly, in a legal and ethical manner, following the ethical guidelines provided below. Do not hack any kiosks or presented applications that are not yours, unless you have both proper permission and good intentions.
 
 ---
 
@@ -75,8 +76,10 @@ Key contributors to our understanding of this topic, and also direct mentors and
 *   [BiniamGebrehiwot1](https://github.com/BiniamGebrehiwot1)
 *   Jordan Mastel
 *   David Doyle
+*   Brandon Stevens
 *   [christian-taillon](https://github.com/christian-taillon)
 *   [Duncan4264](https://github.com/Duncan4264)
+*   [Jake Frenzel](https://github.com/jakefrenzel)
 
 The direct work on this started with **Kitsune-Sec** and **FlawdC0de**, and later included **Shammahwoods**, **Mspisces8**, and others. Many others contributed advice, mentoring, and/or were part of our background research.
 

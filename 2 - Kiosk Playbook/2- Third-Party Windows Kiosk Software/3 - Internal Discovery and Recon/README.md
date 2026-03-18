@@ -169,3 +169,4 @@ In addition to the overall project contributors on the main page for CTRL+ESC+HO
  - [Kitsune-Sec](https://github.com/Kitsune-Sec)
  - [shammahwoods](https://github.com/shammahwoods)
  - [DebugPrivilege](https://x.com/DebugPrivilege)
+ - [Christian Taillon](https://x.com/christian_tail)

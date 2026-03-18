@@ -32,6 +32,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - whoami /fqdn
  - whoami /groups
  - wmic os get caption,version,buildnumber
+ - wmic computersystem get domain,username,model
  - net config workstation
 
 **Note** that whoami always gets hit by EDR, so when in doubt try it via ftp.exe with the "!" to prepend the commands.  
@@ -63,6 +64,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - certutil -store my
  - klist
  - setspn -Q */*
+ - cmdkey /list
 
 #### PowerShell Options
 
@@ -78,7 +80,7 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - Get-ChildItem Cert:\LocalMachine\My | select Subject,Issuer,EnhancedKeyUsageList
 
 
-### Identify Running Software
+### Identify Running / Interesting Software and Services
 
  - tasklist
  - tasklist /v findstr /i "NameOfProcess"
@@ -86,7 +88,13 @@ Most of these will work via both CMD and PowerShell. Some of these commands will
  - sc query
  - sc query | findstr /i "NameOfProcess"
  - driverquery
+ - Get-WmiObject -Class Win32_Service | Where-Object { $_.State -eq 'Running' }
+ - Get-Service | Where-Object { $_.Status -eq 'Running' }
  - Launch Task Manager (view tasks and services)
+ - Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select DisplayName, DisplayVersion
+ - wmic service get name,displayname,pathname,startmode | findstr /i "Auto" | findstr /i "Program Files"
+ - Get-WmiObject Win32_Service | Where-Object { $_.PathName -notmatch '"' -and $_.PathName -match ' ' } | Select-Object Name, PathName, StartMode, StartName
+ - gwmi Win32_Service | ? { $_.PathName -notmatch '"' -and $_.PathName -match ' ' } | select Name, PathName
 
 ### Mapped Drives and Reachable Shares
 

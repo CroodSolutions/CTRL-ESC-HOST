@@ -8,4 +8,5 @@ This section organizes Linux kiosk escape workflows from initial breakout to pos
 
 - `1 - Initial Escape Tactics/`: Initial breakout workflows and shared resources.
 - `2 - Next Steps/`: Persistence, enumeration, and post-escape hygiene.
-- `3 - Post-Exploitation - Moving from Kiosk to Domain and-or Network/`: Lateral movement and network objectives.
+- `3 - Internal Discovery and Recon/`: Oneliners for quick host and network discovery.
+- `4 - Post-Exploitation - Moving from Kiosk to Domain and-or Network/`: Lateral movement and network objectives.

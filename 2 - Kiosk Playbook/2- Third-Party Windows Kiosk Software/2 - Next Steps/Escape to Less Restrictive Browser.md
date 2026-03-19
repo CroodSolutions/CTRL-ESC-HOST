@@ -4,7 +4,7 @@ In some cases the kiosk app will be a full-screen browser; in other cases it wil
 
 ## Testing Instructions
 
-Most direct path:
+### Most direct path:
 
  - Win+A
  - Scroll down and click Cast option (may even come up with Win+K on some kiosks)
@@ -12,7 +12,7 @@ Most direct path:
 
 This should load a less locked down browser for you, where you can attempt things like the Download LotL Binaries via Browser from Local Host.
 
-Second method:
+### Second method:
 
  - Open Settings
    - Win+A for Accessibility seems to work quite often (click the gear icon)

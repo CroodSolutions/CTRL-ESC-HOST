@@ -93,6 +93,12 @@ Most of these commands are standard on almost all Linux distributions (Ubuntu, D
  - `cat ~/.xsession-errors` (might contain clues about kiosk app crashes or configs)
  - `ps aux | grep X` (identify the X server and its arguments)
 
+## Resources and References for Privelege Escalation
+
+For Linux, Privelege Escalation attacks have a high research cost to find, and tend to get fixed quickly once found. However, it seems likely that there are probably obstacles with patching for at least some Linux kiosks, so it is worth testing recent PEs to see what works. While it is out of scope for this repo to track trending and emerging PE attacks, we will occasionally add some you may try:
+
+ - [Steal SSH host private keys and /etc/shadow](https://github.com/0xdeadbeefnetwork/ssh-keysign-pwn)
+
 ## Credits
 
 These Linux-specific tips have been curated and adapted for the CTRL+ESC+HOST project based on common Linux pentesting and hardening practices. 
